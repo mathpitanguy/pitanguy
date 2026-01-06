@@ -1,2 +1,2 @@
-# pitanguy_teste
+# pitanguy
 Espaço dedicado a estudos e aprendizados
