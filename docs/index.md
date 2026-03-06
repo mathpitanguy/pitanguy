@@ -1,17 +1,15 @@
-# Welcome to MkDocs
+# Pitanguy
+  
+Olá, meu nome é *Matheus*.
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+Sou discente do curso de **Administração Pública** pela Escola de Governo Professor Paulo Neves de Carvalho / Fundação João Pinheiro, atualmente no 7º período da graduação. Tenho interesse nas áreas de **Governança Digital, análise de dados, avaliação de políticas públicas e ferramentas tecnológicas aplicadas à gestão pública**, entre outras áreas relacionadas à Administração Pública. Atualmente, estou iniciando meu processo de aprendizagem na área de tecnologia. 
 
-## Commands
+[Veja o meu perfil no Github](https://github.com/mathpitanguy)
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
+## Veja o que estou aprendendo:
+- Git
+- Github
+- Comandos do Terminal
 
-## Project layout
-
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+## O que ainda vou aprender:
+- Python
