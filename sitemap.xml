@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-         <loc>https://mydomain.org/mysite/</loc>
+         <loc>https://mathpitanguy.github.io/pitanguy/</loc>
          <lastmod>2026-03-10</lastmod>
     </url>
     <url>
-         <loc>https://mydomain.org/mysite/blog/</loc>
+         <loc>https://mathpitanguy.github.io/pitanguy/blog/</loc>
+         <lastmod>2026-03-10</lastmod>
+    </url>
+    <url>
+         <loc>https://mathpitanguy.github.io/pitanguy/blog/2023/12/31/aprendizados-da-semana/</loc>
+         <lastmod>2026-03-10</lastmod>
+    </url>
+    <url>
+         <loc>https://mathpitanguy.github.io/pitanguy/blog/archive/2023/</loc>
          <lastmod>2026-03-10</lastmod>
     </url>
 </urlset>
