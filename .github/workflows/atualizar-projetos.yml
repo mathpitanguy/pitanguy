@@ -13,10 +13,10 @@ jobs:
     
     steps:
       - name: Checkout do código
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       
       - name: Configurar Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.x'
       
@@ -29,9 +29,26 @@ jobs:
           PROJECT_NAME: "teste AID"
         run: python gerar_ficha_projetos.py
       
+      - name: Verificar se arquivo foi gerado
+        run: |
+          if [ -f "ficha-projetos/README.md" ]; then
+            echo "✅ Arquivo gerado com sucesso"
+            cat ficha-projetos/README.md | head -20
+          else
+            echo "❌ Arquivo NÃO foi gerado!"
+            exit 1
+          fi
+      
       - name: Commitar mudanças
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add ficha-projetos/
-          git diff --quiet && git diff --staged --quiet || (git commit -m "docs: atualiza ficha" && git push)
+          
+          if git diff --staged --quiet; then
+            echo "📝 Nenhuma mudança para commitar"
+          else
+            git commit -m "docs: atualiza ficha de projetos"
+            git push
+            echo "✅ Commit realizado com sucesso"
+          fi
