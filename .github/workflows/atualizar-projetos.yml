@@ -17,7 +17,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           token: ${{ secrets.PAT_TOKEN }}
-          fetch-depth: 0  # ← Importante: pega todo histórico
+          fetch-depth: 0
       
       - uses: actions/setup-python@v5
         with:
@@ -31,17 +31,17 @@ jobs:
           PROJECT_NAME: "teste AID"
         run: python gerar_ficha_projetos.py
       
-      - name: Fazer push das mudanças
+      - name: Fazer push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           
-          # Puxa mudanças remotas antes de push
-          git pull origin main --rebase || true
+          # Força o pull para sincronizar
+          git pull origin main --rebase --autostash || true
           
           # Adiciona e commita
           git add ficha-projetos/
-          git commit -m "Atualiza ficha do projeto [skip ci]" || echo "Sem mudanças para commitar"
+          git commit -m "Atualiza ficha [skip ci]" || echo "Sem mudanças"
           
-          # Push com force only se necessário
-          git push origin main || git push origin main --force-with-lease
+          # Push com force (resolve conflitos)
+          git push origin main --force-with-lease || git push origin main --force
