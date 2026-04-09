@@ -6,98 +6,167 @@ from collections import defaultdict
 GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
 REPO_NOME = os.environ.get("GITHUB_REPOSITORY")
 ARQUIVO_SAIDA = "ficha-projetos/README.md"
-PROJECT_NAME = os.environ.get("PROJECT_NAME", "teste AID")  # Nome do seu projeto
+PROJECT_NAME = os.environ.get("PROJECT_NAME", "teste AID")
 
-def get_project_columns_and_cards(token, repo, project_name):
-    """Busca colunas e cards do Project Board"""
+def get_project_v2_items(token, repo, project_name):
+    """Busca items do Projects V2 usando GraphQL"""
     headers = {
-        "Authorization": f"token {token}",
+        "Authorization": f"Bearer {token}",
         "Accept": "application/vnd.github.v3+json"
     }
     
-    # 1. Buscar todos os projects do repositório
-    url_projects = f"https://api.github.com/repos/{repo}/projects"
-    response = requests.get(url_projects, headers=headers)
+    owner, repo_name = repo.split('/')
+    
+    # Query GraphQL para buscar projects V2
+    query = """
+    query($owner: String!, $repo: String!) {
+      repository(owner: $owner, name: $repo) {
+        projectsV2(first: 10) {
+          nodes {
+            id
+            title
+            fields(first: 20) {
+              nodes {
+                ... on ProjectV2Field {
+                  id
+                  name
+                  dataType
+                }
+                ... on ProjectV2SingleSelectField {
+                  id
+                  name
+                  options {
+                    id
+                    name
+                  }
+                }
+              }
+            }
+            items(first: 50) {
+              nodes {
+                id
+                fieldValues(first: 10) {
+                  nodes {
+                    ... on ProjectV2ItemFieldTextValue {
+                      text
+                      field {
+                        ... on ProjectV2FieldCommon {
+                          name
+                        }
+                      }
+                    }
+                    ... on ProjectV2ItemFieldSingleSelectValue {
+                      name
+                      field {
+                        ... on ProjectV2FieldCommon {
+                          name
+                        }
+                      }
+                    }
+                  }
+                }
+                content {
+                  ... on Issue {
+                    title
+                    number
+                    createdAt
+                    url
+                    author {
+                      login
+                    }
+                    state
+                  }
+                  ... on PullRequest {
+                    title
+                    number
+                    createdAt
+                    url
+                    author {
+                      login
+                    }
+                    state
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    """
+    
+    response = requests.post(
+        "https://api.github.com/graphql",
+        headers=headers,
+        json={'query': query, 'variables': {'owner': owner, 'repo': repo_name}}
+    )
     
     if response.status_code != 200:
-        print(f"Erro ao buscar projects: {response.status_code}")
-        print(f"Resposta: {response.json() if response.text else 'vazia'}")
+        print(f"Erro GraphQL: {response.status_code}")
         return {}
     
-    projects = response.json()
+    data = response.json()
     
-    # 2. Filtrar pelo nome do projeto
-    project = None
-    for p in projects:
-        if project_name.lower() in p['name'].lower():
-            project = p
-            break
-    
-    if not project:
-        print(f"Projeto '{project_name}' não encontrado!")
-        print(f"Projetos disponíveis: {[p['name'] for p in projects]}")
+    if 'errors' in data:
+        print(f"Erro na query: {data['errors']}")
         return {}
     
-    print(f"✅ Projeto encontrado: {project['name']}")
-    
-    # 3. Buscar as colunas do projeto
-    url_columns = f"https://api.github.com/projects/{project['id']}/columns"
-    response = requests.get(url_columns, headers=headers)
-    
-    if response.status_code != 200:
-        print(f"Erro ao buscar colunas: {response.status_code}")
-        return {}
-    
-    columns = response.json()
-    print(f"✅ Colunas encontradas: {[c['name'] for c in columns]}")
-    
-    # 4. Buscar os cards (issues/PRs) em cada coluna
     resultado = defaultdict(list)
     
-    for column in columns:
-        url_cards = f"https://api.github.com/projects/columns/{column['id']}/cards"
-        response = requests.get(url_cards, headers=headers)
-        
-        if response.status_code != 200:
+    projects = data.get('data', {}).get('repository', {}).get('projectsV2', {}).get('nodes', [])
+    
+    for project in projects:
+        if project_name.lower() not in project['title'].lower():
             continue
         
-        cards = response.json()
+        print(f"✅ Projeto V2 encontrado: {project['title']}")
         
-        for card in cards:
-            if not card.get('content_url'):
+        # Buscar status (campo "Status" do board)
+        status_field_id = None
+        status_options = {}
+        for field in project.get('fields', {}).get('nodes', []):
+            if field.get('name') == 'Status':
+                status_field_id = field.get('id')
+                for option in field.get('options', []):
+                    status_options[option['id']] = option['name']
+                break
+        
+        for item in project.get('items', {}).get('nodes', []):
+            if not item.get('content'):
                 continue
             
-            # Buscar detalhes do issue/PR
-            content_response = requests.get(card['content_url'], headers=headers)
-            if content_response.status_code != 200:
-                continue
+            content = item['content']
+            tipo = "Pull Request" if content.get('__typename') == 'PullRequest' else "Issue"
             
-            content = content_response.json()
-            
-            # Determinar se é Issue ou PR
-            tipo = "Pull Request" if 'pull_request' in content else "Issue"
+            # Descobrir o status
+            status = "Sem status"
+            for field_value in item.get('fieldValues', {}).get('nodes', []):
+                if hasattr(field_value, 'get') and field_value.get('name'):
+                    status = field_value.get('name')
+                    break
             
             item_info = {
-                'titulo': content['title'],
-                'numero': content['number'],
-                'data_criacao': content['created_at'],
-                'autor': content['user']['login'],
-                'url': content['html_url'],
+                'titulo': content.get('title'),
+                'numero': content.get('number'),
+                'data_criacao': content.get('createdAt'),
+                'autor': content.get('author', {}).get('login', 'unknown'),
+                'url': content.get('url'),
                 'tipo': tipo,
-                'status': column['name'],  # ← STATUS (coluna do board)
-                'estado': content['state']  # open/closed
+                'estado': content.get('state'),
+                'status': status,  # Status do board V2
+                'projeto': project['title']
             }
             
-            resultado[column['name']].append(item_info)
+            resultado[status].append(item_info)
     
     return resultado
 
 def gerar_markdown(projetos_por_status):
-    """Gera o Markdown organizado por status/coluna"""
+    """Gera o Markdown organizado por status"""
     agora = datetime.now()
     
     linhas = [
-        "# 📊 Ficha de Projetos\n",
+        "# 📊 Ficha de Projetos V2\n",
         f"*Última atualização: {agora.strftime('%d/%m/%Y às %H:%M:%S')}*\n",
         f"**Projeto: {PROJECT_NAME}**\n",
         "---\n"
@@ -109,8 +178,7 @@ def gerar_markdown(projetos_por_status):
     linhas.append(f"- **Status disponíveis:** {len(projetos_por_status)}\n")
     linhas.append("\n---\n")
     
-    # Organizar por status/coluna
-    for status, itens in projetos_por_status.items():
+    for status, itens in sorted(projetos_por_status.items()):
         linhas.append(f"## 🏷️ {status}\n")
         linhas.append(f"*{len(itens)} itens*\n\n")
         
@@ -118,7 +186,7 @@ def gerar_markdown(projetos_por_status):
             data = datetime.strptime(item['data_criacao'], "%Y-%m-%dT%H:%M:%SZ").strftime("%d/%m/%Y")
             emoji = "🐛" if item['tipo'] == "Issue" else "🔀"
             linhas.append(f"{emoji} **[{item['titulo']}]({item['url']})** (##{item['numero']})\n")
-            linhas.append(f"   - 👤 @{item['autor']} | 📅 {data}\n")
+            linhas.append(f"   - 👤 @{item['autor']} | 📅 {data} | 🏷️ Estado: {item['estado']}\n")
         linhas.append("\n")
     
     return "".join(linhas)
@@ -127,18 +195,18 @@ def main():
     if not GITHUB_TOKEN or not REPO_NOME:
         raise ValueError("GITHUB_TOKEN e GITHUB_REPOSITORY são necessários")
     
-    print(f"Buscando projeto '{PROJECT_NAME}' no repositório: {REPO_NOME}")
+    print(f"Buscando projeto V2 '{PROJECT_NAME}' no repositório: {REPO_NOME}")
     
-    resultado = get_project_columns_and_cards(GITHUB_TOKEN, REPO_NOME, PROJECT_NAME)
+    resultado = get_project_v2_items(GITHUB_TOKEN, REPO_NOME, PROJECT_NAME)
     
     if not resultado:
-        print("Nenhum item encontrado no projeto!")
+        print(f"Nenhum item encontrado no projeto V2 '{PROJECT_NAME}'!")
         os.makedirs(os.path.dirname(ARQUIVO_SAIDA), exist_ok=True)
         with open(ARQUIVO_SAIDA, "w", encoding="utf-8") as f:
-            f.write(f"# 📊 Ficha de Projetos\n\nNenhum item encontrado no projeto '{PROJECT_NAME}'.\n\nCertifique-se que:\n1. O projeto '{PROJECT_NAME}' existe\n2. Existem issues/PRs associados a ele\n3. Os cards estão em alguma coluna")
+            f.write(f"# 📊 Ficha de Projetos V2\n\nNenhum item encontrado no projeto V2 '{PROJECT_NAME}'.\n\nCertifique-se que:\n1. O projeto V2 '{PROJECT_NAME}' existe\n2. Existem issues/PRs associados a ele\n3. Os items têm status definido")
         return
     
-    print(f"✅ Encontrados itens em {len(resultado)} colunas")
+    print(f"✅ Encontrados itens em {len(resultado)} status diferentes")
     for status, itens in resultado.items():
         print(f"   - {status}: {len(itens)} itens")
     
