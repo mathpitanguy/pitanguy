@@ -1,18 +1,14 @@
 name: "Atualizar Ficha de Projetos"
 
 on:
-  issues:
-    types: [opened, edited, labeled]
-  pull_request:
-    types: [opened, edited]
-  workflow_dispatch:
+  workflow_dispatch:    # Só executa quando você clicar em "Run workflow"
 
 jobs:
-  atualizar-ficha:
+  gerar-ficha:
     runs-on: ubuntu-latest
     
     steps:
-      - name: Checkout do código
+      - name: Baixar o código do repositório
         uses: actions/checkout@v4
       
       - name: Configurar Python
@@ -23,32 +19,18 @@ jobs:
       - name: Instalar dependências
         run: pip install requests
       
-      - name: Executar script
+      - name: Executar script para gerar a ficha
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
           PROJECT_NAME: "teste AID"
         run: python gerar_ficha_projetos.py
       
-      - name: Verificar se arquivo foi gerado
+      - name: Mostrar o resultado gerado
         run: |
-          if [ -f "ficha-projetos/README.md" ]; then
-            echo "✅ Arquivo gerado com sucesso"
-            cat ficha-projetos/README.md | head -20
-          else
-            echo "❌ Arquivo NÃO foi gerado!"
-            exit 1
-          fi
-      
-      - name: Commitar mudanças
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add ficha-projetos/
-          
-          if git diff --staged --quiet; then
-            echo "📝 Nenhuma mudança para commitar"
-          else
-            git commit -m "docs: atualiza ficha de projetos"
-            git push
-            echo "✅ Commit realizado com sucesso"
-          fi
+          echo "========================================="
+          echo "     FICHA DE PROJETOS GERADA"
+          echo "========================================="
+          cat ficha-projetos/README.md
+          echo "========================================="
+          echo "✅ Arquivo atualizado em: ficha-projetos/README.md"
+          echo "⚠️  O arquivo foi gerado mas NÃO foi enviado (push) para o GitHub"
