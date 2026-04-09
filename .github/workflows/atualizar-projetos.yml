@@ -1,36 +1,15 @@
 name: "Atualizar Ficha de Projetos"
 
 on:
-  # Executa quando Issues ou PRs são abertos
   issues:
-    types: [opened, assigned, labeled, milestoned]
+    types: [opened, edited, labeled]
   pull_request:
-    types: [opened, reopened, assigned, labeled]
-  
-  # Executa quando items são adicionados a projetos
-  project_card:
-    types: [created, moved, converted]
-  
-  # Permite execução manual
+    types: [opened, edited]
   workflow_dispatch:
-    inputs:
-      project_name:
-        description: 'Nome do projeto para filtrar (opcional)'
-        required: false
-        default: ''
-  
-  # Executa periodicamente (a cada 6 horas)
-  schedule:
-    - cron: '*/360 * * * *'
 
 jobs:
   atualizar-ficha:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      issues: read
-      pull-requests: read
-      projects: read
     
     steps:
       - name: Checkout do código
@@ -42,25 +21,17 @@ jobs:
           python-version: '3.x'
       
       - name: Instalar dependências
-        run: |
-          pip install requests
+        run: pip install requests
       
-      - name: Executar script de geração
+      - name: Executar script
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
           PROJECT_NAME: "teste AID"
         run: python gerar_ficha_projetos.py
       
-      - name: Commitar e enviar mudanças
+      - name: Commitar mudanças
         run: |
           git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Actions Bot"
+          git config --local user.name "GitHub Action"
           git add ficha-projetos/
-          
-          # Só commita se houver mudanças
-          if git diff --staged --quiet; then
-            echo "Nenhuma mudança para commitar"
-          else
-            git commit -m "docs: atualiza ficha de projetos [skip ci]"
-            git push
-          fi
+          git diff --quiet && git diff --staged --quiet || (git commit -m "docs: atualiza ficha" && git push)
