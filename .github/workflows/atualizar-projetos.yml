@@ -11,32 +11,29 @@ jobs:
   atualizar-ficha:
     runs-on: ubuntu-latest
     permissions:
-      contents: write  # Permissão essencial para fazer push
+      contents: write
     
     steps:
-      - name: Checkout do código
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           token: ${{ secrets.PAT_TOKEN }}
       
-      - name: Configurar Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.x'
       
-      - name: Instalar dependências
-        run: pip install requests
+      - run: pip install requests
       
       - name: Executar script
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
-          PROJECT_NAME: "teste AID"
+          PROJECT_NAME: "teste AID"  # ← Nome do seu projeto
         run: python gerar_ficha_projetos.py
       
-      - name: Fazer push das mudanças
+      - name: Fazer push
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add ficha-projetos/README.md
-          git commit -m "Atualiza ficha de projetos" || echo "Nada para commitar"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add ficha-projetos/
+          git commit -m "Atualiza ficha do projeto $PROJECT_NAME" || echo "Sem mudanças"
           git push
