@@ -18,7 +18,7 @@ nav:
   - Início: index.md
   - Projetos:
       - Ficha de Projeto: projetos/ficha_projeto.md
-      - Dados Abertos: projetos/nome-do-arquivo-gerado.md
+      
 extra_css:
   - assets/ficha_override.css
 
