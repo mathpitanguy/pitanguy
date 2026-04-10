@@ -1,15 +1,40 @@
 site_name: Pitanguy
 site_url: https://mathpitanguy.github.io/pitanguy/
+
 theme:
   name: material
   palette:
     scheme: slate
     primary: teal
-    accenty: green
+    accent: green
   font:
     text: Roboto
     code: Roboto Mono
 
 plugins:
   - blog
-  
+
+nav:
+  - Início: index.md
+  - Projetos:
+      - Ficha de Projeto: projetos/ficha_projeto.md
+
+extra_css:
+  - assets/ficha_override.css
+
+extra_javascript:
+  - https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js  # ← Adicionei para o Mermaid
+
+docs_dir: docs
+
+extra:
+  social: []
+
+markdown_extensions:
+  - attr_list
+  - md_in_html
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_div_format

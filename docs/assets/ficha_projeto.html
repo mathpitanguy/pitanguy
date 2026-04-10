@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ficha de Projeto</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:        #F4F3EF;
+  --surface:   #FFFFFF;
+  --surface2:  #F9F8F5;
+  --border:    #E2DFD8;
+  --border2:   #D0CCC3;
+  --text:      #181714;
+  --muted:     #6A6760;
+  --hint:      #A9A59D;
+  --green:     #2E6B0A;
+  --green-bg:  #EAF4E3;
+  --amber:     #7A4800;
+  --amber-bg:  #FFF3DC;
+  --red:       #9B2121;
+  --red-bg:    #FDEAEA;
+  --blue:      #0B3F72;
+  --blue-bg:   #E4EFF9;
+  --blue-mid:  #1A6BB5;
+  --purple:    #5B2D8E;
+  --purple-bg: #F0E8FA;
+  --r:         10px;
+  --mono: 'IBM Plex Mono', monospace;
+  --sans: 'IBM Plex Sans', sans-serif;
+  --shadow: 0 1px 3px rgba(0,0,0,.06), 0 4px 16px rgba(0,0,0,.04);
+}
+
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text);
+  padding: 1.5rem 1rem 4rem;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* ── CARD com scroll ── */
+.card {
+  max-width: 860px;
+  margin: 0 auto;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 2rem 2rem 1.5rem;
+  box-shadow: var(--shadow);
+  max-height: 92vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border2) transparent;
+}
+.card::-webkit-scrollbar { width: 6px; }
+.card::-webkit-scrollbar-track { background: transparent; }
+.card::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+/* ── HEADER ── */
+.header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:1.5rem; gap:1rem; }
+.header-left { flex:1; }
+.project-title {
+  font-size: 1.15rem; font-weight: 600;
+  border: none; outline: none; width: 100%;
+  background: transparent; font-family: var(--sans);
+  margin-bottom: 4px; color: var(--text);
+}
+.project-title::placeholder { color: var(--hint); font-weight: 300; }
+.project-sub {
+  font-family: var(--mono); font-size: 0.68rem; color: var(--hint);
+  border: none; outline: none; background: transparent; width: 100%;
+}
+.project-sub::placeholder { color: var(--hint); }
+.badge-status {
+  font-family: var(--mono); font-size: 0.62rem; font-weight: 600;
+  padding: 5px 14px; border-radius: 20px; border: none; cursor: pointer;
+  background: var(--blue-bg); color: var(--blue); letter-spacing: .03em;
+}
+
+/* ── DIVIDERS & SECTIONS ── */
+hr { border: none; border-top: 1px solid var(--border); margin: 1.4rem 0; }
+.section-title {
+  font-family: var(--mono); font-size: 0.6rem; font-weight: 600;
+  color: #000000; text-transform: uppercase; letter-spacing: 0.1em;
+  margin-bottom: 0.9rem; display: flex; align-items: center; gap: 8px;
+}
+.section-title::after { content:''; flex:1; height:1px; background:var(--border); }
+
+/* ── FIELDS ── */
+.field-label {
+  font-family: var(--mono); font-size: 0.58rem; font-weight: 600;
+  color: #000000; text-transform: uppercase; letter-spacing: 0.08em;
+  margin-bottom: 4px;
+}
+.field-value {
+  font-size: 0.84rem; color: var(--text);
+  border: none; outline: none; background: transparent;
+  font-family: var(--sans); width: 100%;
+}
+.field-value::placeholder { color: var(--hint); }
+textarea.field-value { resize: vertical; min-height: 58px; line-height: 1.65; }
+select.field-value { cursor: pointer; }
+
+/* ── GRIDS ── */
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.25rem; }
+.grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem; }
+.grid4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem; }
+
+/* ── DEADLINE — texto livre ── */
+.prazo-input {
+  font-family: var(--mono); font-size: 0.8rem; color: var(--text);
+  border: none; outline: none; background: transparent; width: 100%;
+}
+.prazo-input::placeholder { color: var(--hint); }
+
+/* ── RAG ── */
+.rag-row { display:flex; align-items:flex-start; gap:10px; padding:8px 0; border-bottom:1px solid var(--border); }
+.rag-row:last-child { border-bottom: none; }
+.rag-dot { width:10px; height:10px; border-radius:50%; margin-top:3px; flex-shrink:0; cursor:pointer; transition: transform .15s; }
+.rag-dot:hover { transform: scale(1.3); }
+.rag-label { font-family:var(--mono); font-size:0.7rem; font-weight:600; color:var(--text); width:110px; flex-shrink:0; padding-top:1px; }
+.rag-select { font-family:var(--mono); font-size:0.65rem; border:none; outline:none; background:transparent; color:var(--muted); cursor:pointer; width:90px; flex-shrink:0; }
+.rag-obs { font-size:0.82rem; color:var(--muted); border:none; outline:none; background:transparent; font-family:var(--sans); flex:1; }
+.rag-obs::placeholder { color:var(--hint); }
+
+/* ── TABLES ── */
+.etable { width:100%; border-collapse:collapse; font-size:0.82rem; margin-bottom:.5rem; }
+.etable th { font-family:var(--mono); font-size:0.58rem; font-weight:600; color:var(--hint); text-transform:uppercase; letter-spacing:0.07em; text-align:left; padding:6px 8px; border-bottom:2px solid var(--border); }
+.etable td { padding:5px 8px; border-bottom:1px solid var(--border); vertical-align:middle; }
+.etable tr:last-child td { border-bottom:none; }
+.etable td input, .etable td select { width:100%; border:none; outline:none; background:transparent; font-family:var(--sans); font-size:0.82rem; color:var(--text); }
+.etable td input::placeholder { color:var(--hint); }
+
+/* ── UPDATES ── */
+.update-row { display:flex; gap:10px; padding:10px 0; border-bottom:1px solid var(--border); align-items:flex-start; }
+.update-row:last-child { border-bottom:none; }
+.avatar { width:30px; height:30px; border-radius:50%; background:var(--blue-bg); color:var(--blue); font-family:var(--mono); font-size:0.58rem; font-weight:600; display:flex; align-items:center; justify-content:center; flex-shrink:0; cursor:pointer; }
+.update-body { flex:1; }
+.update-text { font-size:0.83rem; color:var(--text); border:none; outline:none; background:transparent; font-family:var(--sans); width:100%; resize:none; min-height:36px; line-height:1.55; }
+.update-text::placeholder { color:var(--hint); }
+.update-meta { font-family:var(--mono); font-size:0.6rem; color:var(--hint); border:none; outline:none; background:transparent; width:100%; margin-top:2px; }
+.update-meta::placeholder { color:var(--hint); }
+
+/* ── ATAS ── */
+.ata-row { display:flex; gap:8px; padding:7px 0; border-bottom:1px solid var(--border); align-items:center; }
+.ata-row:last-child { border-bottom:none; }
+.ata-date { font-family:var(--mono); font-size:0.7rem; color:var(--muted); border:none; outline:none; background:transparent; width:90px; flex-shrink:0; }
+.ata-title { font-size:0.83rem; border:none; outline:none; background:transparent; font-family:var(--sans); flex:1; color:var(--text); }
+.ata-title::placeholder { color:var(--hint); }
+.ata-link { font-family:var(--mono); font-size:0.68rem; color:var(--blue-mid); border:none; outline:none; background:transparent; width:200px; flex-shrink:0; }
+.ata-link::placeholder { color:var(--hint); }
+.ata-icon { font-size:0.9rem; opacity:.5; flex-shrink:0; text-decoration:none; }
+
+/* ── BUTTONS ── */
+.add-row-btn {
+  font-family:var(--mono); font-size:0.62rem; color:var(--hint);
+  background:transparent; border:1px dashed var(--border2);
+  border-radius:6px; padding:5px 14px; cursor:pointer; width:100%;
+  text-align:left; margin-top:4px; transition:border-color .15s, color .15s;
+}
+.add-row-btn:hover { border-color:var(--muted); color:var(--muted); }
+.actions { display:flex; gap:8px; flex-wrap:wrap; margin-top:1.5rem; }
+.btn {
+  font-family:var(--mono); font-size:0.65rem; padding:7px 16px;
+  border-radius:6px; border:1px solid var(--border2);
+  background:transparent; color:var(--muted); cursor:pointer;
+  transition:background .15s, color .15s;
+}
+.btn:hover { background:var(--bg); color:var(--text); }
+.btn-primary { background:var(--text); color:var(--surface); border-color:var(--text); }
+.btn-primary:hover { opacity:.85; background:var(--text); color:var(--surface); }
+.btn-gh { background:var(--surface2); color:var(--blue); border-color:var(--blue-bg); }
+.btn-gh:hover { background:var(--blue-bg); }
+
+/* ── GITHUB PANEL ── */
+.gh-config {
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 8px; padding: 1rem; margin-bottom: 1rem;
+}
+.gh-config-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:.75rem; margin-bottom:.75rem; }
+.gh-field input, .gh-field select {
+  font-family:var(--mono); font-size:0.75rem; color:var(--text);
+  border:1px solid var(--border); outline:none; background:var(--surface);
+  width:100%; padding:6px 10px; border-radius:6px;
+  transition: border-color .15s;
+}
+.gh-field input:focus, .gh-field select:focus { border-color:var(--blue-mid); }
+.gh-field input::placeholder { color:var(--hint); }
+.gh-field label { font-family:var(--mono); font-size:0.58rem; color:var(--hint); text-transform:uppercase; letter-spacing:.07em; display:block; margin-bottom:4px; }
+
+/* ── FILTRO DE PERÍODO ── */
+.gh-filter-row {
+  display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: .75rem;
+  align-items: flex-end; margin-bottom: .75rem;
+}
+.gh-filter-row .gh-field { margin: 0; }
+
+/* ── STATUS E CONTADORES ── */
+.gh-status {
+  font-family: var(--mono); font-size: 0.65rem; color: var(--muted);
+  padding: 6px 10px; background: var(--surface);
+  border: 1px solid var(--border); border-radius: 6px;
+  min-height: 32px; display: flex; align-items: center; gap: 6px;
+  flex: 1;
+}
+.gh-status.loading { color: var(--blue); }
+.gh-status.error   { color: var(--red); background: var(--red-bg); border-color:var(--red); }
+.gh-status.ok      { color: var(--green); background: var(--green-bg); border-color:var(--green); }
+
+/* ── TABS DE ESTADO ── */
+.gh-tabs {
+  display: flex; gap: 6px; margin-bottom: 8px; flex-wrap: wrap; align-items: center;
+}
+.gh-tab {
+  font-family: var(--mono); font-size: 0.6rem; font-weight: 600;
+  padding: 4px 12px; border-radius: 20px; border: 1px solid var(--border2);
+  background: transparent; color: var(--muted); cursor: pointer;
+  transition: background .15s, color .15s, border-color .15s;
+}
+.gh-tab.active { background: var(--text); color: var(--surface); border-color: var(--text); }
+.gh-tab:hover:not(.active) { background: var(--bg); }
+.gh-count {
+  font-family: var(--mono); font-size: 0.55rem; color: var(--hint);
+  margin-left: auto; padding-top: 2px;
+}
+
+/* ── LISTA DE ITENS — scroll ── */
+.gh-items-wrap {
+  max-height: 340px;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  scrollbar-width: thin;
+  scrollbar-color: var(--border2) transparent;
+}
+.gh-items-wrap::-webkit-scrollbar { width: 5px; }
+.gh-items-wrap::-webkit-scrollbar-track { background: transparent; }
+.gh-items-wrap::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+.gh-items-wrap.empty { display: none; }
+
+.gh-items { padding: 0 12px; }
+.gh-item {
+  display: flex; gap: 10px; padding: 10px 0;
+  border-bottom: 1px solid var(--border); align-items: flex-start;
+}
+.gh-item:last-child { border-bottom: none; }
+.gh-badge {
+  font-family: var(--mono); font-size: 0.58rem; font-weight: 600;
+  padding: 2px 8px; border-radius: 10px; flex-shrink: 0; margin-top: 2px;
+}
+.gh-badge.pr      { background: var(--purple-bg); color: var(--purple); }
+.gh-badge.issue   { background: var(--green-bg);  color: var(--green); }
+.gh-badge.closed  { background: var(--border); color: var(--muted); }
+.gh-badge.merged  { background: var(--purple-bg); color: var(--purple); opacity: .6; }
+.gh-item-body { flex: 1; min-width: 0; }
+.gh-item-title { font-size: 0.83rem; color: var(--text); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gh-item-title a { color: inherit; text-decoration: none; }
+.gh-item-title a:hover { color: var(--blue-mid); text-decoration: underline; }
+.gh-item-meta { font-family: var(--mono); font-size: 0.6rem; color: var(--hint); margin-top: 2px; }
+.gh-item-dates { font-family: var(--mono); font-size: 0.6rem; color: var(--muted); text-align:right; flex-shrink:0; line-height:1.8; white-space: nowrap; }
+
+.gh-empty {
+  font-family: var(--mono); font-size: 0.7rem; color: var(--hint);
+  text-align: center; padding: 2rem; display: none;
+}
+.gh-empty.visible { display: block; }
+
+/* ── TOKEN MASK ── */
+.pat-wrap { position: relative; }
+.pat-wrap input { padding-right: 2rem; }
+.pat-toggle {
+  position:absolute; right:8px; top:50%; transform:translateY(-50%);
+  background:none; border:none; cursor:pointer; font-size:0.75rem;
+  color:var(--hint); padding:0;
+}
+
+@media(max-width:600px){
+  .grid2,.grid3,.grid4,.gh-config-grid,.gh-filter-row{grid-template-columns:1fr;}
+  .header{flex-direction:column;}
+  .ata-link{width:120px;}
+  .gh-filter-row { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="card">
+
+  <div class="header">
+    <div class="header-left">
+      <input class="project-title" type="text" placeholder="Título do projeto" />
+      <input class="project-sub"   type="text" placeholder="SIGLA-ANO · Unidade responsável" />
+    </div>
+    <select class="badge-status">
+      <option>Em execução</option><option>Iniciação</option>
+      <option>Concluído</option><option>Pausado</option><option>Cancelado</option>
+    </select>
+  </div>
+
+  <div class="grid2">
+    <div><div class="field-label">Responsáveis</div><input class="field-value" type="text" placeholder="Nome · Nome" /></div>
+    <div><div class="field-label">Repositório</div><input class="field-value" type="url" placeholder="https://github.com/org/repo" /></div>
+  </div>
+
+  <div style="margin-bottom:1.25rem;">
+    <div class="field-label">Descrição</div>
+    <textarea class="field-value" placeholder="Descreva em 2–4 frases o que é o projeto, qual problema resolve e para quem."></textarea>
+  </div>
+
+  <hr>
+  <div class="section-title">Classificação</div>
+  <div class="grid4">
+    <div><div class="field-label">Natureza</div>
+      <select class="field-value"><option value="">—</option><option>Infra</option><option>Dados</option><option>Processo</option><option>Produto</option></select></div>
+    <div><div class="field-label">Impacto</div>
+      <select class="field-value"><option value="">—</option><option>Interno</option><option>Intersetorial</option><option>Cidadão</option></select></div>
+    <div><div class="field-label">Complexidade</div>
+      <select class="field-value"><option value="">—</option><option>Baixa</option><option>Média</option><option>Alta</option></select></div>
+    <div><div class="field-label">Visibilidade</div>
+      <select class="field-value"><option value="">—</option><option>Operacional</option><option>Estratégico</option></select></div>
+  </div>
+
+  <div class="grid2" style="margin-bottom:1.25rem;">
+    <div>
+      <div class="field-label">Início</div>
+      <input class="prazo-input" type="text" placeholder="ex: mar/2025 ou A definir" />
+    </div>
+    <div>
+      <div class="field-label">Previsão de término</div>
+      <input class="prazo-input" type="text" placeholder="ex: dez/2025 ou A definir" />
+    </div>
+  </div>
+
+  <hr>
+  <div style="margin-bottom:1.25rem;"><div class="field-label">Diretrizes</div>
+    <textarea class="field-value" placeholder="Liste as diretrizes institucionais, normativas ou estratégicas."></textarea></div>
+  <div style="margin-bottom:1.25rem;"><div class="field-label">Objetivo</div>
+    <textarea class="field-value" placeholder="Declare o objetivo geral em uma frase clara e mensurável."></textarea></div>
+
+  <hr>
+  <div class="section-title">Produtos (entregas)</div>
+  <table class="etable"><thead><tr><th>#</th><th>Produto</th><th>Previsão</th><th>Status</th></tr></thead>
+  <tbody id="body-produtos">
+    <tr><td>1</td><td><input type="text" placeholder="Descreva o produto"/></td>
+      <td><input class="prazo-input" type="text" placeholder="ex: jun/2025 ou A definir"/></td>
+      <td><select><option>—</option><option>Não iniciado</option><option>Em andamento</option><option>Concluído</option></select></td></tr>
+    <tr><td>2</td><td><input type="text" placeholder="Descreva o produto"/></td>
+      <td><input class="prazo-input" type="text" placeholder="ex: jun/2025 ou A definir"/></td>
+      <td><select><option>—</option><option>Não iniciado</option><option>Em andamento</option><option>Concluído</option></select></td></tr>
+  </tbody></table>
+  <button class="add-row-btn" onclick="addProduto()">+ adicionar produto</button>
+
+  <hr>
+  <div class="section-title">Ações</div>
+  <table class="etable"><thead><tr><th>#</th><th>Ação</th><th>Responsável</th><th>Prazo</th></tr></thead>
+  <tbody id="body-acoes">
+    <tr><td>1</td><td><input type="text" placeholder="Descreva a ação"/></td><td><input type="text" placeholder="Nome"/></td>
+      <td><input class="prazo-input" type="text" placeholder="ex: ago/2025 ou A definir"/></td></tr>
+    <tr><td>2</td><td><input type="text" placeholder="Descreva a ação"/></td><td><input type="text" placeholder="Nome"/></td>
+      <td><input class="prazo-input" type="text" placeholder="ex: ago/2025 ou A definir"/></td></tr>
+  </tbody></table>
+  <button class="add-row-btn" onclick="addAcao()">+ adicionar ação</button>
+
+  <hr>
+  <div class="section-title">Indicadores</div>
+  <table class="etable"><thead><tr><th>Indicador</th><th>Linha base</th><th>Meta</th><th>Frequência</th></tr></thead>
+  <tbody id="body-indicadores">
+    <tr><td><input type="text" placeholder="Nome do indicador"/></td><td><input type="text" placeholder="—"/></td>
+      <td><input type="text" placeholder="—"/></td>
+      <td><select><option>—</option><option>Semanal</option><option>Mensal</option><option>Trimestral</option><option>Anual</option></select></td></tr>
+  </tbody></table>
+  <button class="add-row-btn" onclick="addIndicador()">+ adicionar indicador</button>
+
+  <hr>
+  <div class="section-title">Status RAG</div>
+  <div id="rag-block">
+    <div class="rag-row"><div class="rag-dot" style="background:var(--hint)" onclick="cycleRag(this)"></div>
+      <div class="rag-label">Prazo</div>
+      <select class="rag-select" onchange="syncDot(this)"><option value="">—</option><option value="green">Verde</option><option value="amber">Âmbar</option><option value="red">Vermelho</option></select>
+      <input class="rag-obs" type="text" placeholder="Observação sobre prazo..."/></div>
+    <div class="rag-row"><div class="rag-dot" style="background:var(--hint)" onclick="cycleRag(this)"></div>
+      <div class="rag-label">Qualidade</div>
+      <select class="rag-select" onchange="syncDot(this)"><option value="">—</option><option value="green">Verde</option><option value="amber">Âmbar</option><option value="red">Vermelho</option></select>
+      <input class="rag-obs" type="text" placeholder="Observação sobre qualidade..."/></div>
+    <div class="rag-row"><div class="rag-dot" style="background:var(--hint)" onclick="cycleRag(this)"></div>
+      <div class="rag-label">Dependências</div>
+      <select class="rag-select" onchange="syncDot(this)"><option value="">—</option><option value="green">Verde</option><option value="amber">Âmbar</option><option value="red">Vermelho</option></select>
+      <input class="rag-obs" type="text" placeholder="Observação sobre dependências..."/></div>
+    <div class="rag-row"><div class="rag-dot" style="background:var(--hint)" onclick="cycleRag(this)"></div>
+      <div class="rag-label">Equipe</div>
+      <select class="rag-select" onchange="syncDot(this)"><option value="">—</option><option value="green">Verde</option><option value="amber">Âmbar</option><option value="red">Vermelho</option></select>
+      <input class="rag-obs" type="text" placeholder="Observação sobre equipe..."/></div>
+  </div>
+
+  <hr>
+  <div class="section-title">Riscos</div>
+  <table class="etable"><thead><tr><th>#</th><th>Risco</th><th>Probabilidade</th><th>Impacto</th><th>Mitigação</th></tr></thead>
+  <tbody id="body-riscos">
+    <tr><td>1</td><td><input type="text" placeholder="Descreva o risco"/></td>
+      <td><select><option>—</option><option>Baixa</option><option>Média</option><option>Alta</option></select></td>
+      <td><select><option>—</option><option>Baixo</option><option>Médio</option><option>Alto</option></select></td>
+      <td><input type="text" placeholder="Ação de mitigação"/></td></tr>
+  </tbody></table>
+  <button class="add-row-btn" onclick="addRisco()">+ adicionar risco</button>
+
+  <hr>
+  <div class="section-title">Atas de Reunião</div>
+  <div id="atas-block">
+    <div class="ata-row">
+      <input class="ata-date" type="date" title="Data da reunião"/>
+      <input class="ata-title" type="text" placeholder="Título / pauta da reunião"/>
+      <input class="ata-link"  type="url"  placeholder="https://link-da-ata..."/>
+      <a class="ata-icon" href="#" onclick="abrirAta(this);return false;" title="Abrir ata">↗</a>
+    </div>
+  </div>
+  <button class="add-row-btn" onclick="addAta()">+ adicionar ata</button>
+
+  <hr>
+  <div class="section-title">GitHub · PRs &amp; Issues</div>
+
+  <div class="gh-config">
+    <div class="gh-config-grid">
+      <div class="gh-field">
+        <label>Usuário GitHub</label>
+        <input type="text" id="gh-org" placeholder="meu-usuario" oninput="salvarGhConfig()" />
+      </div>
+      <div class="gh-field">
+        <label>Nº do Project</label>
+        <input type="number" id="gh-proj-num" placeholder="1" min="1" oninput="salvarGhConfig()" />
+      </div>
+      <div class="gh-field">
+        <label>Filtro — coluna "Projetos"</label>
+        <input type="text" id="gh-filter" placeholder="Nome do projeto no board" oninput="salvarGhConfig()" />
+      </div>
+    </div>
+
+    <div class="gh-filter-row">
+      <div class="gh-field">
+        <label>Período — de</label>
+        <input type="date" id="gh-date-from" oninput="salvarGhConfig(); aplicarFiltros()" />
+      </div>
+      <div class="gh-field">
+        <label>Período — até</label>
+        <input type="date" id="gh-date-to" oninput="salvarGhConfig(); aplicarFiltros()" />
+      </div>
+      <div class="gh-field">
+        <label>Tipo</label>
+        <select id="gh-type-filter" onchange="salvarGhConfig(); aplicarFiltros()">
+          <option value="all">PRs e Issues</option>
+          <option value="pr">Só PRs</option>
+          <option value="issue">Só Issues</option>
+        </select>
+      </div>
+      <div class="gh-field">
+        <label>&nbsp;</label>
+        <button class="btn btn-gh" style="width:100%;padding:6px 12px;" onclick="buscarGithub()">↻ Buscar</button>
+      </div>
+    </div>
+
+    <div class="gh-field pat-wrap" style="margin-bottom:.75rem;">
+      <label>Personal Access Token (PAT) — salvo no localStorage</label>
+      <input type="password" id="gh-pat" placeholder="ghp_..." oninput="salvarGhConfig()" />
+      <button class="pat-toggle" onclick="togglePat()" title="Mostrar/ocultar">👁</button>
+    </div>
+    <div class="gh-status" id="gh-status">Configure os campos acima e clique em Buscar.</div>
+  </div>
+
+  <div class="gh-tabs" id="gh-tabs" style="display:none;">
+    <button class="gh-tab active" data-tab="open"   onclick="mudarTab(this)">Abertos</button>
+    <button class="gh-tab"        data-tab="closed" onclick="mudarTab(this)">Fechados / Merged</button>
+    <button class="gh-tab"        data-tab="all"    onclick="mudarTab(this)">Todos</button>
+    <span class="gh-count" id="gh-count-label"></span>
+  </div>
+
+  <div class="gh-items-wrap" id="gh-items-wrap">
+    <div class="gh-items" id="gh-items"></div>
+  </div>
+  <div class="gh-empty" id="gh-empty">Nenhum item encontrado para os filtros selecionados.</div>
+
+  <hr>
+  <div class="section-title">Últimas atualizações</div>
+  <div id="updates-block">
+    <div class="update-row">
+      <div class="avatar" contenteditable="true">??</div>
+      <div class="update-body">
+        <textarea class="update-text" placeholder="Descreva o que aconteceu no projeto..."></textarea>
+        <input class="update-meta" type="text" placeholder="Nome · DD mmm AAAA · via check-in / repositório"/>
+      </div>
+    </div>
+  </div>
+  <button class="add-row-btn" onclick="addUpdate()">+ adicionar atualização manual</button>
+
+  <hr>
+  <div style="margin-bottom:1rem;"><div class="field-label">Observações</div>
+    <textarea class="field-value" style="min-height:72px;" placeholder="Campo livre para exceções ou contextos atípicos."></textarea></div>
+
+  <div class="actions">
+    <button class="btn btn-primary" onclick="exportarHTML()">Salvar como HTML</button>
+    <button class="btn" onclick="imprimirFicha()">Imprimir / PDF</button>
+    <button class="btn" onclick="limparFicha()">Limpar ficha</button>
+  </div>
+</div><script>
+// ════════════════════════════════════════════════════════
+//  UTILIDADES GERAIS
+// ════════════════════════════════════════════════════════
+const RAG_COLORS = {
+  '':      'var(--hint)',
+  'green': 'var(--green)',
+  'amber': 'var(--amber)',
+  'red':   'var(--red)'
+};
+const RAG_CYCLE = ['','green','amber','red'];
+
+function syncDot(sel) {
+  sel.closest('.rag-row').querySelector('.rag-dot').style.background =
+    RAG_COLORS[sel.value] || RAG_COLORS[''];
+}
+
+function cycleRag(dot) {
+  const sel = dot.closest('.rag-row').querySelector('.rag-select');
+  const i   = RAG_CYCLE.indexOf(sel.value);
+  sel.value = RAG_CYCLE[(i + 1) % RAG_CYCLE.length];
+  dot.style.background = RAG_COLORS[sel.value];
+}
+
+// ════════════════════════════════════════════════════════
+//  ADICIONAR LINHAS
+// ════════════════════════════════════════════════════════
+function addProduto() {
+  const tb = document.getElementById('body-produtos');
+  const n  = tb.rows.length + 1;
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td>${n}</td>
+    <td><input type="text" placeholder="Descreva o produto"/></td>
+    <td><input class="prazo-input" type="text" placeholder="ex: jun/2025 ou A definir"/></td>
+    <td><select><option>—</option><option>Não iniciado</option><option>Em andamento</option><option>Concluído</option></select></td>`;
+  tb.appendChild(tr);
+}
+
+function addAcao() {
+  const tb = document.getElementById('body-acoes');
+  const n  = tb.rows.length + 1;
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td>${n}</td>
+    <td><input type="text" placeholder="Descreva a ação"/></td>
+    <td><input type="text" placeholder="Nome"/></td>
+    <td><input class="prazo-input" type="text" placeholder="ex: ago/2025 ou A definir"/></td>`;
+  tb.appendChild(tr);
+}
+
+function addIndicador() {
+  const tb = document.getElementById('body-indicadores');
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td><input type="text" placeholder="Nome do indicador"/></td>
+    <td><input type="text" placeholder="—"/></td>
+    <td><input type="text" placeholder="—"/></td>
+    <td><select><option>—</option><option>Semanal</option><option>Mensal</option><option>Trimestral</option><option>Anual</option></select></td>`;
+  tb.appendChild(tr);
+}
+
+function addRisco() {
+  const tb = document.getElementById('body-riscos');
+  const n  = tb.rows.length + 1;
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td>${n}</td>
+    <td><input type="text" placeholder="Descreva o risco"/></td>
+    <td><select><option>—</option><option>Baixa</option><option>Média</option><option>Alta</option></select></td>
+    <td><select><option>—</option><option>Baixo</option><option>Médio</option><option>Alto</option></select></td>
+    <td><input type="text" placeholder="Ação de mitigação"/></td>`;
+  tb.appendChild(tr);
+}
+
+function addUpdate() {
+  const b = document.getElementById('updates-block');
+  const d = document.createElement('div');
+  d.className = 'update-row';
+  d.innerHTML = `<div class="avatar" contenteditable="true">??</div>
+    <div class="update-body">
+      <textarea class="update-text" placeholder="Descreva o que aconteceu..."></textarea>
+      <input class="update-meta" type="text" placeholder="Nome · DD mmm AAAA · via check-in / repositório"/>
+    </div>`;
+  b.appendChild(d);
+}
+
+// ════════════════════════════════════════════════════════
+//  ATAS DE REUNIÃO
+// ════════════════════════════════════════════════════════
+function addAta() {
+  const b = document.getElementById('atas-block');
+  const d = document.createElement('div');
+  d.className = 'ata-row';
+  d.innerHTML = `
+    <input class="ata-date" type="date" title="Data da reunião"/>
+    <input class="ata-title" type="text" placeholder="Título / pauta da reunião"/>
+    <input class="ata-link"  type="url"  placeholder="https://link-da-ata..."/>
+    <a class="ata-icon" href="#" onclick="abrirAta(this);return false;" title="Abrir ata">↗</a>`;
+  b.appendChild(d);
+}
+
+function abrirAta(el) {
+  const link = el.closest('.ata-row').querySelector('.ata-link').value.trim();
+  if (link) window.open(link, '_blank');
+}
+
+// ════════════════════════════════════════════════════════
+//  GITHUB CONFIG — localStorage
+// ════════════════════════════════════════════════════════
+const GH_KEY = 'ficha_gh_config';
+
+function salvarGhConfig() {
+  const cfg = {
+    org:      document.getElementById('gh-org').value,
+    projNum:  document.getElementById('gh-proj-num').value,
+    filter:   document.getElementById('gh-filter').value,
+    pat:      document.getElementById('gh-pat').value,
+    dateFrom: document.getElementById('gh-date-from').value,
+    dateTo:   document.getElementById('gh-date-to').value,
+    typeFilter: document.getElementById('gh-type-filter').value
+  };
+  localStorage.setItem(GH_KEY, JSON.stringify(cfg));
+}
+
+function carregarGhConfig() {
+  try {
+    const cfg = JSON.parse(localStorage.getItem(GH_KEY) || '{}');
+    if (cfg.org)        document.getElementById('gh-org').value         = cfg.org;
+    if (cfg.projNum)    document.getElementById('gh-proj-num').value    = cfg.projNum;
+    if (cfg.filter)     document.getElementById('gh-filter').value      = cfg.filter;
+    if (cfg.pat)        document.getElementById('gh-pat').value         = cfg.pat;
+    if (cfg.dateFrom)   document.getElementById('gh-date-from').value   = cfg.dateFrom;
+    if (cfg.dateTo)     document.getElementById('gh-date-to').value     = cfg.dateTo;
+    if (cfg.typeFilter) document.getElementById('gh-type-filter').value = cfg.typeFilter;
+  } catch(e) {}
+}
+
+function togglePat() {
+  const inp = document.getElementById('gh-pat');
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+}
+
+// ════════════════════════════════════════════════════════
+//  ESTADO GLOBAL — itens brutos vindos da API
+// ════════════════════════════════════════════════════════
+let ghItemsRaw = [];   // todos os itens da API
+let ghTabAtual = 'open';
+
+// ════════════════════════════════════════════════════════
+//  STATUS
+// ════════════════════════════════════════════════════════
+function ghStatus(msg, cls='') {
+  const el = document.getElementById('gh-status');
+  el.textContent = msg;
+  el.className = 'gh-status ' + cls;
+}
+
+// ════════════════════════════════════════════════════════
+//  GITHUB GRAPHQL
+// ════════════════════════════════════════════════════════
+async function buscarGithub() {
+  const org     = document.getElementById('gh-org').value.trim();
+  const projNum = parseInt(document.getElementById('gh-proj-num').value.trim(), 10);
+  const filter  = document.getElementById('gh-filter').value.trim().toLowerCase();
+  const pat     = document.getElementById('gh-pat').value.trim();
+
+  if (!org || !projNum || !pat) {
+    ghStatus('Preencha Usuário, Nº do Project e PAT.', 'error');
+    return;
+  }
+
+  ghStatus('Buscando dados do GitHub…', 'loading');
+
+  const query = `
+    query($login: String!, $num: Int!) {
+      user(login: $login) {
+        projectV2(number: $num) {
+          title
+          items(first: 100) {
+            nodes {
+              id
+              fieldValues(first: 20) {
+                nodes {
+                  ... on ProjectV2ItemFieldSingleSelectValue {
+                    name
+                    field { ... on ProjectV2SingleSelectField { name } }
+                  }
+                  ... on ProjectV2ItemFieldTextValue {
+                    text
+                    field { ... on ProjectV2Field { name } }
+                  }
+                }
+              }
+              content {
+                ... on PullRequest {
+                  __typename
+                  number title url state createdAt closedAt mergedAt
+                  author { login }
+                  milestone { title dueOn }
+                }
+                ... on Issue {
+                  __typename
+                  number title url state createdAt closedAt
+                  author { login }
+                  milestone { title dueOn }
+                }
+              }
+            }
+          }
+        }
+      }
+    }`;
+
+  try {
+    const resp = await fetch('https://api.github.com/graphql', {
+      method: 'POST',
+      headers: {
+        'Authorization': `bearer ${pat}`,
+        'Content-Type':  'application/json'
+      },
+      body: JSON.stringify({ query, variables: { login: org, num: projNum } })
+    });
+
+    if (!resp.ok) {
+      ghStatus(`Erro HTTP ${resp.status} — verifique o PAT e o usuário.`, 'error');
+      return;
+    }
+
+    const json = await resp.json();
+
+    if (json.errors) {
+      ghStatus('Erro GraphQL: ' + json.errors[0].message, 'error');
+      return;
+    }
+
+    const proj = json?.data?.user?.projectV2;
+    if (!proj) {
+      ghStatus('Project não encontrado. Verifique o usuário e o número.', 'error');
+      return;
+    }
+
+    // filtrar pela coluna "Projetos" do board (sem filtrar por estado aqui)
+    ghItemsRaw = proj.items.nodes.filter(item => {
+      if (!item.content) return false;
+      if (!filter)       return true;
+      return item.fieldValues.nodes.some(fv => {
+        const fieldName = (fv?.field?.name || '').toLowerCase();
+        const val       = (fv?.name || fv?.text || '').toLowerCase();
+        return fieldName === 'projetos' && val.includes(filter);
+      });
+    });
+
+    ghStatus(
+      `${ghItemsRaw.length} item(ns) no project "${proj.title}"${filter ? ` · filtro: "${filter}"` : ''}. ` +
+      `Use as abas e filtros de período para refinar.`,
+      'ok'
+    );
+
+    // mostrar abas e renderizar
+    document.getElementById('gh-tabs').style.display = 'flex';
+    ghTabAtual = 'open';
+    document.querySelectorAll('.gh-tab').forEach(t =>
+      t.classList.toggle('active', t.dataset.tab === 'open'));
+
+    aplicarFiltros();
+
+  } catch(e) {
+    ghStatus('Falha na requisição: ' + e.message, 'error');
+  }
+}
+
+// ════════════════════════════════════════════════════════
+//  FILTROS — período + tipo + tab (open/closed/all)
+// ════════════════════════════════════════════════════════
+function mudarTab(btn) {
+  ghTabAtual = btn.dataset.tab;
+  document.querySelectorAll('.gh-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  aplicarFiltros();
+}
+
+function aplicarFiltros() {
+  if (!ghItemsRaw.length) return;
+
+  const dateFrom  = document.getElementById('gh-date-from').value;
+  const dateTo    = document.getElementById('gh-date-to').value;
+  const typeFilter = document.getElementById('gh-type-filter').value;
+
+  const dFrom = dateFrom ? new Date(dateFrom) : null;
+  const dTo   = dateTo   ? new Date(dateTo + 'T23:59:59Z') : null;
+
+  let items = ghItemsRaw.filter(item => {
+    const c = item.content;
+
+    // filtro de tipo
+    if (typeFilter === 'pr'    && c.__typename !== 'PullRequest') return false;
+    if (typeFilter === 'issue' && c.__typename !== 'Issue')       return false;
+
+    // filtro de estado (tab)
+    if (ghTabAtual === 'open'   && c.state !== 'OPEN')   return false;
+    if (ghTabAtual === 'closed' && c.state === 'OPEN')   return false;
+
+    // filtro de período — usa createdAt como referência
+    const created = new Date(c.createdAt);
+    if (dFrom && created < dFrom) return false;
+    if (dTo   && created > dTo)   return false;
+
+    return true;
+  });
+
+  // atualiza contagem
+  const open   = ghItemsRaw.filter(i => i.content?.state === 'OPEN').length;
+  const closed = ghItemsRaw.filter(i => i.content?.state !== 'OPEN').length;
+  document.getElementById('gh-count-label').textContent =
+    `${open} aberto(s) · ${closed} fechado(s)`;
+
+  renderGhItems(items);
+}
+
+// ════════════════════════════════════════════════════════
+//  RENDER — lista de PRs/Issues
+// ════════════════════════════════════════════════════════
+function fmtDate(iso) {
+  if (!iso) return '—';
+  return new Date(iso).toLocaleDateString('pt-BR', { day:'2-digit', month:'short', year:'numeric' });
+}
+
+function renderGhItems(items) {
+  const wrap  = document.getElementById('gh-items-wrap');
+  const cont  = document.getElementById('gh-items');
+  const empty = document.getElementById('gh-empty');
+
+  if (!items.length) {
+    wrap.classList.add('empty');
+    empty.classList.add('visible');
+    cont.innerHTML = '';
+    return;
+  }
+
+  wrap.classList.remove('empty');
+  empty.classList.remove('visible');
+
+  cont.innerHTML = items.map(item => {
+    const c   = item.content;
+    const typ = c.__typename === 'PullRequest' ? 'PR' : 'Issue';
+    let   cls = 'closed';
+    if (c.state === 'OPEN') {
+      cls = typ === 'PR' ? 'pr' : 'issue';
+    } else if (c.mergedAt) {
+      cls = 'merged';
+    }
+
+    const stateLabel = c.mergedAt ? 'MERGED' : c.state;
+    const end = c.mergedAt || c.closedAt || c.milestone?.dueOn;
+
+    return `<div class="gh-item">
+      <span class="gh-badge ${cls}">${typ} #${c.number}</span>
+      <div class="gh-item-body">
+        <div class="gh-item-title"><a href="${c.url}" target="_blank" title="${c.title}">${c.title}</a></div>
+        <div class="gh-item-meta">
+          ${stateLabel} · @${c.author?.login || '?'}
+          ${c.milestone ? `· 🏁 ${c.milestone.title}` : ''}
+        </div>
+      </div>
+      <div class="gh-item-dates">
+        <div>📅 ${fmtDate(c.createdAt)}</div>
+        ${end ? `<div>${c.mergedAt ? '🔀' : '🎯'} ${fmtDate(end)}</div>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+
+// ════════════════════════════════════════════════════════
+//  EXPORTAR / IMPRIMIR / LIMPAR
+// ════════════════════════════════════════════════════════
+function exportarHTML() {
+  const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+  const a    = document.createElement('a');
+  a.href     = URL.createObjectURL(new Blob([html], { type:'text/html' }));
+  const t    = document.querySelector('.project-title').value || 'ficha_projeto';
+  a.download = t.toLowerCase().replace(/\s+/g,'_') + '.html';
+  a.click();
+}
+
+function imprimirFicha() { window.print(); }
+
+function limparFicha() {
+  if (!confirm('Limpar todos os campos da ficha?')) return;
+  document.querySelectorAll('input[type=text],input[type=url],input[type=date],textarea')
+    .forEach(e => { e.value = ''; });
+  document.querySelectorAll('select').forEach(e => e.selectedIndex = 0);
+  document.querySelectorAll('.rag-dot').forEach(d => d.style.background = 'var(--hint)');
+
+  ghItemsRaw = [];
+  document.getElementById('gh-items').innerHTML = '';
+  document.getElementById('gh-items-wrap').classList.add('empty');
+  document.getElementById('gh-empty').classList.remove('visible');
+  document.getElementById('gh-tabs').style.display = 'none';
+
+  ghStatus('Configure os campos acima e clique em Buscar.', '');
+}
+
+// ════════════════════════════════════════════════════════
+//  INIT
+// ════════════════════════════════════════════════════════
+carregarGhConfig();
+</script>
+</body>
+</html>
