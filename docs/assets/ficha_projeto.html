@@ -175,6 +175,8 @@ select.field-value { cursor: pointer; }
 .btn-primary:hover { opacity:.85; background:var(--text); color:var(--surface); }
 .btn-gh { background:var(--surface2); color:var(--blue); border-color:var(--blue-bg); }
 .btn-gh:hover { background:var(--blue-bg); }
+.btn-md { background: var(--purple-bg); color: var(--purple); border-color: var(--purple); }
+.btn-md:hover { background: var(--purple); color: var(--surface); }
 
 /* ── GITHUB PANEL ── */
 .gh-config {
@@ -501,9 +503,12 @@ select.field-value { cursor: pointer; }
   <div class="actions">
     <button class="btn btn-primary" onclick="exportarHTML()">Salvar como HTML</button>
     <button class="btn" onclick="imprimirFicha()">Imprimir / PDF</button>
+    <button class="btn btn-md" onclick="gerarMarkdown()"> Gerar Markdown</button>
     <button class="btn" onclick="limparFicha()">Limpar ficha</button>
   </div>
-</div><script>
+</div>
+
+<script>
 // ════════════════════════════════════════════════════════
 //  UTILIDADES GERAIS
 // ════════════════════════════════════════════════════════
@@ -534,10 +539,10 @@ function addProduto() {
   const tb = document.getElementById('body-produtos');
   const n  = tb.rows.length + 1;
   const tr = document.createElement('tr');
-  tr.innerHTML = `<td>${n}</td>
+  tr.innerHTML = `<tr><td>${n}</td>
     <td><input type="text" placeholder="Descreva o produto"/></td>
     <td><input class="prazo-input" type="text" placeholder="ex: jun/2025 ou A definir"/></td>
-    <td><select><option>—</option><option>Não iniciado</option><option>Em andamento</option><option>Concluído</option></select></td>`;
+    <td><select><option>—</option><option>Não iniciado</option><option>Em andamento</option><option>Concluído</option></select></td>`;n
   tb.appendChild(tr);
 }
 
@@ -872,7 +877,341 @@ function renderGhItems(items) {
   }).join('');
 }
 
-
+// ════════════════════════════════════════════════════════
+//  GERAR MARKDOWN
+// ════════════════════════════════════════════════════════
+function gerarMarkdown() {
+  // Função auxiliar segura para pegar valor
+  function safeValue(selector, index = null) {
+    try {
+      if (index !== null) {
+        const elements = document.querySelectorAll(selector);
+        return elements[index] ? elements[index].value || '' : '';
+      }
+      const element = document.querySelector(selector);
+      return element ? element.value || '' : '';
+    } catch(e) {
+      return '';
+    }
+  }
+  
+  // Função para formatar data do GitHub
+  function fmtDataMd(iso) {
+    if (!iso) return '—';
+    return new Date(iso).toLocaleDateString('pt-BR');
+  }
+  
+  // Mostrar feedback visual
+  const btn = event.target;
+  const textoOriginal = btn.textContent;
+  btn.textContent = 'Gerando...';
+  btn.disabled = true;
+  
+  setTimeout(() => {
+    try {
+      // Coletar todos os campos de forma segura
+      const titulo = safeValue('.project-title') || 'Sem titulo';
+      const subtitulo = safeValue('.project-sub');
+      const status = safeValue('.badge-status');
+      
+      // Responsaveis (primeiro input dentro de .grid2)
+      const responsaveis = document.querySelector('.grid2 .field-value:first-child')?.value || '';
+      
+      // Repositorio (segundo input dentro de .grid2)
+      const repositorio = document.querySelector('.grid2 .field-value:last-child')?.value || '';
+      
+      // Descricao (terceiro .field-value)
+      const descricao = document.querySelectorAll('.field-value')[2]?.value || '';
+      
+      // Classificacao
+      const natureza = document.querySelectorAll('.grid4 select')[0]?.value || '';
+      const impacto = document.querySelectorAll('.grid4 select')[1]?.value || '';
+      const complexidade = document.querySelectorAll('.grid4 select')[2]?.value || '';
+      const visibilidade = document.querySelectorAll('.grid4 select')[3]?.value || '';
+      
+      // Prazos
+      const inicio = document.querySelectorAll('.prazo-input')[0]?.value || '';
+      const previsaoTermino = document.querySelectorAll('.prazo-input')[1]?.value || '';
+      
+      // Diretrizes e objetivo
+      const diretrizes = document.querySelectorAll('.field-value')[3]?.value || '';
+      const objetivo = document.querySelectorAll('.field-value')[4]?.value || '';
+      
+      // Produtos
+      const produtos = [];
+      const produtosRows = document.querySelectorAll('#body-produtos tr');
+      produtosRows.forEach(row => {
+        const inputs = row.querySelectorAll('input, select');
+        if (inputs[0] && inputs[0].value) {
+          produtos.push({
+            nome: inputs[0].value || '',
+            previsao: inputs[1] ? inputs[1].value : '',
+            status: inputs[2] ? inputs[2].value : ''
+          });
+        }
+      });
+      
+      // Acoes
+      const acoes = [];
+      const acoesRows = document.querySelectorAll('#body-acoes tr');
+      acoesRows.forEach(row => {
+        const inputs = row.querySelectorAll('input, select');
+        if (inputs[0] && inputs[0].value) {
+          acoes.push({
+            nome: inputs[0].value || '',
+            responsavel: inputs[1] ? inputs[1].value : '',
+            prazo: inputs[2] ? inputs[2].value : ''
+          });
+        }
+      });
+      
+      // Indicadores
+      const indicadores = [];
+      const indicadoresRows = document.querySelectorAll('#body-indicadores tr');
+      indicadoresRows.forEach(row => {
+        const inputs = row.querySelectorAll('input, select');
+        if (inputs[0] && inputs[0].value) {
+          indicadores.push({
+            nome: inputs[0].value || '',
+            base: inputs[1] ? inputs[1].value : '',
+            meta: inputs[2] ? inputs[2].value : '',
+            frequencia: inputs[3] ? inputs[3].value : ''
+          });
+        }
+      });
+      
+      // RAG (com emojis das cores)
+      const rags = [];
+      const ragRows = document.querySelectorAll('.rag-row');
+      ragRows.forEach(row => {
+        const label = row.querySelector('.rag-label')?.textContent || '';
+        const select = row.querySelector('.rag-select');
+        const obs = row.querySelector('.rag-obs')?.value || '';
+        let ragStatus = '';
+        if (select) {
+          const val = select.value;
+          if (val === 'green') ragStatus = '🟢 Verde';
+          else if (val === 'amber') ragStatus = '🟠 Ambar';
+          else if (val === 'red') ragStatus = '🔴 Vermelho';
+          else ragStatus = 'Nao definido';
+        }
+        if (label) {
+          rags.push({ label, status: ragStatus, obs });
+        }
+      });
+      
+      // Riscos
+      const riscos = [];
+      const riscosRows = document.querySelectorAll('#body-riscos tr');
+      riscosRows.forEach(row => {
+        const inputs = row.querySelectorAll('input, select');
+        if (inputs[0] && inputs[0].value) {
+          riscos.push({
+            nome: inputs[0].value || '',
+            probabilidade: inputs[1] ? inputs[1].value : '',
+            impacto: inputs[2] ? inputs[2].value : '',
+            mitigacao: inputs[3] ? inputs[3].value : ''
+          });
+        }
+      });
+      
+      // Atas
+      const atas = [];
+      const atasRows = document.querySelectorAll('.ata-row');
+      atasRows.forEach(row => {
+        const date = row.querySelector('.ata-date')?.value || '';
+        const title = row.querySelector('.ata-title')?.value || '';
+        const link = row.querySelector('.ata-link')?.value || '';
+        if (title || link) {
+          atas.push({ date, title, link });
+        }
+      });
+      
+      // Atualizacoes
+      const updates = [];
+      const updateRows = document.querySelectorAll('.update-row');
+      updateRows.forEach(row => {
+        const text = row.querySelector('.update-text')?.value || '';
+        const meta = row.querySelector('.update-meta')?.value || '';
+        if (text) {
+          updates.push({ text, meta });
+        }
+      });
+      
+      // Observacoes finais
+      const observacoes = document.querySelectorAll('.field-value')[5]?.value || '';
+      
+      // Data atual para o rodape
+      const dataAtual = new Date().toLocaleDateString('pt-BR');
+      
+      // Construir Markdown
+      let md = `# ${titulo}\n\n`;
+      if (subtitulo) md += `**${subtitulo}**\n\n`;
+      md += `---\n\n`;
+      
+      // Cabecalho do projeto
+      md += `## Informacoes Gerais\n\n`;
+      md += `| Campo | Valor |\n`;
+      md += `|-------|-------|\n`;
+      md += `| **Status** | ${status} |\n`;
+      md += `| **Responsaveis** | ${responsaveis || '—'} |\n`;
+      md += `| **Repositorio** | ${repositorio ? `[${repositorio}](${repositorio})` : '—'} |\n`;
+      md += `| **Descricao** | ${descricao || '—'} |\n\n`;
+      
+      // Classificacao
+      md += `## Classificacao\n\n`;
+      md += `| Natureza | Impacto | Complexidade | Visibilidade |\n`;
+      md += `|----------|---------|--------------|---------------|\n`;
+      md += `| ${natureza || '—'} | ${impacto || '—'} | ${complexidade || '—'} | ${visibilidade || '—'} |\n\n`;
+      
+      // Prazos
+      md += `## Prazos\n\n`;
+      md += `- **Inicio:** ${inicio || '—'}\n`;
+      md += `- **Previsao de termino:** ${previsaoTermino || '—'}\n\n`;
+      
+      // Diretrizes e objetivo
+      if (diretrizes) md += `## Diretrizes\n\n${diretrizes}\n\n`;
+      if (objetivo) md += `## Objetivo\n\n${objetivo}\n\n`;
+      
+      // Produtos
+      if (produtos.length > 0) {
+        md += `## Produtos / Entregas\n\n`;
+        md += `| No | Produto | Previsao | Status |\n`;
+        md += `|----|---------|----------|--------|\n`;
+        produtos.forEach((p, i) => {
+          md += `| ${i+1} | ${p.nome} | ${p.previsao || '—'} | ${p.status || '—'} |\n`;
+        });
+        md += `\n`;
+      }
+      
+      // Acoes
+      if (acoes.length > 0) {
+        md += `## Acoes\n\n`;
+        md += `| No | Acao | Responsavel | Prazo |\n`;
+        md += `|----|------|-------------|-------|\n`;
+        acoes.forEach((a, i) => {
+          md += `| ${i+1} | ${a.nome} | ${a.responsavel || '—'} | ${a.prazo || '—'} |\n`;
+        });
+        md += `\n`;
+      }
+      
+      // Indicadores
+      if (indicadores.length > 0) {
+        md += `## Indicadores\n\n`;
+        md += `| Indicador | Linha base | Meta | Frequencia |\n`;
+        md += `|-----------|------------|------|-------------|\n`;
+        indicadores.forEach(ind => {
+          md += `| ${ind.nome} | ${ind.base || '—'} | ${ind.meta || '—'} | ${ind.frequencia || '—'} |\n`;
+        });
+        md += `\n`;
+      }
+      
+      // RAG (com emojis das cores)
+      if (rags.length > 0) {
+        md += `## Status RAG\n\n`;
+        rags.forEach(rag => {
+          md += `- **${rag.label}:** ${rag.status}\n`;
+          if (rag.obs) md += `  - Observacao: ${rag.obs}\n`;
+        });
+        md += `\n`;
+      }
+      
+      // Riscos
+      if (riscos.length > 0) {
+        md += `## Riscos\n\n`;
+        md += `| No | Risco | Probabilidade | Impacto | Mitigacao |\n`;
+        md += `|----|-------|---------------|---------|------------|\n`;
+        riscos.forEach((r, i) => {
+          md += `| ${i+1} | ${r.nome} | ${r.probabilidade || '—'} | ${r.impacto || '—'} | ${r.mitigacao || '—'} |\n`;
+        });
+        md += `\n`;
+      }
+      
+      // Atas
+      if (atas.length > 0) {
+        md += `## Atas de Reuniao\n\n`;
+        atas.forEach(ata => {
+          if (ata.title) {
+            if (ata.link) md += `- **${ata.date || 'Data nao definida'}** — [${ata.title}](${ata.link})\n`;
+            else md += `- **${ata.date || 'Data nao definida'}** — ${ata.title}\n`;
+          } else if (ata.link) {
+            md += `- **${ata.date || 'Data nao definida'}** — [Ata](${ata.link})\n`;
+          }
+        });
+        md += `\n`;
+      }
+      
+      // Atualizacoes
+      if (updates.length > 0) {
+        md += `## Ultimas Atualizacoes\n\n`;
+        updates.forEach(up => {
+          md += `> ${up.text}\n`;
+          if (up.meta) md += `> \n> *${up.meta}*\n\n`;
+          else md += `\n`;
+        });
+      }
+      
+      // Observacoes
+      if (observacoes) md += `## Observacoes\n\n${observacoes}\n\n`;
+      
+      // GitHub Items (PRs e Issues) - TODOS, apenas data e titulo
+      if (typeof ghItemsRaw !== 'undefined' && ghItemsRaw.length > 0) {
+        md += `## Contribuicoes GitHub\n\n`;
+        
+        // Separar PRs e Issues
+        const prs = ghItemsRaw.filter(item => item.content?.__typename === 'PullRequest');
+        const issues = ghItemsRaw.filter(item => item.content?.__typename === 'Issue');
+        
+        // PRs
+        if (prs.length > 0) {
+          md += `### Pull Requests\n\n`;
+          prs.forEach(pr => {
+            const c = pr.content;
+            const dataCriacao = fmtDataMd(c.createdAt);
+            md += `- ${dataCriacao} - PR #${c.number}: ${c.title}\n`;
+          });
+          md += `\n`;
+        }
+        
+        // Issues
+        if (issues.length > 0) {
+          md += `### Issues\n\n`;
+          issues.forEach(issue => {
+            const c = issue.content;
+            const dataCriacao = fmtDataMd(c.createdAt);
+            md += `- ${dataCriacao} - Issue #${c.number}: ${c.title}\n`;
+          });
+          md += `\n`;
+        }
+      }
+      
+      // Rodape simplificado
+      md += `---\n\n`;
+      md += `*Arquivo gerado automaticamente em ${dataAtual}*\n`;
+      
+      // Forcar download
+      const blob = new Blob([md], { type: 'text/markdown;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      const nomeArquivo = (titulo.toLowerCase().replace(/\s+/g, '_') || 'projeto') + '.md';
+      a.href = url;
+      a.download = nomeArquivo;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      
+      alert(`Arquivo "${nomeArquivo}" gerado com sucesso!\n\nSalvo na pasta Downloads.\n\nLembre-se: salve-o na pasta projetos do seu repositorio, verifique as informacoes e faca commit/push manualmente.`);
+      
+    } catch(error) {
+      console.error('Erro detalhado:', error);
+      alert('Erro ao gerar arquivo: ' + error.message);
+    } finally {
+      btn.textContent = textoOriginal;
+      btn.disabled = false;
+    }
+  }, 100);
+}
 // ════════════════════════════════════════════════════════
 //  EXPORTAR / IMPRIMIR / LIMPAR
 // ════════════════════════════════════════════════════════
@@ -901,6 +1240,12 @@ function limparFicha() {
   document.getElementById('gh-tabs').style.display = 'none';
 
   ghStatus('Configure os campos acima e clique em Buscar.', '');
+  
+}
+// Função para formatar data
+function fmtDataMd(iso) {
+  if (!iso) return '—';
+  return new Date(iso).toLocaleDateString('pt-BR');
 }
 
 // ════════════════════════════════════════════════════════
