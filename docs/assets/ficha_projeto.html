@@ -1081,108 +1081,134 @@ function gerarTimelineMermaid() {
 }
 
 // ════════════════════════════════════════════════════════
-//  GERAR CRONOGRAMA GANTT EM MERMAID (NOVO!)
+//  GERAR CRONOGRAMA GANTT EM MERMAID 
 //  Cria um gráfico de Gantt com todas as fases do cronograma
 // ════════════════════════════════════════════════════════
 function gerarGanttMermaid() {
   const fases = [];
+
   document.querySelectorAll('#body-cronograma tr').forEach(row => {
     const inputs = row.querySelectorAll('input');
-    const sel    = row.querySelector('select');
-    const nome   = inputs[0]?.value?.trim() || '';
+    const sel = row.querySelector('select');
+
+    const nome = inputs[0]?.value?.trim() || '';
     const inicio = inputs[2]?.value || '';
-    const fim    = inputs[3]?.value || '';
+    const fim = inputs[3]?.value || '';
     const status = sel?.value || '';
-    
+
     if (!nome || !inicio || !fim) return;
-    
-    // Mapear status para seção no Gantt
-    let section = 'planejado';
-    if (status === 'concluido') section = 'concluído';
-    else if (status === 'em_andamento') section = 'em andamento';
-    else if (status === 'atrasado') section = 'atrasado';
-    else if (status === 'pausado') section = 'pausado';
-    
-    fases.push({ 
-      nome, 
-      inicio, 
-      fim, 
-      status: section,
-      rawStatus: status
-    });
+
+    const start = new Date(inicio + 'T00:00:00');
+    const end = new Date(fim + 'T00:00:00');
+
+    if (isNaN(start) || isNaN(end)) return;
+
+    fases.push({ nome, start, end, status });
   });
 
   if (!fases.length) return null;
 
-  // Encontrar data mínima e máxima para definir o eixo
-  let minDate = null, maxDate = null;
-  fases.forEach(f => {
-    const start = new Date(f.inicio);
-    const end = new Date(f.fim);
-    if (!minDate || start < minDate) minDate = start;
-    if (!maxDate || end > maxDate) maxDate = end;
-  });
-
-  if (!minDate || !maxDate) return null;
-
-  // Formatar datas para o formato aceito pelo Mermaid (YYYY-MM-DD)
   const lines = ['```mermaid', 'gantt'];
+
   const titulo = document.querySelector('.project-title')?.value?.trim();
-  if (titulo) lines.push(`    title ${sanitizeMermaid(titulo)} - Cronograma`);
-  lines.push(`    dateFormat YYYY-MM-DD`);
-  lines.push(`    axisFormat %b/%Y`);
-  lines.push(`    tickInterval 1month`);
-  lines.push(`    `);
-  
-  // Agrupar por status/section
-  const sections = {
-    'concluído': [],
-    'em andamento': [],
-    'planejado': [],
-    'atrasado': [],
-    'pausado': []
-  };
-  
-  fases.forEach(f => {
-    sections[f.status].push(f);
-  });
-  
-  // Adicionar cada seção
-  for (const [sectionName, faseList] of Object.entries(sections)) {
-    if (faseList.length === 0) continue;
-    
-    let sectionTitle = '';
-    switch(sectionName) {
-      case 'concluído': sectionTitle = '✅ Concluído'; break;
-      case 'em andamento': sectionTitle = '🔄 Em andamento'; break;
-      case 'planejado': sectionTitle = '📋 Planejado'; break;
-      case 'atrasado': sectionTitle = '⚠️ Atrasado'; break;
-      case 'pausado': sectionTitle = '⏸️ Pausado'; break;
-      default: sectionTitle = sectionName;
-    }
-    lines.push(`    section ${sectionTitle}`);
-    
-    faseList.forEach(f => {
-      // Calcular duração em dias
-      const start = new Date(f.inicio);
-      const end = new Date(f.fim);
-      const diffDays = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
-      
-      let statusMarker = '';
-      if (f.rawStatus === 'concluido') statusMarker = ', done';
-      else if (f.rawStatus === 'em_andamento') statusMarker = ', active';
-      else if (f.rawStatus === 'atrasado') statusMarker = ', crit';
-      
-      const nomeLimpo = sanitizeMermaid(f.nome).substring(0, 40);
-      lines.push(`    ${nomeLimpo} : ${statusMarker}, ${f.inicio}, ${diffDays}d`);
-    });
-    lines.push(`    `);
+  if (titulo) {
+    lines.push(`    title ${sanitizeMermaid(titulo)} - Cronograma`);
   }
-  
+
+  lines.push(`    dateFormat YYYY-MM-DD`);
+  lines.push(`    axisFormat %d/%m`);
+  lines.push('');
+
+  const sections = {
+    concluido: [],
+    em_andamento: [],
+    planejado: [],
+    atrasado: [],
+    pausado: []
+  };
+
+  fases.forEach(f => {
+    (sections[f.status] || sections.planejado).push(f);
+  });
+
+  const mapStatus = {
+    concluido: 'done',
+    em_andamento: 'active',
+    atrasado: 'crit'
+  };
+
+  const labels = {
+    concluido: 'Concluído',
+    em_andamento: 'Em andamento',
+    atrasado: 'Atrasado',
+    pausado: 'Pausado',
+    planejado: 'Planejado'
+  };
+
+  function clean(txt) {
+    return (txt || '')
+      .replace(/[:#(),]/g, '-')
+      .replace(/\s+/g, ' ')
+      .trim()
+      .substring(0, 40);
+  }
+
+  function chunk15Days(start, end) {
+    const chunks = [];
+    let current = new Date(start);
+
+    while (current <= end) {
+      let next = new Date(current);
+      next.setDate(next.getDate() + 15);
+
+      if (next > end) next = new Date(end);
+
+      let diff = Math.ceil((next - current) / (1000 * 60 * 60 * 24));
+
+      if (diff <= 0) diff = 1;
+
+      chunks.push({
+        start: new Date(current),
+        end: new Date(next),
+        days: diff
+      });
+
+      current = new Date(next);
+      current.setDate(current.getDate() + 1);
+    }
+
+    return chunks;
+  }
+
+  Object.keys(sections).forEach(status => {
+    if (!sections[status].length) return;
+
+    lines.push(`    section ${labels[status]}`);
+
+    sections[status].forEach((f, i) => {
+      const chunks = chunk15Days(f.start, f.end);
+
+      chunks.forEach((c, idx) => {
+        const label = clean(f.nome) + (chunks.length > 1 ? ` Q${idx + 1}` : '');
+
+        const flag = mapStatus[status];
+
+        // REGRA CRÍTICA MERMAID (SEM VÍRGULA VAZIA)
+        const line = flag
+          ? `    ${label} : ${flag}, ${c.start.toISOString().slice(0,10)}, ${c.days}d`
+          : `    ${label} : ${c.start.toISOString().slice(0,10)}, ${c.days}d`;
+
+        lines.push(line);
+      });
+    });
+
+    lines.push('');
+  });
+
   lines.push('```');
+
   return lines.join('\n');
 }
-
 // ════════════════════════════════════════════════════════
 //  GERAR CRONOGRAMA MARKDOWN (tabela Gantt-like)
 // ════════════════════════════════════════════════════════
@@ -1212,293 +1238,427 @@ function statusLabel(val) {
 }
 
 // ════════════════════════════════════════════════════════
-//  GERAR MARKDOWN — FUNÇÃO PRINCIPAL
+//  GERAR MARKDOWN 
 // ════════════════════════════════════════════════════════
 function gerarMarkdown() {
-  function safeValue(selector, index = null) {
-    try {
-      if (index !== null) {
-        const elements = document.querySelectorAll(selector);
-        return elements[index] ? elements[index].value || '' : '';
+  try {
+
+    // ================================
+    // HELPERS
+    // ================================
+    const getVal = (sel) => document.querySelector(sel)?.value?.trim() || '';
+
+    const formatDateBr = (iso) => {
+      if (!iso) return '—';
+      const d = new Date(iso);
+      return isNaN(d) ? iso : d.toLocaleDateString('pt-BR');
+    };
+
+    const sanitize = (txt) =>
+      (txt || '').replace(/:/g, ' -').replace(/\n/g, ' ').trim();
+
+    const MESES = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+    const diffDays = (a, b) => {
+      const d1 = new Date(a);
+      const d2 = new Date(b);
+
+      if (isNaN(d1) || isNaN(d2)) return 1;
+
+      const diff = Math.ceil((d2 - d1) / (1000 * 60 * 60 * 24));
+      return diff > 0 ? diff : 1;
+    };
+    // ================================
+    // CAMPOS PRINCIPAIS
+    // ================================
+    const titulo        = getVal('.project-title') || 'Projeto sem título';
+    const subtitulo     = getVal('.project-sub');
+    const statusProjeto = document.querySelector('.badge-status')?.value || '';
+
+    const responsaveis  = document.querySelectorAll('.grid2 .field-value')[0]?.value || '';
+    const repositorio   = document.querySelectorAll('.grid2 .field-value')[1]?.value || '';
+
+    const descricao       = document.querySelectorAll('textarea')[0]?.value || '';
+    const diretrizes      = document.querySelectorAll('textarea')[1]?.value || '';
+    const objetivo        = document.querySelectorAll('textarea')[2]?.value || '';
+    const ganhosEsperados = document.querySelectorAll('textarea')[3]?.value || '';
+    const observacoes     = document.querySelectorAll('textarea')[4]?.value || '';
+
+    // ================================
+    // CLASSIFICAÇÃO
+    // ================================
+    const classif = document.querySelectorAll('.grid4 select');
+    const natureza     = classif[0]?.value || '';
+    const impacto      = classif[1]?.value || '';
+    const complexidade = classif[2]?.value || '';
+    const visibilidade = classif[3]?.value || '';
+
+    // ================================
+    // PRAZOS
+    // ================================
+    const prazoInicio = document.querySelectorAll('.prazo-input')[0]?.value || '';
+    const prazoFim    = document.querySelectorAll('.prazo-input')[1]?.value || '';
+
+    // ================================
+    // PRODUTOS
+    // ================================
+    const produtos = [];
+    document.querySelectorAll('#body-produtos tr').forEach(row => {
+      const inputs = row.querySelectorAll('input, select');
+      if (inputs[0]?.value) {
+        produtos.push({
+          nome: inputs[0].value,
+          previsao: inputs[1]?.value || '',
+          status: inputs[2]?.value || ''
+        });
       }
-      const element = document.querySelector(selector);
-      return element ? element.value || '' : '';
-    } catch(e) { return ''; }
+    });
+
+    // ================================
+    // AÇÕES
+    // ================================
+    const acoes = [];
+    document.querySelectorAll('#body-acoes tr').forEach(row => {
+      const inputs = row.querySelectorAll('input');
+      if (inputs[0]?.value) {
+        acoes.push({
+          nome: inputs[0].value,
+          resp: inputs[1]?.value || '',
+          prazo: inputs[2]?.value || ''
+        });
+      }
+    });
+
+    // ================================
+    // CRONOGRAMA
+    // ================================
+    const fases = [];
+    document.querySelectorAll('#body-cronograma tr').forEach(row => {
+      const inputs = row.querySelectorAll('input');
+      const sel    = row.querySelector('select');
+
+      const nome   = inputs[0]?.value?.trim();
+      const resp   = inputs[1]?.value || '';
+      const inicio = inputs[2]?.value || '';
+      const fim    = inputs[3]?.value || '';
+      const status = sel?.value || '';
+
+      if (nome && inicio && fim) {
+        fases.push({ nome, resp, inicio, fim, status });
+      }
+    });
+
+    // ================================
+    // INDICADORES
+    // ================================
+    const indicadores = [];
+    document.querySelectorAll('#body-indicadores tr').forEach(row => {
+      const inputs = row.querySelectorAll('input, select');
+      if (inputs[0]?.value) {
+        indicadores.push({
+          nome: inputs[0].value,
+          base: inputs[1]?.value || '',
+          meta: inputs[2]?.value || '',
+          freq: inputs[3]?.value || ''
+        });
+      }
+    });
+
+    // ================================
+    // RISCOS
+    // ================================
+    const riscos = [];
+    document.querySelectorAll('#body-riscos tr').forEach(row => {
+      const inputs = row.querySelectorAll('input, select');
+      if (inputs[0]?.value) {
+        riscos.push({
+          nome: inputs[0].value,
+          prob: inputs[1]?.value || '',
+          impacto: inputs[2]?.value || '',
+          mitigacao: inputs[3]?.value || ''
+        });
+      }
+    });
+
+    // ================================
+    // RAG
+    // ================================
+    const rags = [];
+    document.querySelectorAll('.rag-row').forEach(row => {
+      const label = row.querySelector('.rag-label')?.innerText?.trim();
+      const sel   = row.querySelector('.rag-select');
+      const obs   = row.querySelector('.rag-obs')?.value || '';
+
+      if (!label) return;
+
+      let status = '—';
+      if (sel?.value === 'green') status = '🟢 Verde';
+      else if (sel?.value === 'amber') status = '🟠 Âmbar';
+      else if (sel?.value === 'red') status = '🔴 Vermelho';
+
+      rags.push({ label, status, obs });
+    });
+
+    // ================================
+    // MARCOS
+    // ================================
+    const marcos = [];
+    document.querySelectorAll('#marcos-block .marco-row').forEach(row => {
+      const date = row.querySelector('.marco-date')?.value;
+      const title = row.querySelector('.marco-title')?.value?.trim();
+      if (date && title) {
+        marcos.push({ date, title });
+      }
+    });
+
+    // ================================
+    // TIMELINE (MERMAID)
+    // ================================
+    function gerarTimeline(lista, tituloSecao) {
+      if (!lista.length) return '';
+
+      const mapa = {};
+
+      lista.forEach(item => {
+        const d = new Date(item.date || item.inicio);
+        if (isNaN(d)) return;
+
+        const ano = d.getFullYear();
+        const mes = d.getMonth();
+
+        if (!mapa[ano]) mapa[ano] = {};
+        if (!mapa[ano][mes]) mapa[ano][mes] = [];
+
+        mapa[ano][mes].push(sanitize(item.title || item.nome));
+      });
+
+      let md = '```mermaid\n';
+      md += 'timeline\n';
+      md += `    title ${sanitize(titulo)} - ${tituloSecao}\n`;
+
+      Object.keys(mapa).sort().forEach(ano => {
+        md += `    section ${ano}\n`;
+
+        Object.keys(mapa[ano]).sort((a,b)=>a-b).forEach(mes => {
+          const lista = mapa[ano][mes];
+
+          md += `        ${MESES[mes]} : ${lista[0]}\n`;
+          for (let i = 1; i < lista.length; i++) {
+            md += `              : ${lista[i]}\n`;
+          }
+        });
+      });
+
+      md += '```\n\n';
+      return md;
+    }
+
+    // ================================
+    // GANTT (NOVO CORRIGIDO)
+    // ================================
+    function gerarGantt() {
+      if (!fases.length) return '';
+
+      const clean = (t) =>
+        (t || '')
+          .replace(/[:#()\/]/g, '-')
+          .replace(/\n/g, ' ')
+          .trim()
+          .substring(0, 70);
+
+      const statusMap = {
+        concluido: 'done',
+        em_andamento: 'active',
+        atrasado: 'crit'
+      };
+
+      let md = '```mermaid\ngantt\n';
+      md += `    title ${clean(titulo)} - Cronograma\n`;
+      md += `    dateFormat YYYY-MM-DD\n\n`;
+
+      const sections = {
+        'Concluído': [],
+        'Em andamento': [],
+        'Planejado': [],
+        'Atrasado': [],
+        'Pausado': []
+      };
+
+      fases.forEach(f => {
+        let sec = 'Planejado';
+        if (f.status === 'concluido') sec = 'Concluído';
+        else if (f.status === 'em_andamento') sec = 'Em andamento';
+        else if (f.status === 'atrasado') sec = 'Atrasado';
+        else if (f.status === 'pausado') sec = 'Pausado';
+
+        const dur = Math.max(diffDays(f.inicio, f.fim), 1);
+
+        sections[sec].push({
+          label: clean(`${f.nome} - ${f.resp || '—'}`),
+          start: f.inicio,
+          dur,
+          status: f.status
+        });
+      });
+
+      Object.entries(sections).forEach(([sec, items]) => {
+        if (!items.length) return;
+
+        md += `    section ${sec}\n`;
+
+        items.forEach(i => {
+          const flag = statusMap[i.status];
+
+          // 🔥 REGRA MERMAID: nunca deixar vírgula vazia
+          if (flag) {
+            md += `    ${i.label} : ${flag}, ${i.start}, ${i.dur}d\n`;
+          } else {
+            md += `    ${i.label} : ${i.start}, ${i.dur}d\n`;
+          }
+        });
+
+        md += '\n';
+      });
+
+      md += '```\n\n';
+      return md;
+    }
+    // ================================
+    // MARKDOWN
+    // ================================
+    let md = `# ${titulo}\n\n`;
+    if (subtitulo) md += `**${subtitulo}**\n\n`;
+
+    md += `---\n\n`;
+
+    // INFO GERAL (2 COLUNAS)
+    md += `## Informações Gerais\n\n`;
+    md += `| Campo | Valor |\n`;
+    md += `|------|------|\n`;
+    md += `| Status | ${statusProjeto} |\n`;
+    md += `| Responsáveis | ${responsaveis} |\n`;
+    md += `| Repositório | ${repositorio} |\n\n`;
+
+    md += `## Descrição\n\n${descricao}\n\n`;
+
+    md += `## Classificação\n\n`;
+    md += `| Natureza | Impacto | Complexidade | Visibilidade |\n`;
+    md += `|----------|---------|--------------|---------------|\n`;
+    md += `| ${natureza} | ${impacto} | ${complexidade} | ${visibilidade} |\n\n`;
+
+    md += `## Prazos\n\n`;
+    md += `- Início: ${formatDateBr(prazoInicio)}\n`;
+    md += `- Fim: ${formatDateBr(prazoFim)}\n\n`;
+
+    if (diretrizes) md += `## Diretrizes\n\n${diretrizes}\n\n`;
+    if (objetivo) md += `## Objetivo\n\n${objetivo}\n\n`;
+    if (ganhosEsperados) md += `## Ganhos Esperados\n\n${ganhosEsperados}\n\n`;
+
+    if (produtos.length) {
+      md += `## Produtos\n\n`;
+      md += `| Produto | Previsão | Status |\n|--------|----------|--------|\n`;
+      produtos.forEach(p => md += `| ${p.nome} | ${p.previsao} | ${p.status} |\n`);
+      md += `\n`;
+    }
+
+    if (acoes.length) {
+      md += `## Ações\n\n`;
+      md += `| Ação | Responsável | Prazo |\n|------|-------------|-------|\n`;
+      acoes.forEach(a => md += `| ${a.nome} | ${a.resp} | ${a.prazo} |\n`);
+      md += `\n`;
+    }
+
+    if (fases.length) {
+      md += `## Cronograma\n\n`;
+      md += gerarGantt(fases);
+    }
+
+    if (indicadores.length) {
+  md += `## Indicadores\n\n`;
+  md += `| Indicador | Base | Meta | Frequência |\n`;
+  md += `|---|---|---|---|\n`;
+
+  indicadores.forEach(i => {
+    md += `| ${i.nome || '—'} | ${i.base || '—'} | ${i.meta || '—'} | ${i.freq || '—'} |\n`;
+  });
+
+  md += `\n`;
   }
 
-  const btn = event.target;
-  const textoOriginal = btn.textContent;
-  btn.textContent = 'Gerando...';
-  btn.disabled = true;
-
-  setTimeout(() => {
-    try {
-      const titulo          = safeValue('.project-title') || 'Sem titulo';
-      const subtitulo       = safeValue('.project-sub');
-      const status          = safeValue('.badge-status');
-      const responsaveis    = document.querySelector('.grid2 .field-value:first-child')?.value || '';
-      const repositorio     = document.querySelector('.grid2 .field-value:last-child')?.value || '';
-      const descricao       = document.querySelectorAll('.field-value')[2]?.value || '';
-      const natureza        = document.querySelectorAll('.grid4 select')[0]?.value || '';
-      const impacto         = document.querySelectorAll('.grid4 select')[1]?.value || '';
-      const complexidade    = document.querySelectorAll('.grid4 select')[2]?.value || '';
-      const visibilidade    = document.querySelectorAll('.grid4 select')[3]?.value || '';
-      const inicio          = document.querySelectorAll('.prazo-input')[0]?.value || '';
-      const previsaoTermino = document.querySelectorAll('.prazo-input')[1]?.value || '';
-      const diretrizes      = document.querySelectorAll('.field-value')[3]?.value || '';
-      const objetivo        = document.querySelectorAll('.field-value')[4]?.value || '';
-      const ganhosEsperados = document.querySelectorAll('.field-value')[5]?.value || '';
-
-      // Produtos
-      const produtos = [];
-      document.querySelectorAll('#body-produtos tr').forEach(row => {
-        const inputs = row.querySelectorAll('input, select');
-        if (inputs[0] && inputs[0].value)
-          produtos.push({ nome: inputs[0].value, previsao: inputs[1]?.value || '', status: inputs[2]?.value || '' });
+    if (rags.length) {
+      md += `## Status RAG\n\n`;
+      rags.forEach(r => {
+        md += `- **${r.label}:** ${r.status}\n`;
+        if (r.obs) md += `  - ${r.obs}\n`;
       });
-
-      // Ações
-      const acoes = [];
-      document.querySelectorAll('#body-acoes tr').forEach(row => {
-        const inputs = row.querySelectorAll('input, select');
-        if (inputs[0] && inputs[0].value)
-          acoes.push({ nome: inputs[0].value, responsavel: inputs[1]?.value || '', prazo: inputs[2]?.value || '' });
-      });
-
-      // Cronograma
-      const fasesCrono = gerarCronogramaGantt();
-
-      // Indicadores
-      const indicadores = [];
-      document.querySelectorAll('#body-indicadores tr').forEach(row => {
-        const inputs = row.querySelectorAll('input, select');
-        if (inputs[0] && inputs[0].value)
-          indicadores.push({ nome: inputs[0].value, base: inputs[1]?.value || '', meta: inputs[2]?.value || '', frequencia: inputs[3]?.value || '' });
-      });
-
-      // RAG
-      const rags = [];
-      document.querySelectorAll('.rag-row').forEach(row => {
-        const label = row.querySelector('.rag-label')?.textContent || '';
-        const sel   = row.querySelector('.rag-select');
-        const obs   = row.querySelector('.rag-obs')?.value || '';
-        let ragStatus = 'Não definido';
-        if (sel) {
-          const val = sel.value;
-          if (val === 'green')  ragStatus = '🟢 Verde';
-          else if (val === 'amber') ragStatus = '🟠 Âmbar';
-          else if (val === 'red')   ragStatus = '🔴 Vermelho';
-        }
-        if (label) rags.push({ label, status: ragStatus, obs });
-      });
-
-      // Riscos
-      const riscos = [];
-      document.querySelectorAll('#body-riscos tr').forEach(row => {
-        const inputs = row.querySelectorAll('input, select');
-        if (inputs[0] && inputs[0].value)
-          riscos.push({ nome: inputs[0].value, probabilidade: inputs[1]?.value || '', impacto: inputs[2]?.value || '', mitigacao: inputs[3]?.value || '' });
-      });
-
-      // Atas
-      const atas = [];
-      document.querySelectorAll('#atas-block > div').forEach(row => {
-        const date  = row.querySelector('input[type=date]')?.value || '';
-        const title = row.querySelector('input[type=text]')?.value || '';
-        const link  = row.querySelector('input[type=url]')?.value || '';
-        if (title || link) atas.push({ date, title, link });
-      });
-
-      // Marcos
-      const marcos = [];
-      document.querySelectorAll('#marcos-block .marco-row').forEach(row => {
-        const dateVal  = row.querySelector('.marco-date')?.value || '';
-        const titleVal = row.querySelector('.marco-title')?.value?.trim() || '';
-        const tipo     = row.querySelector('.marco-type')?.value || 'marco';
-        if (titleVal) marcos.push({ date: dateVal, title: titleVal, tipo });
-      });
-
-      // Observações finais
-      const observacoes = document.querySelectorAll('.field-value')[6]?.value || '';
-      const dataAtual   = new Date().toLocaleDateString('pt-BR');
-
-      // ── BUILD MARKDOWN ──
-      let md = `# ${titulo}\n\n`;
-      if (subtitulo) md += `**${subtitulo}**\n\n`;
-      md += `---\n\n`;
-
-      md += `## Informações Gerais\n\n`;
-      md += `| Campo | Valor |\n|-------|-------|\n`;
-      md += `| **Status** | ${status} |\n`;
-      md += `| **Responsáveis** | ${responsaveis || '—'} |\n`;
-      md += `| **Repositório** | ${repositorio ? `[${repositorio}](${repositorio})` : '—'} |\n`;
-      md += `| **Descrição** | ${descricao || '—'} |\n\n`;
-
-      md += `## Classificação\n\n`;
-      md += `| Natureza | Impacto | Complexidade | Visibilidade |\n|----------|---------|--------------|---------------|\n`;
-      md += `| ${natureza || '—'} | ${impacto || '—'} | ${complexidade || '—'} | ${visibilidade || '—'} |\n\n`;
-
-      md += `## Prazos\n\n`;
-      md += `- **Início:** ${inicio || '—'}\n`;
-      md += `- **Previsão de término:** ${previsaoTermino || '—'}\n\n`;
-
-      if (diretrizes) md += `## Diretrizes\n\n${diretrizes}\n\n`;
-      if (objetivo)   md += `## Objetivo\n\n${objetivo}\n\n`;
-      if (ganhosEsperados) md += `## Ganhos Esperados\n\n${ganhosEsperados}\n\n`;
-
-      if (produtos.length > 0) {
-        md += `## Produtos / Entregas\n\n`;
-        md += `| # | Produto | Previsão | Status |\n|----|---------|----------|--------|\n`;
-        produtos.forEach((p, i) => {
-          md += `| ${i+1} | ${p.nome} | ${p.previsao || '—'} | ${p.status || '—'} |\n`;
-        });
-        md += `\n`;
-      }
-
-      if (acoes.length > 0) {
-        md += `## Ações\n\n`;
-        md += `| # | Ação | Responsável | Prazo |\n|----|------|-------------|-------|\n`;
-        acoes.forEach((a, i) => {
-          md += `| ${i+1} | ${a.nome} | ${a.responsavel || '—'} | ${a.prazo || '—'} |\n`;
-        });
-        md += `\n`;
-      }
-
-      // Cronograma como tabela
-      if (fasesCrono.length > 0) {
-        md += `## Cronograma\n\n`;
-        md += `### Detalhamento das fases\n\n`;
-        md += `| # | Fase / Etapa | Responsável | Início | Fim | Status |\n`;
-        md += `|----|-------------|-------------|--------|-----|--------|\n`;
-        fasesCrono.forEach((f, i) => {
-          const ini = f.inicio ? new Date(f.inicio).toLocaleDateString('pt-BR') : '—';
-          const fim = f.fim    ? new Date(f.fim).toLocaleDateString('pt-BR')    : '—';
-          md += `| ${i+1} | ${f.nome} | ${f.resp || '—'} | ${ini} | ${fim} | ${statusLabel(f.status)} |\n`;
-        });
-        md += `\n`;
-        
-        // Adicionar gráfico Gantt em Mermaid
-        const ganttChart = gerarGanttMermaid();
-        if (ganttChart) {
-          md += `### Visualização do Cronograma (Gantt)\n\n`;
-          md += `${ganttChart}\n\n`;
-          md += `> **Legenda:** ✅ Concluído | 🔄 Em andamento | 📋 Planejado | ⚠️ Atrasado | ⏸️ Pausado\n\n`;
-        }
-      }
-
-      if (indicadores.length > 0) {
-        md += `## Indicadores\n\n`;
-        md += `| Indicador | Linha base | Meta | Frequência |\n|-----------|------------|------|-------------|\n`;
-        indicadores.forEach(ind => {
-          md += `| ${ind.nome} | ${ind.base || '—'} | ${ind.meta || '—'} | ${ind.frequencia || '—'} |\n`;
-        });
-        md += `\n`;
-      }
-
-      if (rags.length > 0) {
-        md += `## Status RAG\n\n`;
-        rags.forEach(rag => {
-          md += `- **${rag.label}:** ${rag.status}\n`;
-          if (rag.obs) md += `  - Observação: ${rag.obs}\n`;
-        });
-        md += `\n`;
-      }
-
-      if (riscos.length > 0) {
-        md += `## Riscos\n\n`;
-        md += `| # | Risco | Probabilidade | Impacto | Mitigação |\n|----|-------|---------------|---------|------------|\n`;
-        riscos.forEach((r, i) => {
-          md += `| ${i+1} | ${r.nome} | ${r.probabilidade || '—'} | ${r.impacto || '—'} | ${r.mitigacao || '—'} |\n`;
-        });
-        md += `\n`;
-      }
-
-      if (atas.length > 0) {
-        md += `## Atas de Reunião\n\n`;
-        atas.forEach(ata => {
-          const label = ata.title || 'Ata';
-          const data  = ata.date  || 'Data não definida';
-          if (ata.link) md += `- **${data}** — [${label}](${ata.link})\n`;
-          else          md += `- **${data}** — ${label}\n`;
-        });
-        md += `\n`;
-      }
-
-      // ── MARCOS + TIMELINE MERMAID ──
-      if (marcos.length > 0) {
-        md += `## Marcos do Projeto\n\n`;
-        marcos.forEach(m => {
-          const d = m.date ? new Date(m.date).toLocaleDateString('pt-BR') : '—';
-          md += `- **${d}** — ${m.title} *(${m.tipo})*\n`;
-        });
-        md += `\n`;
-
-        const timeline = gerarTimelineMermaid();
-        if (timeline) {
-          md += `### Timeline de Marcos\n\n${timeline}\n\n`;
-        }
-      }
-
-      // ── GITHUB — PRs e Issues com links ──
-      if (typeof ghItemsRaw !== 'undefined' && ghItemsRaw.length > 0) {
-        md += `## Contribuições GitHub\n\n`;
-
-        const prs    = ghItemsRaw.filter(item => item.content?.__typename === 'PullRequest');
-        const issues = ghItemsRaw.filter(item => item.content?.__typename === 'Issue');
-
-        if (prs.length > 0) {
-          md += `### Pull Requests\n\n`;
-          md += `| # | Título | Status | Data criação | Link |\n`;
-          md += `|---|--------|--------|--------------|------|\n`;
-          prs.forEach(pr => {
-            const c          = pr.content;
-            const dataCriacao = fmtDataMd(c.createdAt);
-            const estado      = c.mergedAt ? 'Merged' : (c.state === 'OPEN' ? 'Aberto' : 'Fechado');
-            md += `| #${c.number} | ${c.title} | ${estado} | ${dataCriacao} | [Abrir](${c.url}) |\n`;
-          });
-          md += `\n`;
-        }
-
-        if (issues.length > 0) {
-          md += `### Issues\n\n`;
-          md += `| # | Título | Status | Data criação | Link |\n`;
-          md += `|---|--------|--------|--------------|------|\n`;
-          issues.forEach(issue => {
-            const c           = issue.content;
-            const dataCriacao = fmtDataMd(c.createdAt);
-            const estado      = c.state === 'OPEN' ? 'Aberta' : 'Fechada';
-            md += `| #${c.number} | ${c.title} | ${estado} | ${dataCriacao} | [Abrir](${c.url}) |\n`;
-          });
-          md += `\n`;
-        }
-      }
-
-      if (observacoes) md += `## Observações\n\n${observacoes}\n\n`;
-
-      md += `---\n\n*Gerado automaticamente em ${dataAtual}*\n`;
-
-      // Download
-      const blob = new Blob([md], { type: 'text/markdown;charset=utf-8' });
-      const url  = URL.createObjectURL(blob);
-      const a    = document.createElement('a');
-      const nome = (titulo.toLowerCase().replace(/\s+/g,'_') || 'projeto') + '.md';
-      a.href = url; a.download = nome;
-      document.body.appendChild(a); a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-
-      alert(`Arquivo "${nome}" gerado com sucesso!\n\nSalvo na pasta Downloads.\n\nLembre-se: salve-o na pasta projetos do seu repositório, verifique as informações e faça commit/push manualmente.`);
-
-    } catch(error) {
-      console.error('Erro detalhado:', error);
-      alert('Erro ao gerar arquivo: ' + error.message);
-    } finally {
-      btn.textContent = textoOriginal;
-      btn.disabled = false;
+      md += `\n`;
     }
-  }, 100);
-}
 
+    if (riscos.length) {
+      md += `## Riscos\n\n`;
+      md += `| Risco | Probabilidade | Impacto | Mitigação |\n`;
+      md += `|------|---------------|---------|------------|\n`;
+      riscos.forEach(r => {
+        md += `| ${r.nome} | ${r.prob} | ${r.impacto} | ${r.mitigacao} |\n`;
+      });
+      md += `\n`;
+    }
+
+    if (marcos.length) {
+      md += `## Linha do Tempo\n\n`;
+      md += gerarTimeline(marcos, 'Marcos');
+    }
+
+    // ================================
+    // GITHUB
+    // ================================
+    if (typeof ghItemsRaw !== 'undefined' && ghItemsRaw.length) {
+      md += `## GitHub\n\n`;
+
+      const prs = ghItemsRaw.filter(i => i.content?.__typename === 'PullRequest');
+      const issues = ghItemsRaw.filter(i => i.content?.__typename === 'Issue');
+
+      if (prs.length) {
+        md += `### Pull Requests\n\n`;
+        prs.forEach(pr => {
+          const c = pr.content;
+          md += `- [#${c.number} ${c.title}](${c.url})\n`;
+        });
+        md += `\n`;
+      }
+
+      if (issues.length) {
+        md += `### Issues\n\n`;
+        issues.forEach(i => {
+          const c = i.content;
+          md += `- [#${c.number} ${c.title}](${c.url})\n`;
+        });
+        md += `\n`;
+      }
+    }
+
+    if (observacoes) md += `## Observações\n\n${observacoes}\n\n`;
+
+    md += `---\nGerado em ${new Date().toLocaleDateString('pt-BR')}`;
+
+    // DOWNLOAD
+    const blob = new Blob([md], { type: 'text/markdown' });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = titulo.replace(/\s+/g,'_').toLowerCase() + '.md';
+
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+
+    URL.revokeObjectURL(url);
+
+  } catch (err) {
+    console.error(err);
+    alert('Erro ao gerar markdown: ' + err.message);
+  }
+}
 // ════════════════════════════════════════════════════════
 //  EXPORTAR / IMPRIMIR / LIMPAR
 // ════════════════════════════════════════════════════════

@@ -20,7 +20,7 @@ nav:
   - Início: index.md
   - Projetos:
       - Ficha de Projeto: projetos/ficha_projeto.md
-      - Projeto Hail Mary : projeto_hail_mary.md
+      - Missão Artemis II: projetos/artemis_ii.md
 extra_css:
   - assets/ficha_override.css
 
