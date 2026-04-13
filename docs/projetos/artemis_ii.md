@@ -1,6 +1,6 @@
-# ARTEMIS II
+# MISSÃO ARTEMIS II
 
-**ARTEMIS II**
+**SPLOR - AID**
 
 ---
 
@@ -9,31 +9,31 @@
 | Campo | Valor |
 |------|------|
 | Status | Em execução |
-| Responsáveis | Responsáveis |
-| Repositório |  Responsáveis Repositório |
+| Responsáveis | RESPONSÁVEIS |
+| Repositório | REPOSITÓRIO |
 
 ## Descrição
 
-Descrição
+DESCRIÇÃO
 
 ## Classificação
 
 | Natureza | Impacto | Complexidade | Visibilidade |
 |----------|---------|--------------|---------------|
-| Produto | Intersetorial | Média | Estratégico |
+| Infra | Interno | Média | Operacional |
 
 ## Prazos
 
-- Início: Início
-- Fim:  Início Previsão de término
+- Início: INÍCIO
+- Fim: TÉRMINO
 
 ## Diretrizes
 
-Diretrizes
+DIRETRIZES
 
 ## Objetivo
 
-Objetivo
+OBJETIVO
 
 ## Ganhos Esperados
 
@@ -43,77 +43,64 @@ GANHOS ESPERADOS
 
 | Produto | Previsão | Status |
 |--------|----------|--------|
-| PRODUTO 1  | PREVISÃO 1 | Não iniciado |
-| PRODUTO 2  | PREVISÃO 2  | Concluído |
+| PRODUTO 1 | A DEFINIR | Em andamento |
 
 ## Ações
 
 | Ação | Responsável | Prazo |
 |------|-------------|-------|
-| AÇÃO 1 | RESPONSÁVEL 1  | PRAZO 1  |
-| AÇÃO 2  | RESPONSÁVEL 2  | PRAZO 2  |
+| AÇÃO 1 | RESPONSÁVEL 1 | A DEFINIR |
 
 ## Cronograma
 
 ```mermaid
 gantt
-    title ARTEMIS II - Cronograma
+    title MISSÃO ARTEMIS II - Cronograma
     dateFormat YYYY-MM-DD
-
-    section Concluído
-    CRONOGRAMA 2 (RESPONSÁVEL 2 ) :, done, 2026-04-01, 13d
-    CRONOGRAMA 4 (RESPONSÁVEL 5) :, done, 2026-02-01, 39d
+    axisFormat %d/%m/%Y
 
     section Em andamento
-    CRONOGRAMA 1 (RESPONSÁVEL 1 ) :, active, 2026-04-01, 12d
-    CRONOGRAMA 3 (RESPONSÁVEL 3) :, active, 2026-04-29, 55d
+    BBB : active, 2026-05-19, 7d
 
-```
+    section Planejado
+    A : 2026-04-13, 7d
 
-```mermaid
-timeline
-    title ARTEMIS II - Cronograma
-    section 2026
-        Jan : CRONOGRAMA 4
-        Mar : CRONOGRAMA 1
-              : CRONOGRAMA 2
-        Abr : CRONOGRAMA 3
+    section Pausado
+    CCCC : 2026-04-29, 8d
+
 ```
 
 ## Indicadores
 
 | Indicador | Base | Meta | Frequência |
 |---|---|---|---|
-| INDICADOR 1 | LINHA INDICADOR 1 | META INDICADOR 1 | Semanal |
-| INDICADOR 2  | LINHA INDICADOR 2  | META INDICADOR 2  | Mensal |
+| INDICADOR 1 | 1 | 1 | Semanal |
 
 ## Status RAG
 
 - **Prazo:** 🟢 Verde
-  - Prazo
-- **Qualidade:** 🟢 Verde
-  - ualidade
+  - PRAZO
+- **Qualidade:** 🔴 Vermelho
+  - QUALIDADE
 - **Dependências:** 🟠 Âmbar
-  -  Dependências
-- **Equipe:** 🔴 Vermelho
-  - Equipe
+  - DEPENDÊNCIAS
+- **Equipe:** 🟢 Verde
+  - EQUIPE
 
 ## Riscos
 
 | Risco | Probabilidade | Impacto | Mitigação |
 |------|---------------|---------|------------|
-| RISCO 1  | Média | Médio | MITIGAÇÃO 1  |
-| RISCO 2 | Alta | Alto | MITIGAÇÃO 2 |
+| A | Média | Baixo | TESTE |
 
 ## Linha do Tempo
 
 ```mermaid
 timeline
-    title ARTEMIS II - Marcos
+    title MISSÃO ARTEMIS II - Marcos
     section 2026
-        Mar : MARCO 1
-        Abr : MARCO 2
-        Jun : MARCO 3
+        Abr : DEFINIÇÃO DO ESCOPO
+        Mai : DEFINIÇÃO DO CRONOGRAMA
 ```
 
 ## GitHub
@@ -128,7 +115,7 @@ timeline
 
 ## Observações
 
-OBSERVAÇOES
+OBSERVAÇÕES
 
 ---
 Gerado em 13/04/2026
