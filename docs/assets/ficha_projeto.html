@@ -135,48 +135,22 @@ select.field-value { cursor: pointer; }
 .etable td input, .etable td select { width:100%; border:none; outline:none; background:transparent; font-family:var(--sans); font-size:0.82rem; color:var(--text); }
 .etable td input::placeholder { color:var(--hint); }
 
-/* ── UPDATES ── */
-.update-row { display:flex; gap:10px; padding:10px 0; border-bottom:1px solid var(--border); align-items:flex-start; }
-.update-row:last-child { border-bottom:none; }
-.avatar { width:30px; height:30px; border-radius:50%; background:var(--blue-bg); color:var(--blue); font-family:var(--mono); font-size:0.58rem; font-weight:600; display:flex; align-items:center; justify-content:center; flex-shrink:0; cursor:pointer; }
-.update-body { flex:1; }
-.update-text { font-size:0.83rem; color:var(--text); border:none; outline:none; background:transparent; font-family:var(--sans); width:100%; resize:none; min-height:36px; line-height:1.55; }
-.update-text::placeholder { color:var(--hint); }
-.update-meta { font-family:var(--mono); font-size:0.6rem; color:var(--hint); border:none; outline:none; background:transparent; width:100%; margin-top:2px; }
-.update-meta::placeholder { color:var(--hint); }
+/* ── CRONOGRAMA — barra de progresso ── */
+.crono-bar-wrap { position:relative; height:6px; background:var(--border); border-radius:3px; min-width:60px; width:100%; }
+.crono-bar-fill { height:6px; border-radius:3px; background:var(--blue-mid); transition: width .3s; }
+.crono-bar-fill.concluido { background:var(--green); }
+.crono-bar-fill.atrasado  { background:var(--red); }
+.crono-bar-fill.pausado   { background:var(--amber); }
 
-/* ── ATAS ── */
-.ata-row { display:flex; gap:8px; padding:7px 0; border-bottom:1px solid var(--border); align-items:center; }
-.ata-row:last-child { border-bottom:none; }
-.ata-date { font-family:var(--mono); font-size:0.7rem; color:var(--muted); border:none; outline:none; background:transparent; width:90px; flex-shrink:0; }
-.ata-title { font-size:0.83rem; border:none; outline:none; background:transparent; font-family:var(--sans); flex:1; color:var(--text); }
-.ata-title::placeholder { color:var(--hint); }
-.ata-link { font-family:var(--mono); font-size:0.68rem; color:var(--blue-mid); border:none; outline:none; background:transparent; width:200px; flex-shrink:0; }
-.ata-link::placeholder { color:var(--hint); }
-.ata-icon { font-size:0.9rem; opacity:.5; flex-shrink:0; text-decoration:none; }
-
-/* ── BUTTONS ── */
-.add-row-btn {
-  font-family:var(--mono); font-size:0.62rem; color:var(--hint);
-  background:transparent; border:1px dashed var(--border2);
-  border-radius:6px; padding:5px 14px; cursor:pointer; width:100%;
-  text-align:left; margin-top:4px; transition:border-color .15s, color .15s;
-}
-.add-row-btn:hover { border-color:var(--muted); color:var(--muted); }
-.actions { display:flex; gap:8px; flex-wrap:wrap; margin-top:1.5rem; }
-.btn {
-  font-family:var(--mono); font-size:0.65rem; padding:7px 16px;
-  border-radius:6px; border:1px solid var(--border2);
-  background:transparent; color:var(--muted); cursor:pointer;
-  transition:background .15s, color .15s;
-}
-.btn:hover { background:var(--bg); color:var(--text); }
-.btn-primary { background:var(--text); color:var(--surface); border-color:var(--text); }
-.btn-primary:hover { opacity:.85; background:var(--text); color:var(--surface); }
-.btn-gh { background:var(--surface2); color:var(--blue); border-color:var(--blue-bg); }
-.btn-gh:hover { background:var(--blue-bg); }
-.btn-md { background: var(--purple-bg); color: var(--purple); border-color: var(--purple); }
-.btn-md:hover { background: var(--purple); color: var(--surface); }
+/* ── MARCOS ── */
+.marco-row { display:flex; gap:10px; padding:9px 0; border-bottom:1px solid var(--border); align-items:center; }
+.marco-row:last-child { border-bottom:none; }
+.marco-dot-wrap { display:flex; flex-direction:column; align-items:center; flex-shrink:0; }
+.marco-dot { width:10px; height:10px; border-radius:50%; background:var(--blue-mid); flex-shrink:0; }
+.marco-date { font-family:var(--mono); font-size:0.7rem; color:var(--muted); border:none; outline:none; background:transparent; width:110px; flex-shrink:0; }
+.marco-title { font-size:0.83rem; border:none; outline:none; background:transparent; font-family:var(--sans); flex:1; color:var(--text); }
+.marco-title::placeholder { color:var(--hint); }
+.marco-type { font-family:var(--mono); font-size:0.65rem; border:none; outline:none; background:transparent; color:var(--muted); cursor:pointer; width:110px; flex-shrink:0; }
 
 /* ── GITHUB PANEL ── */
 .gh-config {
@@ -281,11 +255,34 @@ select.field-value { cursor: pointer; }
   color:var(--hint); padding:0;
 }
 
+/* ── BUTTONS ── */
+.add-row-btn {
+  font-family:var(--mono); font-size:0.62rem; color:var(--hint);
+  background:transparent; border:1px dashed var(--border2);
+  border-radius:6px; padding:5px 14px; cursor:pointer; width:100%;
+  text-align:left; margin-top:4px; transition:border-color .15s, color .15s;
+}
+.add-row-btn:hover { border-color:var(--muted); color:var(--muted); }
+.actions { display:flex; gap:8px; flex-wrap:wrap; margin-top:1.5rem; }
+.btn {
+  font-family:var(--mono); font-size:0.65rem; padding:7px 16px;
+  border-radius:6px; border:1px solid var(--border2);
+  background:transparent; color:var(--muted); cursor:pointer;
+  transition:background .15s, color .15s;
+}
+.btn:hover { background:var(--bg); color:var(--text); }
+.btn-primary { background:var(--text); color:var(--surface); border-color:var(--text); }
+.btn-primary:hover { opacity:.85; background:var(--text); color:var(--surface); }
+.btn-gh { background:var(--surface2); color:var(--blue); border-color:var(--blue-bg); }
+.btn-gh:hover { background:var(--blue-bg); }
+.btn-md { background: var(--purple-bg); color: var(--purple); border-color: var(--purple); }
+.btn-md:hover { background: var(--purple); color: var(--surface); }
+
 @media(max-width:600px){
   .grid2,.grid3,.grid4,.gh-config-grid,.gh-filter-row{grid-template-columns:1fr;}
   .header{flex-direction:column;}
-  .ata-link{width:120px;}
   .gh-filter-row { grid-template-columns: 1fr 1fr; }
+  .marco-type { width:80px; }
 }
 </style>
 </head>
@@ -347,12 +344,14 @@ select.field-value { cursor: pointer; }
   <div class="section-title">Produtos (entregas)</div>
   <table class="etable"><thead><tr><th>#</th><th>Produto</th><th>Previsão</th><th>Status</th></tr></thead>
   <tbody id="body-produtos">
-    <tr><td>1</td><td><input type="text" placeholder="Descreva o produto"/></td>
+    <tr><td>1</span></td><td><input type="text" placeholder="Descreva o produto"/></td>
       <td><input class="prazo-input" type="text" placeholder="ex: jun/2025 ou A definir"/></td>
-      <td><select><option>—</option><option>Não iniciado</option><option>Em andamento</option><option>Concluído</option></select></td></tr>
-    <tr><td>2</td><td><input type="text" placeholder="Descreva o produto"/></td>
+      <td><select><option>—</option><option>Não iniciado</option><option>Em andamento</option><option>Concluído</option></select></td>
+    </tr>
+    <tr><td>2</span></td><td><input type="text" placeholder="Descreva o produto"/></td>
       <td><input class="prazo-input" type="text" placeholder="ex: jun/2025 ou A definir"/></td>
-      <td><select><option>—</option><option>Não iniciado</option><option>Em andamento</option><option>Concluído</option></select></td></tr>
+      <td><select><option>—</option><option>Não iniciado</option><option>Em andamento</option><option>Concluído</option></select></td>
+    </tr>
   </tbody></table>
   <button class="add-row-btn" onclick="addProduto()">+ adicionar produto</button>
 
@@ -360,20 +359,79 @@ select.field-value { cursor: pointer; }
   <div class="section-title">Ações</div>
   <table class="etable"><thead><tr><th>#</th><th>Ação</th><th>Responsável</th><th>Prazo</th></tr></thead>
   <tbody id="body-acoes">
-    <tr><td>1</td><td><input type="text" placeholder="Descreva a ação"/></td><td><input type="text" placeholder="Nome"/></td>
-      <td><input class="prazo-input" type="text" placeholder="ex: ago/2025 ou A definir"/></td></tr>
-    <tr><td>2</td><td><input type="text" placeholder="Descreva a ação"/></td><td><input type="text" placeholder="Nome"/></td>
-      <td><input class="prazo-input" type="text" placeholder="ex: ago/2025 ou A definir"/></td></tr>
+    <tr><td>1</span></td><td><input type="text" placeholder="Descreva a ação"/></td><td><input type="text" placeholder="Nome"/></td>
+      <td><input class="prazo-input" type="text" placeholder="ex: ago/2025 ou A definir"/></td>
+    </tr>
+    <tr><td>2</span></td><td><input type="text" placeholder="Descreva a ação"/></td><td><input type="text" placeholder="Nome"/></td>
+      <td><input class="prazo-input" type="text" placeholder="ex: ago/2025 ou A definir"/></td>
+    </tr>
   </tbody></table>
   <button class="add-row-btn" onclick="addAcao()">+ adicionar ação</button>
+
+  <hr>
+  <div class="section-title">Cronograma</div>
+  <table class="etable" id="table-cronograma">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Fase / Etapa</th>
+        <th>Responsável</th>
+        <th>Início</th>
+        <th>Fim</th>
+        <th>Status</th>
+        <th style="min-width:80px;">Progresso</th>
+      </tr>
+    </thead>
+    <tbody id="body-cronograma">
+      <tr>
+        <td>1</span></td>
+        <td><input type="text" placeholder="Nome da fase"/></td>
+        <td><input type="text" placeholder="Nome"/></td>
+        <td><input type="date" class="prazo-input" style="width:100%;font-size:0.75rem;"/></td>
+        <td><input type="date" class="prazo-input" style="width:100%;font-size:0.75rem;"/></td>
+        <td>
+          <select onchange="atualizarBarraCrono(this)">
+            <option value="">—</option>
+            <option value="nao_iniciado">Não iniciado</option>
+            <option value="em_andamento">Em andamento</option>
+            <option value="concluido">Concluído</option>
+            <option value="pausado">Pausado</option>
+            <option value="atrasado">Atrasado</option>
+          </select>
+        </span></td>
+        <td><div class="crono-bar-wrap"><div class="crono-bar-fill" style="width:0%"></div></div></td>
+      </tr>
+      <tr>
+        <td>2</span></td>
+        <td><input type="text" placeholder="Nome da fase"/></td>
+        <td><input type="text" placeholder="Nome"/></td>
+        <td><input type="date" class="prazo-input" style="width:100%;font-size:0.75rem;"/></td>
+        <td><input type="date" class="prazo-input" style="width:100%;font-size:0.75rem;"/></td>
+        <td>
+          <select onchange="atualizarBarraCrono(this)">
+            <option value="">—</option>
+            <option value="nao_iniciado">Não iniciado</option>
+            <option value="em_andamento">Em andamento</option>
+            <option value="concluido">Concluído</option>
+            <option value="pausado">Pausado</option>
+            <option value="atrasado">Atrasado</option>
+          </select>
+        </span></td>
+        <td><div class="crono-bar-wrap"><div class="crono-bar-fill" style="width:0%"></div></div></td>
+      </tr>
+    </tbody>
+  </table>
+  <button class="add-row-btn" onclick="addCronograma()">+ adicionar fase</button>
 
   <hr>
   <div class="section-title">Indicadores</div>
   <table class="etable"><thead><tr><th>Indicador</th><th>Linha base</th><th>Meta</th><th>Frequência</th></tr></thead>
   <tbody id="body-indicadores">
-    <tr><td><input type="text" placeholder="Nome do indicador"/></td><td><input type="text" placeholder="—"/></td>
+    <tr><td><input type="text" placeholder="Nome do indicador"/></td>
       <td><input type="text" placeholder="—"/></td>
-      <td><select><option>—</option><option>Semanal</option><option>Mensal</option><option>Trimestral</option><option>Anual</option></select></td></tr>
+      <td><input type="text" placeholder="—"/></td>
+      <td><select><option>—</option><option>Semanal</option><option>Mensal</option><option>Trimestral</option><option>Anual</option></select></td>
+    </tr>
   </tbody></table>
   <button class="add-row-btn" onclick="addIndicador()">+ adicionar indicador</button>
 
@@ -402,24 +460,56 @@ select.field-value { cursor: pointer; }
   <div class="section-title">Riscos</div>
   <table class="etable"><thead><tr><th>#</th><th>Risco</th><th>Probabilidade</th><th>Impacto</th><th>Mitigação</th></tr></thead>
   <tbody id="body-riscos">
-    <tr><td>1</td><td><input type="text" placeholder="Descreva o risco"/></td>
+    <tr><td>1</span></td><td><input type="text" placeholder="Descreva o risco"/></td>
       <td><select><option>—</option><option>Baixa</option><option>Média</option><option>Alta</option></select></td>
       <td><select><option>—</option><option>Baixo</option><option>Médio</option><option>Alto</option></select></td>
-      <td><input type="text" placeholder="Ação de mitigação"/></td></tr>
+      <td><input type="text" placeholder="Ação de mitigação"/></td>
+    </tr>
   </tbody></table>
   <button class="add-row-btn" onclick="addRisco()">+ adicionar risco</button>
 
   <hr>
   <div class="section-title">Atas de Reunião</div>
   <div id="atas-block">
-    <div class="ata-row">
-      <input class="ata-date" type="date" title="Data da reunião"/>
-      <input class="ata-title" type="text" placeholder="Título / pauta da reunião"/>
-      <input class="ata-link"  type="url"  placeholder="https://link-da-ata..."/>
-      <a class="ata-icon" href="#" onclick="abrirAta(this);return false;" title="Abrir ata">↗</a>
+    <div class="ata-row" style="display:flex;gap:8px;padding:7px 0;border-bottom:1px solid var(--border);align-items:center;">
+      <input style="font-family:var(--mono);font-size:0.7rem;color:var(--muted);border:none;outline:none;background:transparent;width:110px;flex-shrink:0;" type="date" title="Data da reunião"/>
+      <input style="font-size:0.83rem;border:none;outline:none;background:transparent;font-family:var(--sans);flex:1;color:var(--text);" type="text" placeholder="Título / pauta da reunião"/>
+      <input style="font-family:var(--mono);font-size:0.68rem;color:var(--blue-mid);border:none;outline:none;background:transparent;width:200px;flex-shrink:0;" type="url" placeholder="https://link-da-ata..."/>
+      <a style="font-size:0.9rem;opacity:.5;flex-shrink:0;text-decoration:none;cursor:pointer;" href="#" onclick="abrirAta(this);return false;" title="Abrir ata">↗</a>
     </div>
   </div>
   <button class="add-row-btn" onclick="addAta()">+ adicionar ata</button>
+
+  <hr>
+  <!-- ════ MARCOS DO PROJETO ════ -->
+  <div class="section-title">Marcos do Projeto</div>
+  <div id="marcos-block">
+    <div class="marco-row">
+      <div class="marco-dot" style="background:var(--blue-mid);"></div>
+      <input class="marco-date" type="date" title="Data do marco"/>
+      <input class="marco-title" type="text" placeholder="Título do marco (ex: Entrega do MVP, Publicação v1.0)"/>
+      <select class="marco-type">
+        <option value="marco">Marco</option>
+        <option value="entrega">Entrega</option>
+        <option value="reuniao">Reunião</option>
+        <option value="decisao">Decisão</option>
+        <option value="publicacao">Publicação</option>
+      </select>
+    </div>
+    <div class="marco-row">
+      <div class="marco-dot" style="background:var(--blue-mid);"></div>
+      <input class="marco-date" type="date" title="Data do marco"/>
+      <input class="marco-title" type="text" placeholder="Título do marco"/>
+      <select class="marco-type">
+        <option value="marco">Marco</option>
+        <option value="entrega">Entrega</option>
+        <option value="reuniao">Reunião</option>
+        <option value="decisao">Decisão</option>
+        <option value="publicacao">Publicação</option>
+      </select>
+    </div>
+  </div>
+  <button class="add-row-btn" onclick="addMarco()">+ adicionar marco</button>
 
   <hr>
   <div class="section-title">GitHub · PRs &amp; Issues</div>
@@ -484,26 +574,20 @@ select.field-value { cursor: pointer; }
   <div class="gh-empty" id="gh-empty">Nenhum item encontrado para os filtros selecionados.</div>
 
   <hr>
-  <div class="section-title">Últimas atualizações</div>
-  <div id="updates-block">
-    <div class="update-row">
-      <div class="avatar" contenteditable="true">??</div>
-      <div class="update-body">
-        <textarea class="update-text" placeholder="Descreva o que aconteceu no projeto..."></textarea>
-        <input class="update-meta" type="text" placeholder="Nome · DD mmm AAAA · via check-in / repositório"/>
-      </div>
-    </div>
+  
+  <!-- CAMPO: GANHOS ESPERADOS -->
+  <div style="margin-bottom:1.25rem;">
+    <div class="field-label">Ganhos Esperados</div>
+    <textarea class="field-value" style="min-height:72px;" placeholder="Descreva os ganhos quantitativos e qualitativos esperados com a entrega do projeto (ex: redução de custos, aumento de eficiência, melhorias para o cidadão, etc)."></textarea>
   </div>
-  <button class="add-row-btn" onclick="addUpdate()">+ adicionar atualização manual</button>
 
-  <hr>
   <div style="margin-bottom:1rem;"><div class="field-label">Observações</div>
     <textarea class="field-value" style="min-height:72px;" placeholder="Campo livre para exceções ou contextos atípicos."></textarea></div>
 
   <div class="actions">
     <button class="btn btn-primary" onclick="exportarHTML()">Salvar como HTML</button>
     <button class="btn" onclick="imprimirFicha()">Imprimir / PDF</button>
-    <button class="btn btn-md" onclick="gerarMarkdown()"> Gerar Markdown</button>
+    <button class="btn btn-md" onclick="gerarMarkdown()">Gerar Markdown</button>
     <button class="btn" onclick="limparFicha()">Limpar ficha</button>
   </div>
 </div>
@@ -533,16 +617,39 @@ function cycleRag(dot) {
 }
 
 // ════════════════════════════════════════════════════════
+//  CRONOGRAMA — barra de progresso por status
+// ════════════════════════════════════════════════════════
+const CRONO_STATUS_PROGRESS = {
+  '':            0,
+  'nao_iniciado': 0,
+  'em_andamento': 50,
+  'concluido':    100,
+  'pausado':      30,
+  'atrasado':     70
+};
+
+function atualizarBarraCrono(sel) {
+  const row  = sel.closest('tr');
+  const fill = row.querySelector('.crono-bar-fill');
+  const pct  = CRONO_STATUS_PROGRESS[sel.value] || 0;
+  fill.style.width = pct + '%';
+  fill.className = 'crono-bar-fill';
+  if (sel.value === 'concluido') fill.classList.add('concluido');
+  else if (sel.value === 'atrasado') fill.classList.add('atrasado');
+  else if (sel.value === 'pausado')  fill.classList.add('pausado');
+}
+
+// ════════════════════════════════════════════════════════
 //  ADICIONAR LINHAS
 // ════════════════════════════════════════════════════════
 function addProduto() {
   const tb = document.getElementById('body-produtos');
   const n  = tb.rows.length + 1;
   const tr = document.createElement('tr');
-  tr.innerHTML = `<tr><td>${n}</td>
+  tr.innerHTML = `<td>${n}</td>
     <td><input type="text" placeholder="Descreva o produto"/></td>
     <td><input class="prazo-input" type="text" placeholder="ex: jun/2025 ou A definir"/></td>
-    <td><select><option>—</option><option>Não iniciado</option><option>Em andamento</option><option>Concluído</option></select></td>`;n
+    <td><select><option>—</option><option>Não iniciado</option><option>Em andamento</option><option>Concluído</option></select></td>`;
   tb.appendChild(tr);
 }
 
@@ -554,6 +661,30 @@ function addAcao() {
     <td><input type="text" placeholder="Descreva a ação"/></td>
     <td><input type="text" placeholder="Nome"/></td>
     <td><input class="prazo-input" type="text" placeholder="ex: ago/2025 ou A definir"/></td>`;
+  tb.appendChild(tr);
+}
+
+function addCronograma() {
+  const tb = document.getElementById('body-cronograma');
+  const n  = tb.rows.length + 1;
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td>${n}</td>
+    <td><input type="text" placeholder="Nome da fase"/></td>
+    <td><input type="text" placeholder="Nome"/></td>
+    <td><input type="date" class="prazo-input" style="width:100%;font-size:0.75rem;"/></td>
+    <td><input type="date" class="prazo-input" style="width:100%;font-size:0.75rem;"/></td>
+    <td>
+      <select onchange="atualizarBarraCrono(this)">
+        <option value="">—</option>
+        <option value="nao_iniciado">Não iniciado</option>
+        <option value="em_andamento">Em andamento</option>
+        <option value="concluido">Concluído</option>
+        <option value="pausado">Pausado</option>
+        <option value="atrasado">Atrasado</option>
+      </select>
+    </td>
+    <td><div class="crono-bar-wrap"><div class="crono-bar-fill" style="width:0%"></div></div></td>`;
   tb.appendChild(tr);
 }
 
@@ -579,15 +710,21 @@ function addRisco() {
   tb.appendChild(tr);
 }
 
-function addUpdate() {
-  const b = document.getElementById('updates-block');
+function addMarco() {
+  const b = document.getElementById('marcos-block');
   const d = document.createElement('div');
-  d.className = 'update-row';
-  d.innerHTML = `<div class="avatar" contenteditable="true">??</div>
-    <div class="update-body">
-      <textarea class="update-text" placeholder="Descreva o que aconteceu..."></textarea>
-      <input class="update-meta" type="text" placeholder="Nome · DD mmm AAAA · via check-in / repositório"/>
-    </div>`;
+  d.className = 'marco-row';
+  d.innerHTML = `
+    <div class="marco-dot" style="background:var(--blue-mid);"></div>
+    <input class="marco-date" type="date" title="Data do marco"/>
+    <input class="marco-title" type="text" placeholder="Título do marco"/>
+    <select class="marco-type">
+      <option value="marco">Marco</option>
+      <option value="entrega">Entrega</option>
+      <option value="reuniao">Reunião</option>
+      <option value="decisao">Decisão</option>
+      <option value="publicacao">Publicação</option>
+    </select>`;
   b.appendChild(d);
 }
 
@@ -597,17 +734,17 @@ function addUpdate() {
 function addAta() {
   const b = document.getElementById('atas-block');
   const d = document.createElement('div');
-  d.className = 'ata-row';
+  d.style.cssText = 'display:flex;gap:8px;padding:7px 0;border-bottom:1px solid var(--border);align-items:center;';
   d.innerHTML = `
-    <input class="ata-date" type="date" title="Data da reunião"/>
-    <input class="ata-title" type="text" placeholder="Título / pauta da reunião"/>
-    <input class="ata-link"  type="url"  placeholder="https://link-da-ata..."/>
-    <a class="ata-icon" href="#" onclick="abrirAta(this);return false;" title="Abrir ata">↗</a>`;
+    <input style="font-family:var(--mono);font-size:0.7rem;color:var(--muted);border:none;outline:none;background:transparent;width:110px;flex-shrink:0;" type="date" title="Data da reunião"/>
+    <input style="font-size:0.83rem;border:none;outline:none;background:transparent;font-family:var(--sans);flex:1;color:var(--text);" type="text" placeholder="Título / pauta da reunião"/>
+    <input style="font-family:var(--mono);font-size:0.68rem;color:var(--blue-mid);border:none;outline:none;background:transparent;width:200px;flex-shrink:0;" type="url" placeholder="https://link-da-ata..."/>
+    <a style="font-size:0.9rem;opacity:.5;flex-shrink:0;text-decoration:none;cursor:pointer;" href="#" onclick="abrirAta(this);return false;" title="Abrir ata">↗</a>`;
   b.appendChild(d);
 }
 
 function abrirAta(el) {
-  const link = el.closest('.ata-row').querySelector('.ata-link').value.trim();
+  const link = el.closest('div').querySelector('input[type=url]').value.trim();
   if (link) window.open(link, '_blank');
 }
 
@@ -650,7 +787,7 @@ function togglePat() {
 // ════════════════════════════════════════════════════════
 //  ESTADO GLOBAL — itens brutos vindos da API
 // ════════════════════════════════════════════════════════
-let ghItemsRaw = [];   // todos os itens da API
+let ghItemsRaw = [];
 let ghTabAtual = 'open';
 
 // ════════════════════════════════════════════════════════
@@ -746,7 +883,6 @@ async function buscarGithub() {
       return;
     }
 
-    // filtrar pela coluna "Projetos" do board (sem filtrar por estado aqui)
     ghItemsRaw = proj.items.nodes.filter(item => {
       if (!item.content) return false;
       if (!filter)       return true;
@@ -763,7 +899,6 @@ async function buscarGithub() {
       'ok'
     );
 
-    // mostrar abas e renderizar
     document.getElementById('gh-tabs').style.display = 'flex';
     ghTabAtual = 'open';
     document.querySelectorAll('.gh-tab').forEach(t =>
@@ -777,7 +912,7 @@ async function buscarGithub() {
 }
 
 // ════════════════════════════════════════════════════════
-//  FILTROS — período + tipo + tab (open/closed/all)
+//  FILTROS — período + tipo + tab
 // ════════════════════════════════════════════════════════
 function mudarTab(btn) {
   ghTabAtual = btn.dataset.tab;
@@ -798,24 +933,16 @@ function aplicarFiltros() {
 
   let items = ghItemsRaw.filter(item => {
     const c = item.content;
-
-    // filtro de tipo
     if (typeFilter === 'pr'    && c.__typename !== 'PullRequest') return false;
     if (typeFilter === 'issue' && c.__typename !== 'Issue')       return false;
-
-    // filtro de estado (tab)
     if (ghTabAtual === 'open'   && c.state !== 'OPEN')   return false;
     if (ghTabAtual === 'closed' && c.state === 'OPEN')   return false;
-
-    // filtro de período — usa createdAt como referência
     const created = new Date(c.createdAt);
     if (dFrom && created < dFrom) return false;
     if (dTo   && created > dTo)   return false;
-
     return true;
   });
 
-  // atualiza contagem
   const open   = ghItemsRaw.filter(i => i.content?.state === 'OPEN').length;
   const closed = ghItemsRaw.filter(i => i.content?.state !== 'OPEN').length;
   document.getElementById('gh-count-label').textContent =
@@ -878,10 +1005,216 @@ function renderGhItems(items) {
 }
 
 // ════════════════════════════════════════════════════════
-//  GERAR MARKDOWN
+//  HELPERS PARA GERAR MARKDOWN
+// ════════════════════════════════════════════════════════
+function fmtDataMd(iso) {
+  if (!iso) return '—';
+  return new Date(iso).toLocaleDateString('pt-BR');
+}
+
+// Nomes dos meses em português
+const MESES_PT = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+
+// Formata data ISO → { ano, mesNum, mesNome, dia }
+function parseDateParts(isoOrDate) {
+  if (!isoOrDate) return null;
+  const d = new Date(isoOrDate);
+  if (isNaN(d)) return null;
+  const ano    = d.getUTCFullYear();
+  const mesNum = d.getUTCMonth();
+  const dia    = String(d.getUTCDate()).padStart(2,'0');
+  return { ano, mesNum, mesNome: MESES_PT[mesNum], dia };
+}
+
+// Sanitiza texto para não quebrar bloco mermaid (remove : que confundem o parser)
+function sanitizeMermaid(txt) {
+  return (txt || '').replace(/:/g, ' -').replace(/\n/g,' ').trim();
+}
+
+// ════════════════════════════════════════════════════════
+//  GERAR TIMELINE MERMAID A PARTIR DOS MARCOS
+// ════════════════════════════════════════════════════════
+function gerarTimelineMermaid() {
+  const marcos = [];
+  document.querySelectorAll('#marcos-block .marco-row').forEach(row => {
+    const dateVal  = row.querySelector('.marco-date')?.value || '';
+    const titleVal = row.querySelector('.marco-title')?.value?.trim() || '';
+    if (!dateVal || !titleVal) return;
+    const parts = parseDateParts(dateVal);
+    if (!parts) return;
+    marcos.push({ ...parts, title: titleVal });
+  });
+
+  if (!marcos.length) return null;
+
+  marcos.sort((a, b) => a.ano !== b.ano ? a.ano - b.ano : a.mesNum - b.mesNum);
+
+  const porAno = {};
+  marcos.forEach(m => {
+    if (!porAno[m.ano]) porAno[m.ano] = {};
+    const chave = m.mesNome;
+    if (!porAno[m.ano][chave]) porAno[m.ano][chave] = [];
+    porAno[m.ano][chave].push(m.title);
+  });
+
+  let lines = ['```mermaid', 'timeline'];
+  const titulo = document.querySelector('.project-title')?.value?.trim();
+  if (titulo) lines.push(`    title ${sanitizeMermaid(titulo)}`);
+
+  Object.keys(porAno).sort().forEach(ano => {
+    lines.push(`    section ${ano}`);
+    const mesesNoAno = porAno[ano];
+    const mesesOrdenados = Object.keys(mesesNoAno).sort((a, b) => {
+      return MESES_PT.indexOf(a) - MESES_PT.indexOf(b);
+    });
+    mesesOrdenados.forEach((mes, i) => {
+      const titulos = mesesNoAno[mes];
+      lines.push(`        ${mes} : ${sanitizeMermaid(titulos[0])}`);
+      titulos.slice(1).forEach(t => {
+        lines.push(`              : ${sanitizeMermaid(t)}`);
+      });
+    });
+  });
+
+  lines.push('```');
+  return lines.join('\n');
+}
+
+// ════════════════════════════════════════════════════════
+//  GERAR CRONOGRAMA GANTT EM MERMAID (NOVO!)
+//  Cria um gráfico de Gantt com todas as fases do cronograma
+// ════════════════════════════════════════════════════════
+function gerarGanttMermaid() {
+  const fases = [];
+  document.querySelectorAll('#body-cronograma tr').forEach(row => {
+    const inputs = row.querySelectorAll('input');
+    const sel    = row.querySelector('select');
+    const nome   = inputs[0]?.value?.trim() || '';
+    const inicio = inputs[2]?.value || '';
+    const fim    = inputs[3]?.value || '';
+    const status = sel?.value || '';
+    
+    if (!nome || !inicio || !fim) return;
+    
+    // Mapear status para seção no Gantt
+    let section = 'planejado';
+    if (status === 'concluido') section = 'concluído';
+    else if (status === 'em_andamento') section = 'em andamento';
+    else if (status === 'atrasado') section = 'atrasado';
+    else if (status === 'pausado') section = 'pausado';
+    
+    fases.push({ 
+      nome, 
+      inicio, 
+      fim, 
+      status: section,
+      rawStatus: status
+    });
+  });
+
+  if (!fases.length) return null;
+
+  // Encontrar data mínima e máxima para definir o eixo
+  let minDate = null, maxDate = null;
+  fases.forEach(f => {
+    const start = new Date(f.inicio);
+    const end = new Date(f.fim);
+    if (!minDate || start < minDate) minDate = start;
+    if (!maxDate || end > maxDate) maxDate = end;
+  });
+
+  if (!minDate || !maxDate) return null;
+
+  // Formatar datas para o formato aceito pelo Mermaid (YYYY-MM-DD)
+  const lines = ['```mermaid', 'gantt'];
+  const titulo = document.querySelector('.project-title')?.value?.trim();
+  if (titulo) lines.push(`    title ${sanitizeMermaid(titulo)} - Cronograma`);
+  lines.push(`    dateFormat YYYY-MM-DD`);
+  lines.push(`    axisFormat %b/%Y`);
+  lines.push(`    tickInterval 1month`);
+  lines.push(`    `);
+  
+  // Agrupar por status/section
+  const sections = {
+    'concluído': [],
+    'em andamento': [],
+    'planejado': [],
+    'atrasado': [],
+    'pausado': []
+  };
+  
+  fases.forEach(f => {
+    sections[f.status].push(f);
+  });
+  
+  // Adicionar cada seção
+  for (const [sectionName, faseList] of Object.entries(sections)) {
+    if (faseList.length === 0) continue;
+    
+    let sectionTitle = '';
+    switch(sectionName) {
+      case 'concluído': sectionTitle = '✅ Concluído'; break;
+      case 'em andamento': sectionTitle = '🔄 Em andamento'; break;
+      case 'planejado': sectionTitle = '📋 Planejado'; break;
+      case 'atrasado': sectionTitle = '⚠️ Atrasado'; break;
+      case 'pausado': sectionTitle = '⏸️ Pausado'; break;
+      default: sectionTitle = sectionName;
+    }
+    lines.push(`    section ${sectionTitle}`);
+    
+    faseList.forEach(f => {
+      // Calcular duração em dias
+      const start = new Date(f.inicio);
+      const end = new Date(f.fim);
+      const diffDays = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
+      
+      let statusMarker = '';
+      if (f.rawStatus === 'concluido') statusMarker = ', done';
+      else if (f.rawStatus === 'em_andamento') statusMarker = ', active';
+      else if (f.rawStatus === 'atrasado') statusMarker = ', crit';
+      
+      const nomeLimpo = sanitizeMermaid(f.nome).substring(0, 40);
+      lines.push(`    ${nomeLimpo} : ${statusMarker}, ${f.inicio}, ${diffDays}d`);
+    });
+    lines.push(`    `);
+  }
+  
+  lines.push('```');
+  return lines.join('\n');
+}
+
+// ════════════════════════════════════════════════════════
+//  GERAR CRONOGRAMA MARKDOWN (tabela Gantt-like)
+// ════════════════════════════════════════════════════════
+function gerarCronogramaGantt() {
+  const fases = [];
+  document.querySelectorAll('#body-cronograma tr').forEach(row => {
+    const inputs = row.querySelectorAll('input');
+    const sel    = row.querySelector('select');
+    const nome   = inputs[0]?.value?.trim() || '';
+    const resp   = inputs[1]?.value?.trim() || '';
+    const inicio = inputs[2]?.value || '';
+    const fim    = inputs[3]?.value || '';
+    const status = sel?.value || '';
+    if (!nome) return;
+    fases.push({ nome, resp, inicio, fim, status });
+  });
+  return fases;
+}
+
+// Mapeia status interno → rótulo legível
+function statusLabel(val) {
+  const map = {
+    '': '—', 'nao_iniciado':'Não iniciado', 'em_andamento':'Em andamento',
+    'concluido':'Concluído', 'pausado':'Pausado', 'atrasado':'Atrasado'
+  };
+  return map[val] || val;
+}
+
+// ════════════════════════════════════════════════════════
+//  GERAR MARKDOWN — FUNÇÃO PRINCIPAL
 // ════════════════════════════════════════════════════════
 function gerarMarkdown() {
-  // Função auxiliar segura para pegar valor
   function safeValue(selector, index = null) {
     try {
       if (index !== null) {
@@ -890,319 +1223,272 @@ function gerarMarkdown() {
       }
       const element = document.querySelector(selector);
       return element ? element.value || '' : '';
-    } catch(e) {
-      return '';
-    }
+    } catch(e) { return ''; }
   }
-  
-  // Função para formatar data do GitHub
-  function fmtDataMd(iso) {
-    if (!iso) return '—';
-    return new Date(iso).toLocaleDateString('pt-BR');
-  }
-  
-  // Mostrar feedback visual
+
   const btn = event.target;
   const textoOriginal = btn.textContent;
   btn.textContent = 'Gerando...';
   btn.disabled = true;
-  
+
   setTimeout(() => {
     try {
-      // Coletar todos os campos de forma segura
-      const titulo = safeValue('.project-title') || 'Sem titulo';
-      const subtitulo = safeValue('.project-sub');
-      const status = safeValue('.badge-status');
-      
-      // Responsaveis (primeiro input dentro de .grid2)
-      const responsaveis = document.querySelector('.grid2 .field-value:first-child')?.value || '';
-      
-      // Repositorio (segundo input dentro de .grid2)
-      const repositorio = document.querySelector('.grid2 .field-value:last-child')?.value || '';
-      
-      // Descricao (terceiro .field-value)
-      const descricao = document.querySelectorAll('.field-value')[2]?.value || '';
-      
-      // Classificacao
-      const natureza = document.querySelectorAll('.grid4 select')[0]?.value || '';
-      const impacto = document.querySelectorAll('.grid4 select')[1]?.value || '';
-      const complexidade = document.querySelectorAll('.grid4 select')[2]?.value || '';
-      const visibilidade = document.querySelectorAll('.grid4 select')[3]?.value || '';
-      
-      // Prazos
-      const inicio = document.querySelectorAll('.prazo-input')[0]?.value || '';
+      const titulo          = safeValue('.project-title') || 'Sem titulo';
+      const subtitulo       = safeValue('.project-sub');
+      const status          = safeValue('.badge-status');
+      const responsaveis    = document.querySelector('.grid2 .field-value:first-child')?.value || '';
+      const repositorio     = document.querySelector('.grid2 .field-value:last-child')?.value || '';
+      const descricao       = document.querySelectorAll('.field-value')[2]?.value || '';
+      const natureza        = document.querySelectorAll('.grid4 select')[0]?.value || '';
+      const impacto         = document.querySelectorAll('.grid4 select')[1]?.value || '';
+      const complexidade    = document.querySelectorAll('.grid4 select')[2]?.value || '';
+      const visibilidade    = document.querySelectorAll('.grid4 select')[3]?.value || '';
+      const inicio          = document.querySelectorAll('.prazo-input')[0]?.value || '';
       const previsaoTermino = document.querySelectorAll('.prazo-input')[1]?.value || '';
-      
-      // Diretrizes e objetivo
-      const diretrizes = document.querySelectorAll('.field-value')[3]?.value || '';
-      const objetivo = document.querySelectorAll('.field-value')[4]?.value || '';
-      
+      const diretrizes      = document.querySelectorAll('.field-value')[3]?.value || '';
+      const objetivo        = document.querySelectorAll('.field-value')[4]?.value || '';
+      const ganhosEsperados = document.querySelectorAll('.field-value')[5]?.value || '';
+
       // Produtos
       const produtos = [];
-      const produtosRows = document.querySelectorAll('#body-produtos tr');
-      produtosRows.forEach(row => {
+      document.querySelectorAll('#body-produtos tr').forEach(row => {
         const inputs = row.querySelectorAll('input, select');
-        if (inputs[0] && inputs[0].value) {
-          produtos.push({
-            nome: inputs[0].value || '',
-            previsao: inputs[1] ? inputs[1].value : '',
-            status: inputs[2] ? inputs[2].value : ''
-          });
-        }
+        if (inputs[0] && inputs[0].value)
+          produtos.push({ nome: inputs[0].value, previsao: inputs[1]?.value || '', status: inputs[2]?.value || '' });
       });
-      
-      // Acoes
+
+      // Ações
       const acoes = [];
-      const acoesRows = document.querySelectorAll('#body-acoes tr');
-      acoesRows.forEach(row => {
+      document.querySelectorAll('#body-acoes tr').forEach(row => {
         const inputs = row.querySelectorAll('input, select');
-        if (inputs[0] && inputs[0].value) {
-          acoes.push({
-            nome: inputs[0].value || '',
-            responsavel: inputs[1] ? inputs[1].value : '',
-            prazo: inputs[2] ? inputs[2].value : ''
-          });
-        }
+        if (inputs[0] && inputs[0].value)
+          acoes.push({ nome: inputs[0].value, responsavel: inputs[1]?.value || '', prazo: inputs[2]?.value || '' });
       });
-      
+
+      // Cronograma
+      const fasesCrono = gerarCronogramaGantt();
+
       // Indicadores
       const indicadores = [];
-      const indicadoresRows = document.querySelectorAll('#body-indicadores tr');
-      indicadoresRows.forEach(row => {
+      document.querySelectorAll('#body-indicadores tr').forEach(row => {
         const inputs = row.querySelectorAll('input, select');
-        if (inputs[0] && inputs[0].value) {
-          indicadores.push({
-            nome: inputs[0].value || '',
-            base: inputs[1] ? inputs[1].value : '',
-            meta: inputs[2] ? inputs[2].value : '',
-            frequencia: inputs[3] ? inputs[3].value : ''
-          });
-        }
+        if (inputs[0] && inputs[0].value)
+          indicadores.push({ nome: inputs[0].value, base: inputs[1]?.value || '', meta: inputs[2]?.value || '', frequencia: inputs[3]?.value || '' });
       });
-      
-      // RAG (com emojis das cores)
+
+      // RAG
       const rags = [];
-      const ragRows = document.querySelectorAll('.rag-row');
-      ragRows.forEach(row => {
+      document.querySelectorAll('.rag-row').forEach(row => {
         const label = row.querySelector('.rag-label')?.textContent || '';
-        const select = row.querySelector('.rag-select');
-        const obs = row.querySelector('.rag-obs')?.value || '';
-        let ragStatus = '';
-        if (select) {
-          const val = select.value;
-          if (val === 'green') ragStatus = '🟢 Verde';
-          else if (val === 'amber') ragStatus = '🟠 Ambar';
-          else if (val === 'red') ragStatus = '🔴 Vermelho';
-          else ragStatus = 'Nao definido';
+        const sel   = row.querySelector('.rag-select');
+        const obs   = row.querySelector('.rag-obs')?.value || '';
+        let ragStatus = 'Não definido';
+        if (sel) {
+          const val = sel.value;
+          if (val === 'green')  ragStatus = '🟢 Verde';
+          else if (val === 'amber') ragStatus = '🟠 Âmbar';
+          else if (val === 'red')   ragStatus = '🔴 Vermelho';
         }
-        if (label) {
-          rags.push({ label, status: ragStatus, obs });
-        }
+        if (label) rags.push({ label, status: ragStatus, obs });
       });
-      
+
       // Riscos
       const riscos = [];
-      const riscosRows = document.querySelectorAll('#body-riscos tr');
-      riscosRows.forEach(row => {
+      document.querySelectorAll('#body-riscos tr').forEach(row => {
         const inputs = row.querySelectorAll('input, select');
-        if (inputs[0] && inputs[0].value) {
-          riscos.push({
-            nome: inputs[0].value || '',
-            probabilidade: inputs[1] ? inputs[1].value : '',
-            impacto: inputs[2] ? inputs[2].value : '',
-            mitigacao: inputs[3] ? inputs[3].value : ''
-          });
-        }
+        if (inputs[0] && inputs[0].value)
+          riscos.push({ nome: inputs[0].value, probabilidade: inputs[1]?.value || '', impacto: inputs[2]?.value || '', mitigacao: inputs[3]?.value || '' });
       });
-      
+
       // Atas
       const atas = [];
-      const atasRows = document.querySelectorAll('.ata-row');
-      atasRows.forEach(row => {
-        const date = row.querySelector('.ata-date')?.value || '';
-        const title = row.querySelector('.ata-title')?.value || '';
-        const link = row.querySelector('.ata-link')?.value || '';
-        if (title || link) {
-          atas.push({ date, title, link });
-        }
+      document.querySelectorAll('#atas-block > div').forEach(row => {
+        const date  = row.querySelector('input[type=date]')?.value || '';
+        const title = row.querySelector('input[type=text]')?.value || '';
+        const link  = row.querySelector('input[type=url]')?.value || '';
+        if (title || link) atas.push({ date, title, link });
       });
-      
-      // Atualizacoes
-      const updates = [];
-      const updateRows = document.querySelectorAll('.update-row');
-      updateRows.forEach(row => {
-        const text = row.querySelector('.update-text')?.value || '';
-        const meta = row.querySelector('.update-meta')?.value || '';
-        if (text) {
-          updates.push({ text, meta });
-        }
+
+      // Marcos
+      const marcos = [];
+      document.querySelectorAll('#marcos-block .marco-row').forEach(row => {
+        const dateVal  = row.querySelector('.marco-date')?.value || '';
+        const titleVal = row.querySelector('.marco-title')?.value?.trim() || '';
+        const tipo     = row.querySelector('.marco-type')?.value || 'marco';
+        if (titleVal) marcos.push({ date: dateVal, title: titleVal, tipo });
       });
-      
-      // Observacoes finais
-      const observacoes = document.querySelectorAll('.field-value')[5]?.value || '';
-      
-      // Data atual para o rodape
-      const dataAtual = new Date().toLocaleDateString('pt-BR');
-      
-      // Construir Markdown
+
+      // Observações finais
+      const observacoes = document.querySelectorAll('.field-value')[6]?.value || '';
+      const dataAtual   = new Date().toLocaleDateString('pt-BR');
+
+      // ── BUILD MARKDOWN ──
       let md = `# ${titulo}\n\n`;
       if (subtitulo) md += `**${subtitulo}**\n\n`;
       md += `---\n\n`;
-      
-      // Cabecalho do projeto
-      md += `## Informacoes Gerais\n\n`;
-      md += `| Campo | Valor |\n`;
-      md += `|-------|-------|\n`;
+
+      md += `## Informações Gerais\n\n`;
+      md += `| Campo | Valor |\n|-------|-------|\n`;
       md += `| **Status** | ${status} |\n`;
-      md += `| **Responsaveis** | ${responsaveis || '—'} |\n`;
-      md += `| **Repositorio** | ${repositorio ? `[${repositorio}](${repositorio})` : '—'} |\n`;
-      md += `| **Descricao** | ${descricao || '—'} |\n\n`;
-      
-      // Classificacao
-      md += `## Classificacao\n\n`;
-      md += `| Natureza | Impacto | Complexidade | Visibilidade |\n`;
-      md += `|----------|---------|--------------|---------------|\n`;
+      md += `| **Responsáveis** | ${responsaveis || '—'} |\n`;
+      md += `| **Repositório** | ${repositorio ? `[${repositorio}](${repositorio})` : '—'} |\n`;
+      md += `| **Descrição** | ${descricao || '—'} |\n\n`;
+
+      md += `## Classificação\n\n`;
+      md += `| Natureza | Impacto | Complexidade | Visibilidade |\n|----------|---------|--------------|---------------|\n`;
       md += `| ${natureza || '—'} | ${impacto || '—'} | ${complexidade || '—'} | ${visibilidade || '—'} |\n\n`;
-      
-      // Prazos
+
       md += `## Prazos\n\n`;
-      md += `- **Inicio:** ${inicio || '—'}\n`;
-      md += `- **Previsao de termino:** ${previsaoTermino || '—'}\n\n`;
-      
-      // Diretrizes e objetivo
+      md += `- **Início:** ${inicio || '—'}\n`;
+      md += `- **Previsão de término:** ${previsaoTermino || '—'}\n\n`;
+
       if (diretrizes) md += `## Diretrizes\n\n${diretrizes}\n\n`;
-      if (objetivo) md += `## Objetivo\n\n${objetivo}\n\n`;
-      
-      // Produtos
+      if (objetivo)   md += `## Objetivo\n\n${objetivo}\n\n`;
+      if (ganhosEsperados) md += `## Ganhos Esperados\n\n${ganhosEsperados}\n\n`;
+
       if (produtos.length > 0) {
         md += `## Produtos / Entregas\n\n`;
-        md += `| No | Produto | Previsao | Status |\n`;
-        md += `|----|---------|----------|--------|\n`;
+        md += `| # | Produto | Previsão | Status |\n|----|---------|----------|--------|\n`;
         produtos.forEach((p, i) => {
           md += `| ${i+1} | ${p.nome} | ${p.previsao || '—'} | ${p.status || '—'} |\n`;
         });
         md += `\n`;
       }
-      
-      // Acoes
+
       if (acoes.length > 0) {
-        md += `## Acoes\n\n`;
-        md += `| No | Acao | Responsavel | Prazo |\n`;
-        md += `|----|------|-------------|-------|\n`;
+        md += `## Ações\n\n`;
+        md += `| # | Ação | Responsável | Prazo |\n|----|------|-------------|-------|\n`;
         acoes.forEach((a, i) => {
           md += `| ${i+1} | ${a.nome} | ${a.responsavel || '—'} | ${a.prazo || '—'} |\n`;
         });
         md += `\n`;
       }
-      
-      // Indicadores
+
+      // Cronograma como tabela
+      if (fasesCrono.length > 0) {
+        md += `## Cronograma\n\n`;
+        md += `### Detalhamento das fases\n\n`;
+        md += `| # | Fase / Etapa | Responsável | Início | Fim | Status |\n`;
+        md += `|----|-------------|-------------|--------|-----|--------|\n`;
+        fasesCrono.forEach((f, i) => {
+          const ini = f.inicio ? new Date(f.inicio).toLocaleDateString('pt-BR') : '—';
+          const fim = f.fim    ? new Date(f.fim).toLocaleDateString('pt-BR')    : '—';
+          md += `| ${i+1} | ${f.nome} | ${f.resp || '—'} | ${ini} | ${fim} | ${statusLabel(f.status)} |\n`;
+        });
+        md += `\n`;
+        
+        // Adicionar gráfico Gantt em Mermaid
+        const ganttChart = gerarGanttMermaid();
+        if (ganttChart) {
+          md += `### Visualização do Cronograma (Gantt)\n\n`;
+          md += `${ganttChart}\n\n`;
+          md += `> **Legenda:** ✅ Concluído | 🔄 Em andamento | 📋 Planejado | ⚠️ Atrasado | ⏸️ Pausado\n\n`;
+        }
+      }
+
       if (indicadores.length > 0) {
         md += `## Indicadores\n\n`;
-        md += `| Indicador | Linha base | Meta | Frequencia |\n`;
-        md += `|-----------|------------|------|-------------|\n`;
+        md += `| Indicador | Linha base | Meta | Frequência |\n|-----------|------------|------|-------------|\n`;
         indicadores.forEach(ind => {
           md += `| ${ind.nome} | ${ind.base || '—'} | ${ind.meta || '—'} | ${ind.frequencia || '—'} |\n`;
         });
         md += `\n`;
       }
-      
-      // RAG (com emojis das cores)
+
       if (rags.length > 0) {
         md += `## Status RAG\n\n`;
         rags.forEach(rag => {
           md += `- **${rag.label}:** ${rag.status}\n`;
-          if (rag.obs) md += `  - Observacao: ${rag.obs}\n`;
+          if (rag.obs) md += `  - Observação: ${rag.obs}\n`;
         });
         md += `\n`;
       }
-      
-      // Riscos
+
       if (riscos.length > 0) {
         md += `## Riscos\n\n`;
-        md += `| No | Risco | Probabilidade | Impacto | Mitigacao |\n`;
-        md += `|----|-------|---------------|---------|------------|\n`;
+        md += `| # | Risco | Probabilidade | Impacto | Mitigação |\n|----|-------|---------------|---------|------------|\n`;
         riscos.forEach((r, i) => {
           md += `| ${i+1} | ${r.nome} | ${r.probabilidade || '—'} | ${r.impacto || '—'} | ${r.mitigacao || '—'} |\n`;
         });
         md += `\n`;
       }
-      
-      // Atas
+
       if (atas.length > 0) {
-        md += `## Atas de Reuniao\n\n`;
+        md += `## Atas de Reunião\n\n`;
         atas.forEach(ata => {
-          if (ata.title) {
-            if (ata.link) md += `- **${ata.date || 'Data nao definida'}** — [${ata.title}](${ata.link})\n`;
-            else md += `- **${ata.date || 'Data nao definida'}** — ${ata.title}\n`;
-          } else if (ata.link) {
-            md += `- **${ata.date || 'Data nao definida'}** — [Ata](${ata.link})\n`;
-          }
+          const label = ata.title || 'Ata';
+          const data  = ata.date  || 'Data não definida';
+          if (ata.link) md += `- **${data}** — [${label}](${ata.link})\n`;
+          else          md += `- **${data}** — ${label}\n`;
         });
         md += `\n`;
       }
-      
-      // Atualizacoes
-      if (updates.length > 0) {
-        md += `## Ultimas Atualizacoes\n\n`;
-        updates.forEach(up => {
-          md += `> ${up.text}\n`;
-          if (up.meta) md += `> \n> *${up.meta}*\n\n`;
-          else md += `\n`;
+
+      // ── MARCOS + TIMELINE MERMAID ──
+      if (marcos.length > 0) {
+        md += `## Marcos do Projeto\n\n`;
+        marcos.forEach(m => {
+          const d = m.date ? new Date(m.date).toLocaleDateString('pt-BR') : '—';
+          md += `- **${d}** — ${m.title} *(${m.tipo})*\n`;
         });
+        md += `\n`;
+
+        const timeline = gerarTimelineMermaid();
+        if (timeline) {
+          md += `### Timeline de Marcos\n\n${timeline}\n\n`;
+        }
       }
-      
-      // Observacoes
-      if (observacoes) md += `## Observacoes\n\n${observacoes}\n\n`;
-      
-      // GitHub Items (PRs e Issues) - TODOS, apenas data e titulo
+
+      // ── GITHUB — PRs e Issues com links ──
       if (typeof ghItemsRaw !== 'undefined' && ghItemsRaw.length > 0) {
-        md += `## Contribuicoes GitHub\n\n`;
-        
-        // Separar PRs e Issues
-        const prs = ghItemsRaw.filter(item => item.content?.__typename === 'PullRequest');
+        md += `## Contribuições GitHub\n\n`;
+
+        const prs    = ghItemsRaw.filter(item => item.content?.__typename === 'PullRequest');
         const issues = ghItemsRaw.filter(item => item.content?.__typename === 'Issue');
-        
-        // PRs
+
         if (prs.length > 0) {
           md += `### Pull Requests\n\n`;
+          md += `| # | Título | Status | Data criação | Link |\n`;
+          md += `|---|--------|--------|--------------|------|\n`;
           prs.forEach(pr => {
-            const c = pr.content;
+            const c          = pr.content;
             const dataCriacao = fmtDataMd(c.createdAt);
-            md += `- ${dataCriacao} - PR #${c.number}: ${c.title}\n`;
+            const estado      = c.mergedAt ? 'Merged' : (c.state === 'OPEN' ? 'Aberto' : 'Fechado');
+            md += `| #${c.number} | ${c.title} | ${estado} | ${dataCriacao} | [Abrir](${c.url}) |\n`;
           });
           md += `\n`;
         }
-        
-        // Issues
+
         if (issues.length > 0) {
           md += `### Issues\n\n`;
+          md += `| # | Título | Status | Data criação | Link |\n`;
+          md += `|---|--------|--------|--------------|------|\n`;
           issues.forEach(issue => {
-            const c = issue.content;
+            const c           = issue.content;
             const dataCriacao = fmtDataMd(c.createdAt);
-            md += `- ${dataCriacao} - Issue #${c.number}: ${c.title}\n`;
+            const estado      = c.state === 'OPEN' ? 'Aberta' : 'Fechada';
+            md += `| #${c.number} | ${c.title} | ${estado} | ${dataCriacao} | [Abrir](${c.url}) |\n`;
           });
           md += `\n`;
         }
       }
-      
-      // Rodape simplificado
-      md += `---\n\n`;
-      md += `*Arquivo gerado automaticamente em ${dataAtual}*\n`;
-      
-      // Forcar download
+
+      if (observacoes) md += `## Observações\n\n${observacoes}\n\n`;
+
+      md += `---\n\n*Gerado automaticamente em ${dataAtual}*\n`;
+
+      // Download
       const blob = new Blob([md], { type: 'text/markdown;charset=utf-8' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      const nomeArquivo = (titulo.toLowerCase().replace(/\s+/g, '_') || 'projeto') + '.md';
-      a.href = url;
-      a.download = nomeArquivo;
-      document.body.appendChild(a);
-      a.click();
+      const url  = URL.createObjectURL(blob);
+      const a    = document.createElement('a');
+      const nome = (titulo.toLowerCase().replace(/\s+/g,'_') || 'projeto') + '.md';
+      a.href = url; a.download = nome;
+      document.body.appendChild(a); a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-      
-      alert(`Arquivo "${nomeArquivo}" gerado com sucesso!\n\nSalvo na pasta Downloads.\n\nLembre-se: salve-o na pasta projetos do seu repositorio, verifique as informacoes e faca commit/push manualmente.`);
-      
+
+      alert(`Arquivo "${nome}" gerado com sucesso!\n\nSalvo na pasta Downloads.\n\nLembre-se: salve-o na pasta projetos do seu repositório, verifique as informações e faça commit/push manualmente.`);
+
     } catch(error) {
       console.error('Erro detalhado:', error);
       alert('Erro ao gerar arquivo: ' + error.message);
@@ -1212,6 +1498,7 @@ function gerarMarkdown() {
     }
   }, 100);
 }
+
 // ════════════════════════════════════════════════════════
 //  EXPORTAR / IMPRIMIR / LIMPAR
 // ════════════════════════════════════════════════════════
@@ -1232,20 +1519,14 @@ function limparFicha() {
     .forEach(e => { e.value = ''; });
   document.querySelectorAll('select').forEach(e => e.selectedIndex = 0);
   document.querySelectorAll('.rag-dot').forEach(d => d.style.background = 'var(--hint)');
+  document.querySelectorAll('.crono-bar-fill').forEach(b => { b.style.width = '0%'; b.className = 'crono-bar-fill'; });
 
   ghItemsRaw = [];
   document.getElementById('gh-items').innerHTML = '';
   document.getElementById('gh-items-wrap').classList.add('empty');
   document.getElementById('gh-empty').classList.remove('visible');
   document.getElementById('gh-tabs').style.display = 'none';
-
   ghStatus('Configure os campos acima e clique em Buscar.', '');
-  
-}
-// Função para formatar data
-function fmtDataMd(iso) {
-  if (!iso) return '—';
-  return new Date(iso).toLocaleDateString('pt-BR');
 }
 
 // ════════════════════════════════════════════════════════

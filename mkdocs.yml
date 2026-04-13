@@ -13,12 +13,14 @@ theme:
 
 plugins:
   - blog
+  - search
+  - mermaid2
 
 nav:
   - Início: index.md
   - Projetos:
       - Ficha de Projeto: projetos/ficha_projeto.md
-      
+      - Projeto Hail Mary : projeto_hail_mary.md
 extra_css:
   - assets/ficha_override.css
 
