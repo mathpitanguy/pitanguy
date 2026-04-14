@@ -591,11 +591,30 @@ select.field-value { cursor: pointer; }
 // ════════════════════════════════════════════════════════
 //  [CORREÇÃO C4] Detectar HTTP inseguro
 // ════════════════════════════════════════════════════════
+let isHttpsSecure = true;
+
 (function checkHttps() {
   if (location.protocol === 'http:' && !['localhost','127.0.0.1'].includes(location.hostname)) {
+    isHttpsSecure = false;
     document.getElementById('gh-https-warn').classList.add('visible');
+
+    // Desabilita o botão de busca do GitHub
+    const buscarBtn = document.querySelector('.gh-filter-row .btn-gh');
+    if (buscarBtn) {
+      buscarBtn.disabled = true;
+      buscarBtn.style.opacity = '0.5';
+      buscarBtn.title = 'HTTPS necessário para segurança do token';
+    }
   }
 })();
+
+// Depois, na função buscarGithub(), adicione no início:
+async function buscarGithub() {
+  if (!isHttpsSecure) {
+    ghStatus('❌ Conexão insegura! Use HTTPS para enviar tokens.', 'error');
+    return;
+  }
+}
 
 // ════════════════════════════════════════════════════════
 //  [CORREÇÃO C3] Sanitização de HTML para prevenir XSS
