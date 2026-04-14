@@ -1196,14 +1196,20 @@ function gerarMarkdown() {
     function gerarGantt() {
       if (!fases.length) return '';
 
-      // [CORREÇÃO G2] clean remove todos os caracteres que quebram o parser Mermaid
-      // incluindo vírgula, que causava "flag vazio + vírgula" no parser
       const clean = (t) =>
         (t || '')
           .replace(/[:#()\/,;]/g, '-')
           .replace(/\s+/g, ' ')
           .trim()
           .substring(0, 60);
+
+      const diffDays = (a, b) => {
+        const d1 = new Date(a);
+        const d2 = new Date(b);
+        if (isNaN(d1) || isNaN(d2)) return 1;
+        const diff = Math.ceil((d2 - d1) / (1000 * 60 * 60 * 24));
+        return diff > 0 ? diff : 1;
+      };
 
       const statusMap = {
         concluido:    'done',
@@ -1214,46 +1220,21 @@ function gerarMarkdown() {
       let md = '```mermaid\ngantt\n';
       md += `    title ${clean(titulo)} - Cronograma\n`;
       md += `    dateFormat YYYY-MM-DD\n`;
-      md += `    axisFormat %d/%m/%Y\n\n`; // [CORREÇÃO G1] axisFormat obrigatório antes das sections
+      md += `    axisFormat %b/%Y\n\n`;   // ← mês abreviado + ano
 
-      const sections = {
-        'Concluido':     [],
-        'Em andamento':  [],
-        'Planejado':     [],
-        'Atrasado':      [],
-        'Pausado':       []
-      };
+      // Uma única section, cada fase vira um item individual
+      md += `    section Atividades\n`;
 
       fases.forEach(f => {
-        let sec = 'Planejado';
-        if (f.status === 'concluido')     sec = 'Concluido';
-        else if (f.status === 'em_andamento') sec = 'Em andamento';
-        else if (f.status === 'atrasado')     sec = 'Atrasado';
-        else if (f.status === 'pausado')      sec = 'Pausado';
+        const label = clean(f.nome);
+        const dur   = Math.max(diffDays(f.inicio, f.fim), 1);
+        const flag  = statusMap[f.status];
 
-        const dur = Math.max(diffDays(f.inicio, f.fim), 1);
-        // [CORREÇÃO G2] responsável REMOVIDO do label para evitar caracteres problemáticos
-        sections[sec].push({
-          label:  clean(f.nome),
-          start:  f.inicio,
-          dur,
-          status: f.status
-        });
-      });
-
-      Object.entries(sections).forEach(([sec, items]) => {
-        if (!items.length) return;
-        md += `    section ${sec}\n`;
-        items.forEach(i => {
-          const flag = statusMap[i.status];
-          // [CORREÇÃO G3] Nunca emite vírgula vazia — regra crítica do parser Mermaid
-          if (flag) {
-            md += `    ${i.label} : ${flag}, ${i.start}, ${i.dur}d\n`;
-          } else {
-            md += `    ${i.label} : ${i.start}, ${i.dur}d\n`;
-          }
-        });
-        md += '\n';
+        if (flag) {
+          md += `    ${label} : ${flag}, ${f.inicio}, ${dur}d\n`;
+        } else {
+          md += `    ${label} : ${f.inicio}, ${dur}d\n`;
+        }
       });
 
       md += '```\n\n';

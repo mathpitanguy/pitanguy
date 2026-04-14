@@ -4,7 +4,7 @@ site_url: https://mathpitanguy.github.io/pitanguy/
 theme:
   name: material
   palette:
-    scheme: slate
+    scheme: default
     primary: teal
     accent: green
   font:
@@ -21,6 +21,8 @@ nav:
   - Projetos:
       - Ficha de Projeto: projetos/ficha_projeto.md
       - Missão Artemis II: projetos/artemis_ii.md
+      - Dados Abertos MG: projetos/dados_abertos_mg.md
+      
 extra_css:
   - assets/ficha_override.css
 
