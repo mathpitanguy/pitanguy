@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ficha de Projeto</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --md-primary:      #3f51b5;
+  --md-primary-dk:   #303f9f;
+  --md-primary-lt:   #e8eaf6;
+  --md-accent:       #536dfe;
+  --md-bg:           #f5f5f5;
+  --md-surface:      #ffffff;
+  --md-surface2:     #fafafa;
+  --md-text:         #1a1a2e;
+  --md-text2:        #37474f;
+  --md-muted:        #6e7d8e;
+  --md-hint:         #b0bec5;
+  --md-border:       #e0e0e0;
+  --md-border2:      #cfd8dc;
+  --md-shadow:       0 2px 8px rgba(0,0,0,.08), 0 8px 24px rgba(0,0,0,.05);
+  --md-shadow-sm:    0 1px 3px rgba(0,0,0,.08);
+  --md-r:            10px;
+  --md-r-sm:         6px;
+  --mono: 'JetBrains Mono', monospace;
+  --sans: 'DM Sans', sans-serif;
+
+  --ad-note:        #448aff; --ad-note-bg:     #e3f2fd;
+  --ad-abstract:    #00b0ff; --ad-abstract-bg: #e1f5fe;
+  --ad-info:        #00b8d4; --ad-info-bg:     #e0f7fa;
+  --ad-tip:         #00bfa5; --ad-tip-bg:      #e0f2f1;
+  --ad-success:     #00c853; --ad-success-bg:  #e8f5e9;
+  --ad-warning:     #ff9100; --ad-warning-bg:  #fff3e0;
+  --ad-danger:      #ff5252; --ad-danger-bg:   #fce4ec;
+  --ad-example:     #7c4dff; --ad-example-bg:  #ede7f6;
+  --ad-quote:       #78909c; --ad-quote-bg:    #f8f9fa;
+}
+
+body {
+  font-family: var(--sans);
+  background: var(--md-bg);
+  color: var(--md-text);
+  padding: 1.5rem 1rem 5rem;
+  font-size: 14px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: -1;
+  background-image:
+    linear-gradient(rgba(63,81,181,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(63,81,181,.03) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+.page-wrap {
+  max-width: 920px;
+  margin: 0 auto;
+}
+
+/* ══ HEADER CARD ══ */
+.header-card {
+  background: linear-gradient(135deg, var(--md-primary-dk) 0%, var(--md-primary) 60%, #5c6bc0 100%);
+  border-radius: var(--md-r);
+  padding: 2rem 2rem 1.75rem;
+  margin-bottom: 1.25rem;
+  box-shadow: 0 4px 20px rgba(63,81,181,.3), 0 1px 4px rgba(0,0,0,.1);
+  position: relative;
+  overflow: hidden;
+}
+.header-card::before {
+  content: '';
+  position: absolute; top: -60px; right: -60px;
+  width: 220px; height: 220px;
+  background: rgba(255,255,255,.06);
+  border-radius: 50%;
+}
+.header-card::after {
+  content: '';
+  position: absolute; bottom: -30px; left: -30px;
+  width: 130px; height: 130px;
+  background: rgba(255,255,255,.04);
+  border-radius: 50%;
+}
+
+.project-title {
+  font-size: 1.55rem; font-weight: 700; letter-spacing: -.01em;
+  background: transparent; border: none; outline: none;
+  color: #fff; width: 100%; font-family: var(--sans);
+  margin-bottom: 5px; position: relative; z-index: 1;
+}
+.project-title::placeholder { color: rgba(255,255,255,.4); font-weight: 300; }
+
+.project-sub {
+  font-family: var(--mono); font-size: 0.7rem; letter-spacing: .04em;
+  background: transparent; border: none; outline: none;
+  color: rgba(255,255,255,.65); width: 100%; position: relative; z-index: 1;
+}
+.project-sub::placeholder { color: rgba(255,255,255,.35); }
+
+.header-meta {
+  display: grid;
+  grid-template-columns: auto 1fr 1fr;
+  gap: 1rem; margin-top: 1.5rem; align-items: start;
+  position: relative; z-index: 1;
+}
+
+.badge-status {
+  font-family: var(--mono); font-size: 0.62rem; font-weight: 600;
+  padding: 6px 18px; border-radius: 20px; letter-spacing: .05em;
+  background: rgba(255,255,255,.18); color: #fff;
+  border: 1.5px solid rgba(255,255,255,.35);
+  cursor: pointer; appearance: none; text-align: center;
+  -webkit-appearance: none;
+}
+.badge-status option { background: var(--md-primary-dk); }
+
+.hfield { }
+.hfield-label {
+  font-family: var(--mono); font-size: 0.58rem; font-weight: 600;
+  color: rgba(255,255,255,.55); text-transform: uppercase; letter-spacing: .1em;
+  margin-bottom: 4px; display: block;
+}
+.hfield input {
+  background: transparent; border: none;
+  border-bottom: 1px solid rgba(255,255,255,.25);
+  outline: none; color: #fff;
+  font-family: var(--sans); font-size: 0.86rem; font-weight: 400;
+  width: 100%; padding-bottom: 3px;
+  transition: border-color .2s;
+}
+.hfield input:focus { border-color: rgba(255,255,255,.7); }
+.hfield input::placeholder { color: rgba(255,255,255,.35); }
+
+/* ══ ADMONITIONS ══ */
+details.adm {
+  border-radius: var(--md-r);
+  margin-bottom: 1rem;
+  box-shadow: var(--md-shadow-sm);
+  overflow: hidden;
+  background: var(--md-surface);
+  border: 1px solid var(--md-border);
+  transition: box-shadow .2s;
+}
+details.adm[open] { box-shadow: var(--md-shadow); }
+
+details.adm > summary {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 11px 16px;
+  font-family: var(--sans);
+  font-size: 0.8rem; font-weight: 700;
+  letter-spacing: .015em;
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+  color: #fff;
+  position: relative;
+}
+details.adm > summary::-webkit-details-marker { display: none; }
+
+.adm-icon { font-size: 1rem; flex-shrink: 0; line-height: 1; }
+
+.adm-chevron {
+  margin-left: auto;
+  font-size: 0.7rem;
+  transition: transform .22s cubic-bezier(.4,0,.2,1);
+  opacity: .85;
+}
+details.adm[open] > summary .adm-chevron {
+  transform: rotate(180deg);
+}
+
+.adm-body {
+  padding: 1.25rem 1.5rem 1.25rem;
+  background: var(--md-surface);
+  border-top: 1px solid rgba(0,0,0,.06);
+}
+
+.adm-note    > summary { background: var(--ad-note); }
+.adm-abstract> summary { background: var(--ad-abstract); }
+.adm-info    > summary { background: var(--ad-info); }
+.adm-tip     > summary { background: var(--ad-tip); }
+.adm-success > summary { background: var(--ad-success); }
+.adm-warning > summary { background: var(--ad-warning); }
+.adm-danger  > summary { background: var(--ad-danger); }
+.adm-example > summary { background: var(--ad-example); }
+.adm-quote   > summary { background: var(--ad-quote); }
+
+.adm-note    .adm-body { border-left: 4px solid var(--ad-note); }
+.adm-abstract .adm-body { border-left: 4px solid var(--ad-abstract); }
+.adm-info    .adm-body { border-left: 4px solid var(--ad-info); }
+.adm-tip     .adm-body { border-left: 4px solid var(--ad-tip); }
+.adm-success .adm-body { border-left: 4px solid var(--ad-success); }
+.adm-warning .adm-body { border-left: 4px solid var(--ad-warning); }
+.adm-danger  .adm-body { border-left: 4px solid var(--ad-danger); }
+.adm-example .adm-body { border-left: 4px solid var(--ad-example); }
+.adm-quote   .adm-body { border-left: 4px solid var(--ad-quote); }
+
+/* ══ FIELDS ══ */
+.field-label {
+  font-family: var(--mono); font-size: 0.6rem; font-weight: 600;
+  color: var(--md-muted); text-transform: uppercase; letter-spacing: .1em;
+  margin-bottom: 5px; display: block;
+}
+.field-input {
+  width: 100%; border: none; border-bottom: 1px solid var(--md-border);
+  outline: none; background: transparent; font-family: var(--sans);
+  font-size: 0.85rem; color: var(--md-text); padding: 4px 0;
+  transition: border-color .2s;
+}
+.field-input:focus { border-color: var(--md-primary); }
+.field-input::placeholder { color: var(--md-hint); }
+textarea.field-input { resize: vertical; min-height: 72px; line-height: 1.75; }
+.field-group { margin-bottom: 1rem; }
+
+/* ══ LINK PILL ══ */
+.link-pill {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--md-primary-lt);
+  border: 1px solid rgba(63,81,181,.2);
+  border-radius: 8px; padding: 9px 14px;
+  transition: border-color .2s, box-shadow .2s;
+}
+.link-pill:focus-within {
+  border-color: var(--md-primary);
+  box-shadow: 0 0 0 3px rgba(63,81,181,.12);
+}
+.link-pill-icon { font-size: 1rem; flex-shrink: 0; }
+.link-pill input {
+  flex: 1; border: none; outline: none; background: transparent;
+  font-family: var(--mono); font-size: 0.75rem; color: var(--md-primary);
+  min-width: 0;
+}
+.link-pill input::placeholder { color: rgba(63,81,181,.38); }
+.link-open {
+  color: var(--md-primary); opacity: .55; text-decoration: none;
+  font-size: 1rem; flex-shrink: 0; transition: opacity .15s;
+  display: flex; align-items: center;
+}
+.link-open:hover { opacity: 1; }
+
+/* ══ TABLES ══ */
+.etable { width: 100%; border-collapse: collapse; font-size: 0.83rem; }
+.etable th {
+  font-family: var(--mono); font-size: 0.58rem; font-weight: 600;
+  color: var(--md-muted); text-transform: uppercase; letter-spacing: .08em;
+  text-align: left; padding: 9px 10px;
+  border-bottom: 2px solid var(--md-border);
+  background: var(--md-surface2);
+}
+.etable td {
+  padding: 8px 10px; border-bottom: 1px solid var(--md-border);
+  vertical-align: middle;
+}
+.etable tr:last-child td { border-bottom: none; }
+.etable tr:hover td { background: #f9f9ff; }
+.etable td input, .etable td select {
+  width: 100%; border: none; outline: none; background: transparent;
+  font-family: var(--sans); font-size: 0.83rem; color: var(--md-text); cursor: auto;
+}
+.etable td select { cursor: pointer; }
+.etable td input::placeholder { color: var(--md-hint); }
+
+/* ══ MARCOS ══ */
+.marco-row {
+  display: flex; gap: 10px; padding: 10px 0;
+  border-bottom: 1px solid var(--md-border); align-items: center;
+}
+.marco-row:last-child { border-bottom: none; }
+.marco-dot {
+  width: 11px; height: 11px; border-radius: 50%;
+  background: var(--md-primary); flex-shrink: 0;
+  box-shadow: 0 0 0 3px rgba(63,81,181,.18);
+}
+.marco-date {
+  font-family: var(--mono); font-size: 0.71rem; color: var(--md-muted);
+  border: none; outline: none; background: transparent; width: 120px; flex-shrink: 0;
+}
+.marco-title {
+  font-size: 0.85rem; border: none; outline: none; background: transparent;
+  font-family: var(--sans); flex: 1; color: var(--md-text);
+}
+.marco-title::placeholder { color: var(--md-hint); }
+.marco-type {
+  font-family: var(--mono); font-size: 0.66rem; border: none; outline: none;
+  background: transparent; color: var(--md-muted); cursor: pointer; width: 110px; flex-shrink: 0;
+}
+
+/* ══ ADD ROW ══ */
+.add-btn {
+  font-family: var(--mono); font-size: 0.63rem; font-weight: 500;
+  color: var(--md-muted); background: transparent;
+  border: 1px dashed var(--md-border2);
+  border-radius: var(--md-r-sm); padding: 6px 14px;
+  cursor: pointer; width: 100%; text-align: left; margin-top: 8px;
+  transition: border-color .18s, color .18s, background .18s;
+}
+.add-btn:hover {
+  border-color: var(--md-primary); color: var(--md-primary);
+  background: var(--md-primary-lt);
+}
+
+/* ══ ACTIONS BAR ══ */
+.actions-bar {
+  display: flex; gap: 10px; flex-wrap: wrap;
+  margin-top: 1.25rem;
+  background: var(--md-surface);
+  border: 1px solid var(--md-border);
+  border-radius: var(--md-r);
+  padding: 1rem 1.5rem;
+  box-shadow: var(--md-shadow-sm);
+  align-items: center;
+}
+.btn {
+  font-family: var(--mono); font-size: 0.65rem; font-weight: 500;
+  padding: 8px 18px; border-radius: var(--md-r-sm);
+  border: 1px solid var(--md-border); background: transparent;
+  color: var(--md-muted); cursor: pointer; letter-spacing: .02em;
+  transition: all .16s; display: flex; align-items: center; gap: 6px;
+}
+.btn:hover { background: var(--md-bg); color: var(--md-text); border-color: var(--md-border2); }
+.btn-primary { background: var(--md-primary); color: #fff; border-color: var(--md-primary); }
+.btn-primary:hover { background: var(--md-primary-dk); color: #fff; border-color: var(--md-primary-dk); }
+.btn-purple { background: #ede7f6; color: #5e35b1; border-color: #b39ddb; }
+.btn-purple:hover { background: #5e35b1; color: #fff; border-color: #5e35b1; }
+.btn-ghost { color: var(--ad-danger); }
+.btn-ghost:hover { background: var(--ad-danger-bg); border-color: var(--ad-danger); color: var(--ad-danger); }
+
+/* ══ PRINT ══ */
+@media print {
+  body { background: white; padding: 0; }
+  body::before { display: none; }
+  details.adm { box-shadow: none; border: 1px solid #ddd; }
+  details.adm[open] { break-inside: avoid; }
+  .actions-bar { display: none; }
+  .add-btn { display: none; }
+}
+
+@media (max-width: 600px) {
+  .header-meta { grid-template-columns: 1fr; }
+  .adm-body { padding: 1rem; }
+  .marco-type { display: none; }
+}
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <!-- ══ HEADER ══ -->
+  <div class="header-card">
+    <input class="project-title" id="inp-title" type="text" placeholder="Título do projeto" />
+    <input class="project-sub"   id="inp-sub"   type="text" placeholder="SIGLA-ANO · Unidade responsável" />
+    <div class="header-meta">
+      <select class="badge-status" id="inp-status">
+        <option>Em execução</option>
+        <option>Iniciação</option>
+        <option>Concluído</option>
+        <option>Pausado</option>
+        <option>Cancelado</option>
+      </select>
+      <div class="hfield">
+        <label class="hfield-label">Responsáveis</label>
+        <input id="inp-resp" type="text" placeholder="Nome · Nome" />
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ DESCRIÇÃO ══ -->
+  <details class="adm adm-abstract" open>
+    <summary>
+      <span class="adm-icon">📋</span>
+      Descrição
+      <span class="adm-chevron">▼</span>
+    </summary>
+    <div class="adm-body">
+      <textarea id="inp-desc" class="field-input" placeholder="Descreva em 2–4 frases o que é o projeto, qual problema resolve e para quem."></textarea>
+    </div>
+  </details>
+
+  <!-- ══ DIRETRIZES ══ -->
+  <details class="adm adm-note" open>
+    <summary>
+      <span class="adm-icon">📌</span>
+      Diretrizes
+      <span class="adm-chevron">▼</span>
+    </summary>
+    <div class="adm-body">
+      <textarea id="inp-dir" class="field-input" placeholder="Liste as diretrizes institucionais, normativas ou estratégicas que orientam o projeto."></textarea>
+    </div>
+  </details>
+
+  <!-- ══ OBJETIVO ══ -->
+  <details class="adm adm-tip" open>
+    <summary>
+      <span class="adm-icon">🎯</span>
+      Objetivo
+      <span class="adm-chevron">▼</span>
+    </summary>
+    <div class="adm-body">
+      <textarea id="inp-obj" class="field-input" placeholder="Declare o objetivo geral em uma frase clara e mensurável."></textarea>
+    </div>
+  </details>
+
+  <!-- ══ GESTÃO À VISTA ══ -->
+  <details class="adm adm-info" open>
+    <summary>
+      <span class="adm-icon">📊</span>
+      Gestão à Vista
+      <span class="adm-chevron">▼</span>
+    </summary>
+    <div class="adm-body">
+      <label class="field-label">Painel do projeto — GitHub Projects da organização</label>
+      <div class="link-pill" style="margin-top:6px;">
+        <span class="link-pill-icon">🔗</span>
+        <input type="url" id="gav-link"
+               placeholder="https://github.com/orgs/org/projects/N"
+               oninput="syncLink('gav-link','gav-open')" />
+        <a class="link-open" id="gav-open" href="#" target="_blank" rel="noopener noreferrer" title="Abrir painel">
+          ↗
+        </a>
+      </div>
+    </div>
+  </details>
+
+  <!-- ══ CRONOGRAMA — apenas link ══ -->
+  <details class="adm adm-example" open>
+    <summary>
+      <span class="adm-icon">📅</span>
+      Cronograma
+      <span class="adm-chevron">▼</span>
+    </summary>
+    <div class="adm-body">
+      <label class="field-label">Roadmap no Gestão à Vista</label>
+      <div class="link-pill" style="margin-top:6px;">
+        <span class="link-pill-icon">🗺️</span>
+        <input type="url" id="roadmap-link"
+               placeholder="https://github.com/orgs/org/projects/N/views/..."
+               oninput="syncLink('roadmap-link','roadmap-open')" />
+        <a class="link-open" id="roadmap-open" href="#" target="_blank" rel="noopener noreferrer" title="Abrir roadmap">
+          ↗
+        </a>
+      </div>
+    </div>
+  </details>
+
+  <!-- ══ INDICADORES ══ -->
+  <details class="adm adm-success" open>
+    <summary>
+      <span class="adm-icon">📈</span>
+      Indicadores
+      <span class="adm-chevron">▼</span>
+    </summary>
+    <div class="adm-body">
+      <table class="etable">
+        <thead>
+          <tr>
+            <th>Indicador</th>
+            <th>Linha base</th>
+            <th>Meta</th>
+            <th>Frequência</th>
+          </tr>
+        </thead>
+        <tbody id="body-indicadores">
+          <tr>
+            <td><input type="text" placeholder="Nome do indicador" /></td>
+            <td><input type="text" placeholder="—" /></td>
+            <td><input type="text" placeholder="—" /></td>
+            <td>
+              <select>
+                <option>—</option>
+                <option>Semanal</option>
+                <option>Mensal</option>
+                <option>Trimestral</option>
+                <option>Anual</option>
+              </select>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <button class="add-btn" onclick="addIndicador()">+ adicionar indicador</button>
+    </div>
+  </details>
+
+  <!-- ══ RISCOS ══ -->
+  <details class="adm adm-warning" open>
+    <summary>
+      <span class="adm-icon">⚠️</span>
+      Riscos
+      <span class="adm-chevron">▼</span>
+    </summary>
+    <div class="adm-body">
+      <table class="etable">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Risco</th>
+            <th>Probabilidade</th>
+            <th>Impacto</th>
+            <th>Mitigação</th>
+          </tr>
+        </thead>
+        <tbody id="body-riscos">
+          <tr>
+            <td>1</td>
+            <td><input type="text" placeholder="Descreva o risco" /></td>
+            <td>
+              <select>
+                <option>—</option>
+                <option>Baixa</option>
+                <option>Média</option>
+                <option>Alta</option>
+              </select>
+            </td>
+            <td>
+              <select>
+                <option>—</option>
+                <option>Baixo</option>
+                <option>Médio</option>
+                <option>Alto</option>
+              </select>
+            </td>
+            <td><input type="text" placeholder="Ação de mitigação" /></td>
+          </tr>
+        </tbody>
+      </table>
+      <button class="add-btn" onclick="addRisco()">+ adicionar risco</button>
+    </div>
+  </details>
+
+  <!-- ══ ATAS DE REUNIÃO ══ -->
+  <details class="adm adm-note" open>
+    <summary>
+      <span class="adm-icon">📝</span>
+      Atas de Reunião
+      <span class="adm-chevron">▼</span>
+    </summary>
+    <div class="adm-body">
+      <label class="field-label">Gestão à Vista — painel de atas e reuniões</label>
+      <div class="link-pill" style="margin-top:6px;">
+        <span class="link-pill-icon">🗂️</span>
+        <input type="url" id="atas-link"
+               placeholder="https://github.com/orgs/org/projects/N/views/..."
+               oninput="syncLink('atas-link','atas-open')" />
+        <a class="link-open" id="atas-open" href="#" target="_blank" rel="noopener noreferrer" title="Abrir painel de atas">
+          ↗
+        </a>
+      </div>
+    </div>
+  </details>
+
+  <!-- ══ LINHA DO TEMPO (Marcos) ══ -->
+  <details class="adm adm-info" open>
+    <summary>
+      <span class="adm-icon">🚩</span>
+      Linha do Tempo
+      <span class="adm-chevron">▼</span>
+    </summary>
+    <div class="adm-body">
+      <div id="marcos-block">
+        <div class="marco-row">
+          <div class="marco-dot"></div>
+          <input class="marco-date" type="date" title="Data do marco" />
+          <input class="marco-title" type="text" placeholder="Título do marco (ex: Entrega do MVP, Publicação v1.0)" />
+          <select class="marco-type">
+            <option value="marco">Marco</option>
+            <option value="entrega">Entrega</option>
+            <option value="reuniao">Reunião</option>
+            <option value="decisao">Decisão</option>
+            <option value="publicacao">Publicação</option>
+          </select>
+        </div>
+        <div class="marco-row">
+          <div class="marco-dot"></div>
+          <input class="marco-date" type="date" title="Data do marco" />
+          <input class="marco-title" type="text" placeholder="Título do marco" />
+          <select class="marco-type">
+            <option value="marco">Marco</option>
+            <option value="entrega">Entrega</option>
+            <option value="reuniao">Reunião</option>
+            <option value="decisao">Decisão</option>
+            <option value="publicacao">Publicação</option>
+          </select>
+        </div>
+      </div>
+      <button class="add-btn" onclick="addMarco()">+ adicionar marco</button>
+    </div>
+  </details>
+
+  <!-- ══ GANHOS ESPERADOS ══ -->
+  <details class="adm adm-success" open>
+    <summary>
+      <span class="adm-icon">✨</span>
+      Ganhos Esperados
+      <span class="adm-chevron">▼</span>
+    </summary>
+    <div class="adm-body">
+      <textarea id="inp-ganhos" class="field-input" style="min-height:80px;"
+        placeholder="Descreva os ganhos quantitativos e qualitativos esperados com a entrega do projeto."></textarea>
+    </div>
+  </details>
+
+  <!-- ══ OBSERVAÇÕES ══ -->
+  <details class="adm adm-quote" open>
+    <summary>
+      <span class="adm-icon">💬</span>
+      Observações
+      <span class="adm-chevron">▼</span>
+    </summary>
+    <div class="adm-body">
+      <textarea id="inp-obs" class="field-input" style="min-height:70px;"
+        placeholder="Campo livre para exceções ou contextos atípicos."></textarea>
+    </div>
+  </details>
+
+  <!-- ══ ACTIONS ══ -->
+  <div class="actions-bar">
+    <button class="btn btn-primary" onclick="exportarHTML()">💾 Salvar como HTML</button>
+    <button class="btn" onclick="window.print()">🖨 Imprimir / PDF</button>
+    <button class="btn btn-purple" onclick="gerarMarkdown()">📄 Gerar Markdown</button>
+    <button class="btn btn-ghost" style="margin-left:auto;" onclick="limparFicha()">🗑 Limpar ficha</button>
+  </div>
+
+</div><!-- /page-wrap -->
+
+<script>
+'use strict';
+
+// ════════════════════════════════════════════
+//  LINK SYNC
+// ════════════════════════════════════════════
+function syncLink(inputId, anchorId) {
+  const val = document.getElementById(inputId).value.trim();
+  const a   = document.getElementById(anchorId);
+  a.href    = val || '#';
+}
+
+// ════════════════════════════════════════════
+//  ADD ROWS
+// ════════════════════════════════════════════
+function addIndicador() {
+  const tb = document.getElementById('body-indicadores');
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td><input type="text" placeholder="Nome do indicador"/></td>
+    <td><input type="text" placeholder="—"/></td>
+    <td><input type="text" placeholder="—"/></td>
+    <td><select>
+      <option>—</option><option>Semanal</option>
+      <option>Mensal</option><option>Trimestral</option><option>Anual</option>
+    </select></td>`;
+  tb.appendChild(tr);
+}
+
+function addRisco() {
+  const tb = document.getElementById('body-riscos');
+  const n  = tb.rows.length + 1;
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td>${n}</td>
+    <td><input type="text" placeholder="Descreva o risco"/></td>
+    <td><select><option>—</option><option>Baixa</option><option>Média</option><option>Alta</option></select></td>
+    <td><select><option>—</option><option>Baixo</option><option>Médio</option><option>Alto</option></select></td>
+    <td><input type="text" placeholder="Ação de mitigação"/></td>`;
+  tb.appendChild(tr);
+}
+
+function addMarco() {
+  const b = document.getElementById('marcos-block');
+  const d = document.createElement('div');
+  d.className = 'marco-row';
+  d.innerHTML = `
+    <div class="marco-dot"></div>
+    <input class="marco-date" type="date" title="Data do marco"/>
+    <input class="marco-title" type="text" placeholder="Título do marco"/>
+    <select class="marco-type">
+      <option value="marco">Marco</option>
+      <option value="entrega">Entrega</option>
+      <option value="reuniao">Reunião</option>
+      <option value="decisao">Decisão</option>
+      <option value="publicacao">Publicação</option>
+    </select>`;
+  b.appendChild(d);
+}
+
+// ════════════════════════════════════════════
+//  HELPERS
+// ════════════════════════════════════════════
+const MESES_PT = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho',
+                  'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+
+function fmtBr(iso) {
+  if (!iso) return '—';
+  const d = new Date(iso + 'T12:00:00');
+  return isNaN(d) ? iso : d.toLocaleDateString('pt-BR');
+}
+
+function cleanMermaid(t) {
+  return (t || '').replace(/[:#()\/,;]/g,'-').replace(/\s+/g,' ').trim().substring(0,60);
+}
+
+// ════════════════════════════════════════════
+//  MARKDOWN GENERATION
+// ════════════════════════════════════════════
+function gerarMarkdown() {
+  try {
+    const titulo    = document.getElementById('inp-title').value.trim() || 'Projeto sem título';
+    const sub       = document.getElementById('inp-sub').value.trim();
+    const status    = document.getElementById('inp-status').value;
+    const resp      = document.getElementById('inp-resp').value.trim();
+    const desc      = document.getElementById('inp-desc').value.trim();
+    const dir       = document.getElementById('inp-dir').value.trim();
+    const obj       = document.getElementById('inp-obj').value.trim();
+    const ganhos    = document.getElementById('inp-ganhos').value.trim();
+    const obs       = document.getElementById('inp-obs').value.trim();
+    const gavLink   = document.getElementById('gav-link').value.trim();
+    const rdmLink   = document.getElementById('roadmap-link').value.trim();
+    const atasLink  = document.getElementById('atas-link').value.trim();
+
+    // Indicadores
+    const indicadores = [];
+    document.querySelectorAll('#body-indicadores tr').forEach(row => {
+      const c = row.querySelectorAll('input, select');
+      if (!c[0]?.value) return;
+      indicadores.push({ nome: c[0].value, base: c[1]?.value||'—', meta: c[2]?.value||'—', freq: c[3]?.value||'—' });
+    });
+
+    // Riscos
+    const riscos = [];
+    document.querySelectorAll('#body-riscos tr').forEach(row => {
+      const c = row.querySelectorAll('input, select');
+      if (!c[0]?.value) return;
+      riscos.push({ nome: c[0].value, prob: c[1]?.value||'—', imp: c[2]?.value||'—', mit: c[3]?.value||'—' });
+    });
+
+    // Marcos (Linha do Tempo)
+    const marcos = [];
+    document.querySelectorAll('#marcos-block .marco-row').forEach(row => {
+      const date  = row.querySelector('.marco-date')?.value;
+      const title = row.querySelector('.marco-title')?.value?.trim();
+      const type  = row.querySelector('.marco-type')?.value || 'marco';
+      if (date && title) marcos.push({ date, title, type });
+    });
+
+    // ──────────────────────────────────────────────
+    //  Mermaid timeline agrupado por "Mês Ano"
+    // ──────────────────────────────────────────────
+    function timelineAdmonition() {
+      if (!marcos.length) return '';
+
+      const mapa = {}; 
+      marcos.forEach(m => {
+        const d = new Date(m.date + 'T12:00:00');
+        if (isNaN(d)) return;
+        const key = `${MESES_PT[d.getMonth()]} ${d.getFullYear()}`;
+        if (!mapa[key]) mapa[key] = [];
+        mapa[key].push({ date: m.date, title: m.title });
+      });
+
+      const sortedKeys = Object.keys(mapa).sort((a, b) => {
+        const parseKey = k => {
+          const [mes, ano] = k.split(' ');
+          return new Date(`${ano}-${MESES_PT.indexOf(mes)+1}-01`);
+        };
+        return parseKey(a) - parseKey(b);
+      });
+
+      let inner = '    ```mermaid\n';
+      inner += '    timeline\n';
+      inner += `        title Linha do Tempo — ${titulo}\n`;
+
+      sortedKeys.forEach(key => {
+        inner += `        section ${key}\n`;
+        mapa[key].forEach((ev, i) => {
+          const label = cleanMermaid(ev.title);
+          if (i === 0) {
+            inner += `            ${fmtBr(ev.date)} : ${label}\n`;
+          } else {
+            inner += `                       : ${label}\n`;
+          }
+        });
+      });
+
+      inner += '    ```\n';
+
+      let block = `??? info "Linha do Tempo — ${titulo}"\n\n`;
+      block += inner;
+      block += '\n';
+      return block;
+    }
+
+    // ──────────────────────────────────────────────
+    //  Helpers para admonitions no MD
+    // ──────────────────────────────────────────────
+    function adm(type, title, content, collapsible = false) {
+      const marker = collapsible ? '???' : '!!!';
+      let block = `${marker} ${type} "${title}"\n\n`;
+      block += content.split('\n').map(l => l ? '    ' + l : '').join('\n');
+      block += '\n\n';
+      return block;
+    }
+
+    // ──────────────────────────────────────────────
+    //  Montagem do MD
+    // ──────────────────────────────────────────────
+    let md = `# ${titulo}\n\n`;
+    if (sub) md += `> **${sub}**\n\n`;
+    md += `---\n\n`;
+
+    // Informações gerais — Cards de Status e Responsáveis
+    let cards = `<div class="grid cards" markdown>\n\n`;
+    cards += `-   📊 **Status**\n\n    ---\n\n    \`${status}\`\n\n`;
+    cards += `-   👥 **Responsáveis**\n\n    ---\n\n    ${resp || '—'}\n\n`;
+    cards += `</div>\n\n`;
+    md += cards;
+
+    // Descrição
+    if (desc) md += adm('abstract', 'Descrição', desc);
+
+    // Diretrizes
+    if (dir) md += adm('info', 'Diretrizes', dir);
+
+    // Objetivo
+    if (obj) md += adm('tip', 'Objetivo', obj);
+
+    // Gestão à Vista
+    if (gavLink) {
+      md += adm('info', 'Projeto no GitHub',
+        `Acesse o Painel Gestão à Vista para acompanhar as tarefas e o quadro Kanban do projeto:\n\n[ 📌 Acessar Painel ](${gavLink}){ .md-button }`, true);
+    }
+
+    // Cronograma
+    if (rdmLink) {
+      md += adm('abstract', 'Cronograma',
+        `Acompanhe as entregas e prazos detalhados:\n\n[ 📅 Ver roadmap completo ](${rdmLink}){ .md-button }`, true);
+    }
+
+    // Indicadores
+    if (indicadores.length) {
+      let tbl = `| Indicador | Linha base | Meta | Frequência |\n`;
+      tbl    += `| --- | --- | --- | --- |\n`;
+      indicadores.forEach(i => {
+        tbl += `| ${i.nome} | ${i.base} | ${i.meta} | ${i.freq} |\n`;
+      });
+      md += adm('success', 'Indicadores', tbl);
+    }
+
+    // Riscos
+    if (riscos.length) {
+      let tbl = `| Risco | Probabilidade | Impacto | Mitigação |\n`;
+      tbl    += `| --- | --- | --- | --- |\n`;
+      riscos.forEach(r => {
+        tbl += `| ${r.nome} | ${r.prob} | ${r.imp} | ${r.mit} |\n`;
+      });
+      md += adm('warning', 'Riscos', tbl);
+    }
+
+    // Atas de Reunião — Atualizado para formato de botão com descrição
+    if (atasLink) {
+      md += adm('note', 'Atas de Reunião',
+        `Consulte o histórico de registros e decisões tomadas nas reuniões do projeto:\n\n[ 📝 Ver atas no Gestão à Vista ](${atasLink}){ .md-button }`, true);
+    }
+
+    // Linha do Tempo
+    if (marcos.length) {
+      md += `## Linha do Tempo\n\n`;
+      md += timelineAdmonition();
+    }
+
+    // Ganhos
+    if (ganhos) md += adm('success', 'Ganhos Esperados', ganhos);
+
+    // Observações
+    if (obs) md += adm('quote', 'Observações', obs);
+
+    md += `---\n\n_Gerado em ${new Date().toLocaleDateString('pt-BR')}_\n`;
+
+    // Download
+    const a    = document.createElement('a');
+    a.href     = URL.createObjectURL(new Blob([md], { type:'text/markdown' }));
+    a.download = titulo.replace(/\s+/g,'_').toLowerCase().replace(/[^a-z0-9_]/g,'') + '.md';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    URL.revokeObjectURL(a.href);
+
+  } catch(e) {
+    alert('Erro ao gerar Markdown: ' + e.message);
+    console.error(e);
+  }
+}
+
+// ════════════════════════════════════════════
+//  EXPORT HTML
+// ════════════════════════════════════════════
+function exportarHTML() {
+  const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+  const titulo = document.getElementById('inp-title').value || 'ficha_projeto';
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([html], { type:'text/html' }));
+  a.download = titulo.toLowerCase().replace(/\s+/g,'_').replace(/[^a-z0-9_]/g,'') + '.html';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+}
+
+// ════════════════════════════════════════════
+//  CLEAR
+// ════════════════════════════════════════════
+function limparFicha() {
+  if (!confirm('Limpar todos os campos da ficha?')) return;
+  document.querySelectorAll('input[type=text],input[type=url],input[type=date],textarea')
+    .forEach(e => e.value = '');
+  document.querySelectorAll('select').forEach(e => e.selectedIndex = 0);
+  ['gav-open','roadmap-open','atas-open'].forEach(id => {
+    document.getElementById(id).href = '#';
+  });
+}
+</script>
+</body>
+</html>
