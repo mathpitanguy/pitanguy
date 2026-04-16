@@ -4,732 +4,658 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ficha de Projeto</title>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
 :root {
-  --bg:        #F4F3EF;
-  --surface:   #FFFFFF;
-  --surface2:  #F9F8F5;
-  --border:    #E2DFD8;
-  --border2:   #D0CCC3;
-  --text:      #181714;
-  --muted:     #6A6760;
-  --hint:      #A9A59D;
-  --green:     #2E6B0A;
-  --green-bg:  #EAF4E3;
-  --amber:     #7A4800;
-  --amber-bg:  #FFF3DC;
-  --red:       #9B2121;
-  --red-bg:    #FDEAEA;
-  --blue:      #0B3F72;
-  --blue-bg:   #E4EFF9;
-  --blue-mid:  #1A6BB5;
-  --purple:    #5B2D8E;
-  --purple-bg: #F0E8FA;
-  --r:         10px;
-  --mono: 'IBM Plex Mono', monospace;
-  --sans: 'IBM Plex Sans', sans-serif;
-  --shadow: 0 1px 3px rgba(0,0,0,.06), 0 4px 16px rgba(0,0,0,.04);
+  --md-primary:      #3f51b5;
+  --md-primary-dk:   #303f9f;
+  --md-primary-lt:   #e8eaf6;
+  --md-accent:       #536dfe;
+  --md-bg:           #f5f5f5;
+  --md-surface:      #ffffff;
+  --md-surface2:     #fafafa;
+  --md-text:         #1a1a2e;
+  --md-text2:        #37474f;
+  --md-muted:        #6e7d8e;
+  --md-hint:         #b0bec5;
+  --md-border:       #e0e0e0;
+  --md-border2:      #cfd8dc;
+  --md-shadow:       0 2px 8px rgba(0,0,0,.08), 0 8px 24px rgba(0,0,0,.05);
+  --md-shadow-sm:    0 1px 3px rgba(0,0,0,.08);
+  --md-r:            10px;
+  --md-r-sm:         6px;
+  --mono: 'JetBrains Mono', monospace;
+  --sans: 'DM Sans', sans-serif;
+
+  --ad-note:        #448aff; --ad-note-bg:     #e3f2fd;
+  --ad-abstract:    #00b0ff; --ad-abstract-bg: #e1f5fe;
+  --ad-info:        #00b8d4; --ad-info-bg:     #e0f7fa;
+  --ad-tip:         #00bfa5; --ad-tip-bg:      #e0f2f1;
+  --ad-success:     #00c853; --ad-success-bg:  #e8f5e9;
+  --ad-warning:     #ff9100; --ad-warning-bg:  #fff3e0;
+  --ad-danger:      #ff5252; --ad-danger-bg:   #fce4ec;
+  --ad-example:     #7c4dff; --ad-example-bg:  #ede7f6;
+  --ad-quote:       #78909c; --ad-quote-bg:    #f8f9fa;
 }
 
 body {
   font-family: var(--sans);
-  background: var(--bg);
-  color: var(--text);
-  padding: 1.5rem 1rem 4rem;
+  background: var(--md-bg);
+  color: var(--md-text);
+  padding: 1.5rem 1rem 5rem;
   font-size: 14px;
-  line-height: 1.5;
+  line-height: 1.6;
+  min-height: 100vh;
 }
 
-.card {
-  max-width: 860px;
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: -1;
+  background-image:
+    linear-gradient(rgba(63,81,181,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(63,81,181,.03) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+.page-wrap {
+  max-width: 920px;
   margin: 0 auto;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--r);
-  padding: 2rem 2rem 1.5rem;
-  box-shadow: var(--shadow);
-  max-height: 92vh;
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: var(--border2) transparent;
 }
-.card::-webkit-scrollbar { width: 6px; }
-.card::-webkit-scrollbar-track { background: transparent; }
-.card::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
 
-.header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:1.5rem; gap:1rem; }
-.header-left { flex:1; }
+/* ══ HEADER CARD ══ */
+.header-card {
+  background: linear-gradient(135deg, var(--md-primary-dk) 0%, var(--md-primary) 60%, #5c6bc0 100%);
+  border-radius: var(--md-r);
+  padding: 2rem 2rem 1.75rem;
+  margin-bottom: 1.25rem;
+  box-shadow: 0 4px 20px rgba(63,81,181,.3), 0 1px 4px rgba(0,0,0,.1);
+  position: relative;
+  overflow: hidden;
+}
+.header-card::before {
+  content: '';
+  position: absolute; top: -60px; right: -60px;
+  width: 220px; height: 220px;
+  background: rgba(255,255,255,.06);
+  border-radius: 50%;
+}
+.header-card::after {
+  content: '';
+  position: absolute; bottom: -30px; left: -30px;
+  width: 130px; height: 130px;
+  background: rgba(255,255,255,.04);
+  border-radius: 50%;
+}
+
 .project-title {
-  font-size: 1.15rem; font-weight: 600;
-  border: none; outline: none; width: 100%;
-  background: transparent; font-family: var(--sans);
-  margin-bottom: 4px; color: var(--text);
+  font-size: 1.55rem; font-weight: 700; letter-spacing: -.01em;
+  background: transparent; border: none; outline: none;
+  color: #fff; width: 100%; font-family: var(--sans);
+  margin-bottom: 5px; position: relative; z-index: 1;
 }
-.project-title::placeholder { color: var(--hint); font-weight: 300; }
+.project-title::placeholder { color: rgba(255,255,255,.4); font-weight: 300; }
+
 .project-sub {
-  font-family: var(--mono); font-size: 0.68rem; color: var(--hint);
-  border: none; outline: none; background: transparent; width: 100%;
+  font-family: var(--mono); font-size: 0.7rem; letter-spacing: .04em;
+  background: transparent; border: none; outline: none;
+  color: rgba(255,255,255,.65); width: 100%; position: relative; z-index: 1;
 }
-.project-sub::placeholder { color: var(--hint); }
+.project-sub::placeholder { color: rgba(255,255,255,.35); }
+
+.header-meta {
+  display: grid;
+  grid-template-columns: auto 1fr 1fr;
+  gap: 1rem; margin-top: 1.5rem; align-items: start;
+  position: relative; z-index: 1;
+}
+
 .badge-status {
   font-family: var(--mono); font-size: 0.62rem; font-weight: 600;
-  padding: 5px 14px; border-radius: 20px; border: none; cursor: pointer;
-  background: var(--blue-bg); color: var(--blue); letter-spacing: .03em;
+  padding: 6px 18px; border-radius: 20px; letter-spacing: .05em;
+  background: rgba(255,255,255,.18); color: #fff;
+  border: 1.5px solid rgba(255,255,255,.35);
+  cursor: pointer; appearance: none; text-align: center;
+  -webkit-appearance: none;
+}
+.badge-status option { background: var(--md-primary-dk); }
+
+.hfield { }
+.hfield-label {
+  font-family: var(--mono); font-size: 0.58rem; font-weight: 600;
+  color: rgba(255,255,255,.55); text-transform: uppercase; letter-spacing: .1em;
+  margin-bottom: 4px; display: block;
+}
+.hfield input {
+  background: transparent; border: none;
+  border-bottom: 1px solid rgba(255,255,255,.25);
+  outline: none; color: #fff;
+  font-family: var(--sans); font-size: 0.86rem; font-weight: 400;
+  width: 100%; padding-bottom: 3px;
+  transition: border-color .2s;
+}
+.hfield input:focus { border-color: rgba(255,255,255,.7); }
+.hfield input::placeholder { color: rgba(255,255,255,.35); }
+
+/* ══ ADMONITIONS ══ */
+details.adm {
+  border-radius: var(--md-r);
+  margin-bottom: 1rem;
+  box-shadow: var(--md-shadow-sm);
+  overflow: hidden;
+  background: var(--md-surface);
+  border: 1px solid var(--md-border);
+  transition: box-shadow .2s;
+}
+details.adm[open] { box-shadow: var(--md-shadow); }
+
+details.adm > summary {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 11px 16px;
+  font-family: var(--sans);
+  font-size: 0.8rem; font-weight: 700;
+  letter-spacing: .015em;
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+  color: #fff;
+  position: relative;
+}
+details.adm > summary::-webkit-details-marker { display: none; }
+
+.adm-icon { font-size: 1rem; flex-shrink: 0; line-height: 1; }
+
+.adm-chevron {
+  margin-left: auto;
+  font-size: 0.7rem;
+  transition: transform .22s cubic-bezier(.4,0,.2,1);
+  opacity: .85;
+}
+details.adm[open] > summary .adm-chevron {
+  transform: rotate(180deg);
 }
 
-hr { border: none; border-top: 1px solid var(--border); margin: 1.4rem 0; }
-.section-title {
-  font-family: var(--mono); font-size: 0.6rem; font-weight: 600;
-  color: #000000; text-transform: uppercase; letter-spacing: 0.1em;
-  margin-bottom: 0.9rem; display: flex; align-items: center; gap: 8px;
+.adm-body {
+  padding: 1.25rem 1.5rem 1.25rem;
+  background: var(--md-surface);
+  border-top: 1px solid rgba(0,0,0,.06);
 }
-.section-title::after { content:''; flex:1; height:1px; background:var(--border); }
 
+.adm-note    > summary { background: var(--ad-note); }
+.adm-abstract> summary { background: var(--ad-abstract); }
+.adm-info    > summary { background: var(--ad-info); }
+.adm-tip     > summary { background: var(--ad-tip); }
+.adm-success > summary { background: var(--ad-success); }
+.adm-warning > summary { background: var(--ad-warning); }
+.adm-danger  > summary { background: var(--ad-danger); }
+.adm-example > summary { background: var(--ad-example); }
+.adm-quote   > summary { background: var(--ad-quote); }
+
+.adm-note    .adm-body { border-left: 4px solid var(--ad-note); }
+.adm-abstract .adm-body { border-left: 4px solid var(--ad-abstract); }
+.adm-info    .adm-body { border-left: 4px solid var(--ad-info); }
+.adm-tip     .adm-body { border-left: 4px solid var(--ad-tip); }
+.adm-success .adm-body { border-left: 4px solid var(--ad-success); }
+.adm-warning .adm-body { border-left: 4px solid var(--ad-warning); }
+.adm-danger  .adm-body { border-left: 4px solid var(--ad-danger); }
+.adm-example .adm-body { border-left: 4px solid var(--ad-example); }
+.adm-quote   .adm-body { border-left: 4px solid var(--ad-quote); }
+
+/* ══ FIELDS ══ */
 .field-label {
-  font-family: var(--mono); font-size: 0.58rem; font-weight: 600;
-  color: var(--hint); text-transform: uppercase; letter-spacing: 0.08em;
-  margin-bottom: 4px;
-}
-.field-value {
-  font-size: 0.84rem; color: var(--text);
-  border: none; outline: none; background: transparent;
-  font-family: var(--sans); width: 100%;
-}
-.field-value::placeholder { color: var(--hint); }
-textarea.field-value { resize: vertical; min-height: 58px; line-height: 1.65; }
-select.field-value { cursor: pointer; }
-
-.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.25rem; }
-.grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem; }
-.grid4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem; }
-
-.prazo-input {
-  font-family: var(--mono); font-size: 0.8rem; color: var(--text);
-  border: none; outline: none; background: transparent; width: 100%;
-}
-.prazo-input::placeholder { color: var(--hint); }
-
-.rag-row { display:flex; align-items:flex-start; gap:10px; padding:8px 0; border-bottom:1px solid var(--border); }
-.rag-row:last-child { border-bottom: none; }
-.rag-dot { width:10px; height:10px; border-radius:50%; margin-top:3px; flex-shrink:0; cursor:pointer; transition: transform .15s; }
-.rag-dot:hover { transform: scale(1.3); }
-.rag-label { font-family:var(--mono); font-size:0.7rem; font-weight:600; color:var(--text); width:110px; flex-shrink:0; padding-top:1px; }
-.rag-select { font-family:var(--mono); font-size:0.65rem; border:none; outline:none; background:transparent; color:var(--muted); cursor:pointer; width:90px; flex-shrink:0; }
-.rag-obs { font-size:0.82rem; color:var(--muted); border:none; outline:none; background:transparent; font-family:var(--sans); flex:1; }
-.rag-obs::placeholder { color:var(--hint); }
-
-.etable { width:100%; border-collapse:collapse; font-size:0.82rem; margin-bottom:.5rem; }
-.etable th { font-family:var(--mono); font-size:0.58rem; font-weight:600; color:var(--hint); text-transform:uppercase; letter-spacing:0.07em; text-align:left; padding:6px 8px; border-bottom:2px solid var(--border); }
-.etable td { padding:5px 8px; border-bottom:1px solid var(--border); vertical-align:middle; }
-.etable tr:last-child td { border-bottom:none; }
-.etable td input, .etable td select { width:100%; border:none; outline:none; background:transparent; font-family:var(--sans); font-size:0.82rem; color:var(--text); }
-.etable td input::placeholder { color:var(--hint); }
-
-.crono-bar-wrap { position:relative; height:6px; background:var(--border); border-radius:3px; min-width:60px; width:100%; }
-.crono-bar-fill { height:6px; border-radius:3px; background:var(--blue-mid); transition: width .3s; }
-.crono-bar-fill.concluido { background:var(--green); }
-.crono-bar-fill.atrasado  { background:var(--red); }
-.crono-bar-fill.pausado   { background:var(--amber); }
-
-.marco-row { display:flex; gap:10px; padding:9px 0; border-bottom:1px solid var(--border); align-items:center; }
-.marco-row:last-child { border-bottom:none; }
-.marco-dot { width:10px; height:10px; border-radius:50%; background:var(--blue-mid); flex-shrink:0; }
-.marco-date { font-family:var(--mono); font-size:0.7rem; color:var(--muted); border:none; outline:none; background:transparent; width:110px; flex-shrink:0; }
-.marco-title { font-size:0.83rem; border:none; outline:none; background:transparent; font-family:var(--sans); flex:1; color:var(--text); }
-.marco-title::placeholder { color:var(--hint); }
-.marco-type { font-family:var(--mono); font-size:0.65rem; border:none; outline:none; background:transparent; color:var(--muted); cursor:pointer; width:110px; flex-shrink:0; }
-
-.gh-config {
-  background: var(--surface2); border: 1px solid var(--border);
-  border-radius: 8px; padding: 1rem; margin-bottom: 1rem;
-}
-.gh-config-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:.75rem; margin-bottom:.75rem; }
-.gh-field input, .gh-field select {
-  font-family:var(--mono); font-size:0.75rem; color:var(--text);
-  border:1px solid var(--border); outline:none; background:var(--surface);
-  width:100%; padding:6px 10px; border-radius:6px;
-  transition: border-color .15s;
-}
-.gh-field input:focus, .gh-field select:focus { border-color:var(--blue-mid); }
-.gh-field input::placeholder { color:var(--hint); }
-.gh-field label { font-family:var(--mono); font-size:0.58rem; color:var(--hint); text-transform:uppercase; letter-spacing:.07em; display:block; margin-bottom:4px; }
-
-.gh-filter-row {
-  display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: .75rem;
-  align-items: flex-end; margin-bottom: .75rem;
-}
-.gh-filter-row .gh-field { margin: 0; }
-
-.gh-status {
-  font-family: var(--mono); font-size: 0.65rem; color: var(--muted);
-  padding: 6px 10px; background: var(--surface);
-  border: 1px solid var(--border); border-radius: 6px;
-  min-height: 32px; display: flex; align-items: center; gap: 6px;
-  flex: 1;
-}
-.gh-status.loading { color: var(--blue); }
-.gh-status.error   { color: var(--red); background: var(--red-bg); border-color:var(--red); }
-.gh-status.ok      { color: var(--green); background: var(--green-bg); border-color:var(--green); }
-
-/* [CORREÇÃO C4] Aviso de HTTP inseguro */
-.gh-https-warn {
-  display: none;
-  font-family: var(--mono); font-size: 0.62rem;
-  background: var(--amber-bg); color: var(--amber);
-  border: 1px solid var(--amber); border-radius: 6px;
-  padding: 6px 10px; margin-bottom: .75rem;
-}
-.gh-https-warn.visible { display: block; }
-
-.gh-tabs {
-  display: flex; gap: 6px; margin-bottom: 8px; flex-wrap: wrap; align-items: center;
-}
-.gh-tab {
   font-family: var(--mono); font-size: 0.6rem; font-weight: 600;
-  padding: 4px 12px; border-radius: 20px; border: 1px solid var(--border2);
-  background: transparent; color: var(--muted); cursor: pointer;
-  transition: background .15s, color .15s, border-color .15s;
+  color: var(--md-muted); text-transform: uppercase; letter-spacing: .1em;
+  margin-bottom: 5px; display: block;
 }
-.gh-tab.active { background: var(--text); color: var(--surface); border-color: var(--text); }
-.gh-tab:hover:not(.active) { background: var(--bg); }
-.gh-count {
-  font-family: var(--mono); font-size: 0.55rem; color: var(--hint);
-  margin-left: auto; padding-top: 2px;
+.field-input {
+  width: 100%; border: none; border-bottom: 1px solid var(--md-border);
+  outline: none; background: transparent; font-family: var(--sans);
+  font-size: 0.85rem; color: var(--md-text); padding: 4px 0;
+  transition: border-color .2s;
 }
+.field-input:focus { border-color: var(--md-primary); }
+.field-input::placeholder { color: var(--md-hint); }
+textarea.field-input { resize: vertical; min-height: 72px; line-height: 1.75; }
+.field-group { margin-bottom: 1rem; }
 
-.gh-items-wrap {
-  max-height: 340px;
-  overflow-y: auto;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  background: var(--surface);
-  scrollbar-width: thin;
-  scrollbar-color: var(--border2) transparent;
+/* ══ LINK PILL ══ */
+.link-pill {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--md-primary-lt);
+  border: 1px solid rgba(63,81,181,.2);
+  border-radius: 8px; padding: 9px 14px;
+  transition: border-color .2s, box-shadow .2s;
 }
-.gh-items-wrap::-webkit-scrollbar { width: 5px; }
-.gh-items-wrap::-webkit-scrollbar-track { background: transparent; }
-.gh-items-wrap::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
-.gh-items-wrap.empty { display: none; }
+.link-pill:focus-within {
+  border-color: var(--md-primary);
+  box-shadow: 0 0 0 3px rgba(63,81,181,.12);
+}
+.link-pill-icon { font-size: 1rem; flex-shrink: 0; }
+.link-pill input {
+  flex: 1; border: none; outline: none; background: transparent;
+  font-family: var(--mono); font-size: 0.75rem; color: var(--md-primary);
+  min-width: 0;
+}
+.link-pill input::placeholder { color: rgba(63,81,181,.38); }
+.link-open {
+  color: var(--md-primary); opacity: .55; text-decoration: none;
+  font-size: 1rem; flex-shrink: 0; transition: opacity .15s;
+  display: flex; align-items: center;
+}
+.link-open:hover { opacity: 1; }
 
-.gh-items { padding: 0 12px; }
-.gh-item {
-  display: flex; gap: 10px; padding: 10px 0;
-  border-bottom: 1px solid var(--border); align-items: flex-start;
-}
-.gh-item:last-child { border-bottom: none; }
-.gh-badge {
+/* ══ TABLES ══ */
+.etable { width: 100%; border-collapse: collapse; font-size: 0.83rem; }
+.etable th {
   font-family: var(--mono); font-size: 0.58rem; font-weight: 600;
-  padding: 2px 8px; border-radius: 10px; flex-shrink: 0; margin-top: 2px;
+  color: var(--md-muted); text-transform: uppercase; letter-spacing: .08em;
+  text-align: left; padding: 9px 10px;
+  border-bottom: 2px solid var(--md-border);
+  background: var(--md-surface2);
 }
-.gh-badge.pr      { background: var(--purple-bg); color: var(--purple); }
-.gh-badge.issue   { background: var(--green-bg);  color: var(--green); }
-.gh-badge.closed  { background: var(--border); color: var(--muted); }
-.gh-badge.merged  { background: var(--purple-bg); color: var(--purple); opacity: .6; }
-.gh-item-body { flex: 1; min-width: 0; }
-.gh-item-title { font-size: 0.83rem; color: var(--text); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.gh-item-title a { color: inherit; text-decoration: none; }
-.gh-item-title a:hover { color: var(--blue-mid); text-decoration: underline; }
-.gh-item-meta { font-family: var(--mono); font-size: 0.6rem; color: var(--hint); margin-top: 2px; }
-.gh-item-dates { font-family: var(--mono); font-size: 0.6rem; color: var(--muted); text-align:right; flex-shrink:0; line-height:1.8; white-space: nowrap; }
+.etable td {
+  padding: 8px 10px; border-bottom: 1px solid var(--md-border);
+  vertical-align: middle;
+}
+.etable tr:last-child td { border-bottom: none; }
+.etable tr:hover td { background: #f9f9ff; }
+.etable td input, .etable td select {
+  width: 100%; border: none; outline: none; background: transparent;
+  font-family: var(--sans); font-size: 0.83rem; color: var(--md-text); cursor: auto;
+}
+.etable td select { cursor: pointer; }
+.etable td input::placeholder { color: var(--md-hint); }
 
-.gh-empty {
-  font-family: var(--mono); font-size: 0.7rem; color: var(--hint);
-  text-align: center; padding: 2rem; display: none;
+/* ══ MARCOS ══ */
+.marco-row {
+  display: flex; gap: 10px; padding: 10px 0;
+  border-bottom: 1px solid var(--md-border); align-items: center;
 }
-.gh-empty.visible { display: block; }
+.marco-row:last-child { border-bottom: none; }
+.marco-dot {
+  width: 11px; height: 11px; border-radius: 50%;
+  background: var(--md-primary); flex-shrink: 0;
+  box-shadow: 0 0 0 3px rgba(63,81,181,.18);
+}
+.marco-date {
+  font-family: var(--mono); font-size: 0.71rem; color: var(--md-muted);
+  border: none; outline: none; background: transparent; width: 120px; flex-shrink: 0;
+}
+.marco-title {
+  font-size: 0.85rem; border: none; outline: none; background: transparent;
+  font-family: var(--sans); flex: 1; color: var(--md-text);
+}
+.marco-title::placeholder { color: var(--md-hint); }
+.marco-type {
+  font-family: var(--mono); font-size: 0.66rem; border: none; outline: none;
+  background: transparent; color: var(--md-muted); cursor: pointer; width: 110px; flex-shrink: 0;
+}
 
-.pat-wrap { position: relative; }
-.pat-wrap input { padding-right: 2rem; }
-.pat-toggle {
-  position:absolute; right:8px; top:50%; transform:translateY(-50%);
-  background:none; border:none; cursor:pointer; font-size:0.75rem;
-  color:var(--hint); padding:0;
+/* ══ ADD ROW ══ */
+.add-btn {
+  font-family: var(--mono); font-size: 0.63rem; font-weight: 500;
+  color: var(--md-muted); background: transparent;
+  border: 1px dashed var(--md-border2);
+  border-radius: var(--md-r-sm); padding: 6px 14px;
+  cursor: pointer; width: 100%; text-align: left; margin-top: 8px;
+  transition: border-color .18s, color .18s, background .18s;
+}
+.add-btn:hover {
+  border-color: var(--md-primary); color: var(--md-primary);
+  background: var(--md-primary-lt);
 }
 
-/* [CORREÇÃO C4] Nota de segurança abaixo do PAT */
-.pat-note {
-  font-family: var(--mono); font-size: 0.58rem; color: var(--hint);
-  margin-top: 4px;
+/* ══ ACTIONS BAR ══ */
+.actions-bar {
+  display: flex; gap: 10px; flex-wrap: wrap;
+  margin-top: 1.25rem;
+  background: var(--md-surface);
+  border: 1px solid var(--md-border);
+  border-radius: var(--md-r);
+  padding: 1rem 1.5rem;
+  box-shadow: var(--md-shadow-sm);
+  align-items: center;
 }
-
-.add-row-btn {
-  font-family:var(--mono); font-size:0.62rem; color:var(--hint);
-  background:transparent; border:1px dashed var(--border2);
-  border-radius:6px; padding:5px 14px; cursor:pointer; width:100%;
-  text-align:left; margin-top:4px; transition:border-color .15s, color .15s;
-}
-.add-row-btn:hover { border-color:var(--muted); color:var(--muted); }
-.actions { display:flex; gap:8px; flex-wrap:wrap; margin-top:1.5rem; }
 .btn {
-  font-family:var(--mono); font-size:0.65rem; padding:7px 16px;
-  border-radius:6px; border:1px solid var(--border2);
-  background:transparent; color:var(--muted); cursor:pointer;
-  transition:background .15s, color .15s;
+  font-family: var(--mono); font-size: 0.65rem; font-weight: 500;
+  padding: 8px 18px; border-radius: var(--md-r-sm);
+  border: 1px solid var(--md-border); background: transparent;
+  color: var(--md-muted); cursor: pointer; letter-spacing: .02em;
+  transition: all .16s; display: flex; align-items: center; gap: 6px;
 }
-.btn:hover { background:var(--bg); color:var(--text); }
-.btn-primary { background:var(--text); color:var(--surface); border-color:var(--text); }
-.btn-primary:hover { opacity:.85; background:var(--text); color:var(--surface); }
-.btn-gh { background:var(--surface2); color:var(--blue); border-color:var(--blue-bg); }
-.btn-gh:hover { background:var(--blue-bg); }
-.btn-md { background: var(--purple-bg); color: var(--purple); border-color: var(--purple); }
-.btn-md:hover { background: var(--purple); color: var(--surface); }
+.btn:hover { background: var(--md-bg); color: var(--md-text); border-color: var(--md-border2); }
+.btn-primary { background: var(--md-primary); color: #fff; border-color: var(--md-primary); }
+.btn-primary:hover { background: var(--md-primary-dk); color: #fff; border-color: var(--md-primary-dk); }
+.btn-purple { background: #ede7f6; color: #5e35b1; border-color: #b39ddb; }
+.btn-purple:hover { background: #5e35b1; color: #fff; border-color: #5e35b1; }
+.btn-ghost { color: var(--ad-danger); }
+.btn-ghost:hover { background: var(--ad-danger-bg); border-color: var(--ad-danger); color: var(--ad-danger); }
 
-@media(max-width:600px){
-  .grid2,.grid3,.grid4,.gh-config-grid,.gh-filter-row{grid-template-columns:1fr;}
-  .header{flex-direction:column;}
-  .gh-filter-row { grid-template-columns: 1fr 1fr; }
-  .marco-type { width:80px; }
+/* ══ PRINT ══ */
+@media print {
+  body { background: white; padding: 0; }
+  body::before { display: none; }
+  details.adm { box-shadow: none; border: 1px solid #ddd; }
+  details.adm[open] { break-inside: avoid; }
+  .actions-bar { display: none; }
+  .add-btn { display: none; }
+}
+
+@media (max-width: 600px) {
+  .header-meta { grid-template-columns: 1fr; }
+  .adm-body { padding: 1rem; }
+  .marco-type { display: none; }
 }
 </style>
 </head>
 <body>
-<div class="card">
+<div class="page-wrap">
 
-  <div class="header">
-    <div class="header-left">
-      <input class="project-title" type="text" placeholder="Título do projeto" />
-      <input class="project-sub"   type="text" placeholder="SIGLA-ANO · Unidade responsável" />
-    </div>
-    <select class="badge-status">
-      <option>Em execução</option><option>Iniciação</option>
-      <option>Concluído</option><option>Pausado</option><option>Cancelado</option>
-    </select>
-  </div>
-
-  <div class="grid2">
-    <div><div class="field-label">Responsáveis</div><input class="field-value" type="text" placeholder="Nome · Nome" /></div>
-    <div><div class="field-label">Repositório</div><input class="field-value" type="url" placeholder="https://github.com/org/repo" /></div>
-  </div>
-
-  <div style="margin-bottom:1.25rem;">
-    <div class="field-label">Descrição</div>
-    <textarea class="field-value" placeholder="Descreva em 2–4 frases o que é o projeto, qual problema resolve e para quem."></textarea>
-  </div>
-
-  <hr>
-  <div class="section-title">Classificação</div>
-  <div class="grid4">
-    <div><div class="field-label">Natureza</div>
-      <select class="field-value"><option value="">—</option><option>Infra</option><option>Dados</option><option>Processo</option><option>Produto</option></select></div>
-    <div><div class="field-label">Impacto</div>
-      <select class="field-value"><option value="">—</option><option>Interno</option><option>Intersetorial</option><option>Cidadão</option></select></div>
-    <div><div class="field-label">Complexidade</div>
-      <select class="field-value"><option value="">—</option><option>Baixa</option><option>Média</option><option>Alta</option></select></div>
-    <div><div class="field-label">Visibilidade</div>
-      <select class="field-value"><option value="">—</option><option>Operacional</option><option>Estratégico</option></select></div>
-  </div>
-
-  <div class="grid2" style="margin-bottom:1.25rem;">
-    <div>
-      <div class="field-label">Início</div>
-      <input class="prazo-input" type="text" placeholder="ex: mar/2025 ou A definir" />
-    </div>
-    <div>
-      <div class="field-label">Previsão de término</div>
-      <input class="prazo-input" type="text" placeholder="ex: dez/2025 ou A definir" />
-    </div>
-  </div>
-
-  <hr>
-  <div style="margin-bottom:1.25rem;"><div class="field-label">Diretrizes</div>
-    <textarea class="field-value" placeholder="Liste as diretrizes institucionais, normativas ou estratégicas."></textarea></div>
-  <div style="margin-bottom:1.25rem;"><div class="field-label">Objetivo</div>
-    <textarea class="field-value" placeholder="Declare o objetivo geral em uma frase clara e mensurável."></textarea></div>
-
-  <hr>
-  <div class="section-title">Produtos (entregas)</div>
-  <table class="etable"><thead><tr><th>#</th><th>Produto</th><th>Previsão</th><th>Status</th></tr></thead>
-  <tbody id="body-produtos">
-    <tr><td>1</td><td><input type="text" placeholder="Descreva o produto"/></td>
-      <td><input class="prazo-input" type="text" placeholder="ex: jun/2025 ou A definir"/></td>
-      <td><select><option>—</option><option>Não iniciado</option><option>Em andamento</option><option>Concluído</option></select></td>
-    </tr>
-    <tr><td>2</td><td><input type="text" placeholder="Descreva o produto"/></td>
-      <td><input class="prazo-input" type="text" placeholder="ex: jun/2025 ou A definir"/></td>
-      <td><select><option>—</option><option>Não iniciado</option><option>Em andamento</option><option>Concluído</option></select></td>
-    </tr>
-  </tbody></table>
-  <button class="add-row-btn" onclick="addProduto()">+ adicionar produto</button>
-
-  <hr>
-  <div class="section-title">Ações</div>
-  <table class="etable"><thead><tr><th>#</th><th>Ação</th><th>Responsável</th><th>Prazo</th></tr></thead>
-  <tbody id="body-acoes">
-    <tr><td>1</td><td><input type="text" placeholder="Descreva a ação"/></td><td><input type="text" placeholder="Nome"/></td>
-      <td><input class="prazo-input" type="text" placeholder="ex: ago/2025 ou A definir"/></td>
-    </tr>
-    <tr><td>2</td><td><input type="text" placeholder="Descreva a ação"/></td><td><input type="text" placeholder="Nome"/></td>
-      <td><input class="prazo-input" type="text" placeholder="ex: ago/2025 ou A definir"/></td>
-    </tr>
-  </tbody></table>
-  <button class="add-row-btn" onclick="addAcao()">+ adicionar ação</button>
-
-  <hr>
-  <div class="section-title">Cronograma</div>
-  <table class="etable" id="table-cronograma">
-    <thead>
-      <tr>
-        <th>#</th><th>Fase / Etapa</th><th>Responsável</th>
-        <th>Início</th><th>Fim</th><th>Status</th>
-        <th style="min-width:80px;">Progresso</th>
-      </tr>
-    </thead>
-    <tbody id="body-cronograma">
-      <tr>
-        <td>1</td>
-        <td><input type="text" placeholder="Nome da fase"/></td>
-        <td><input type="text" placeholder="Nome"/></td>
-        <td><input type="date" class="prazo-input" style="width:100%;font-size:0.75rem;"/></td>
-        <td><input type="date" class="prazo-input" style="width:100%;font-size:0.75rem;"/></td>
-        <td>
-          <select onchange="atualizarBarraCrono(this)">
-            <option value="">—</option>
-            <option value="nao_iniciado">Não iniciado</option>
-            <option value="em_andamento">Em andamento</option>
-            <option value="concluido">Concluído</option>
-            <option value="pausado">Pausado</option>
-            <option value="atrasado">Atrasado</option>
-          </select>
-        </td>
-        <td><div class="crono-bar-wrap"><div class="crono-bar-fill" style="width:0%"></div></div></td>
-      </tr>
-      <tr>
-        <td>2</td>
-        <td><input type="text" placeholder="Nome da fase"/></td>
-        <td><input type="text" placeholder="Nome"/></td>
-        <td><input type="date" class="prazo-input" style="width:100%;font-size:0.75rem;"/></td>
-        <td><input type="date" class="prazo-input" style="width:100%;font-size:0.75rem;"/></td>
-        <td>
-          <select onchange="atualizarBarraCrono(this)">
-            <option value="">—</option>
-            <option value="nao_iniciado">Não iniciado</option>
-            <option value="em_andamento">Em andamento</option>
-            <option value="concluido">Concluído</option>
-            <option value="pausado">Pausado</option>
-            <option value="atrasado">Atrasado</option>
-          </select>
-        </td>
-        <td><div class="crono-bar-wrap"><div class="crono-bar-fill" style="width:0%"></div></div></td>
-      </tr>
-    </tbody>
-  </table>
-  <button class="add-row-btn" onclick="addCronograma()">+ adicionar fase</button>
-
-  <hr>
-  <div class="section-title">Indicadores</div>
-  <table class="etable"><thead><tr><th>Indicador</th><th>Linha base</th><th>Meta</th><th>Frequência</th></tr></thead>
-  <tbody id="body-indicadores">
-    <tr><td><input type="text" placeholder="Nome do indicador"/></td>
-      <td><input type="text" placeholder="—"/></td>
-      <td><input type="text" placeholder="—"/></td>
-      <td><select><option>—</option><option>Semanal</option><option>Mensal</option><option>Trimestral</option><option>Anual</option></select></td>
-    </tr>
-  </tbody></table>
-  <button class="add-row-btn" onclick="addIndicador()">+ adicionar indicador</button>
-
-  <hr>
-  <div class="section-title">Status RAG</div>
-  <div id="rag-block">
-    <div class="rag-row"><div class="rag-dot" style="background:var(--hint)" onclick="cycleRag(this)"></div>
-      <div class="rag-label">Prazo</div>
-      <select class="rag-select" onchange="syncDot(this)"><option value="">—</option><option value="green">Verde</option><option value="amber">Âmbar</option><option value="red">Vermelho</option></select>
-      <input class="rag-obs" type="text" placeholder="Observação sobre prazo..."/></div>
-    <div class="rag-row"><div class="rag-dot" style="background:var(--hint)" onclick="cycleRag(this)"></div>
-      <div class="rag-label">Qualidade</div>
-      <select class="rag-select" onchange="syncDot(this)"><option value="">—</option><option value="green">Verde</option><option value="amber">Âmbar</option><option value="red">Vermelho</option></select>
-      <input class="rag-obs" type="text" placeholder="Observação sobre qualidade..."/></div>
-    <div class="rag-row"><div class="rag-dot" style="background:var(--hint)" onclick="cycleRag(this)"></div>
-      <div class="rag-label">Dependências</div>
-      <select class="rag-select" onchange="syncDot(this)"><option value="">—</option><option value="green">Verde</option><option value="amber">Âmbar</option><option value="red">Vermelho</option></select>
-      <input class="rag-obs" type="text" placeholder="Observação sobre dependências..."/></div>
-    <div class="rag-row"><div class="rag-dot" style="background:var(--hint)" onclick="cycleRag(this)"></div>
-      <div class="rag-label">Equipe</div>
-      <select class="rag-select" onchange="syncDot(this)"><option value="">—</option><option value="green">Verde</option><option value="amber">Âmbar</option><option value="red">Vermelho</option></select>
-      <input class="rag-obs" type="text" placeholder="Observação sobre equipe..."/></div>
-  </div>
-
-  <hr>
-  <div class="section-title">Riscos</div>
-  <table class="etable"><thead><tr><th>#</th><th>Risco</th><th>Probabilidade</th><th>Impacto</th><th>Mitigação</th></tr></thead>
-  <tbody id="body-riscos">
-    <tr><td>1</td><td><input type="text" placeholder="Descreva o risco"/></td>
-      <td><select><option>—</option><option>Baixa</option><option>Média</option><option>Alta</option></select></td>
-      <td><select><option>—</option><option>Baixo</option><option>Médio</option><option>Alto</option></select></td>
-      <td><input type="text" placeholder="Ação de mitigação"/></td>
-    </tr>
-  </tbody></table>
-  <button class="add-row-btn" onclick="addRisco()">+ adicionar risco</button>
-
-  <hr>
-  <div class="section-title">Atas de Reunião</div>
-  <div id="atas-block">
-    <div class="ata-row" style="display:flex;gap:8px;padding:7px 0;border-bottom:1px solid var(--border);align-items:center;">
-      <input style="font-family:var(--mono);font-size:0.7rem;color:var(--muted);border:none;outline:none;background:transparent;width:110px;flex-shrink:0;" type="date" title="Data da reunião"/>
-      <input style="font-size:0.83rem;border:none;outline:none;background:transparent;font-family:var(--sans);flex:1;color:var(--text);" type="text" placeholder="Título / pauta da reunião"/>
-      <input style="font-family:var(--mono);font-size:0.68rem;color:var(--blue-mid);border:none;outline:none;background:transparent;width:200px;flex-shrink:0;" type="url" placeholder="https://link-da-ata..."/>
-      <a style="font-size:0.9rem;opacity:.5;flex-shrink:0;text-decoration:none;cursor:pointer;" href="#" onclick="abrirAta(this);return false;" title="Abrir ata">↗</a>
-    </div>
-  </div>
-  <button class="add-row-btn" onclick="addAta()">+ adicionar ata</button>
-
-  <hr>
-  <div class="section-title">Marcos do Projeto</div>
-  <div id="marcos-block">
-    <div class="marco-row">
-      <div class="marco-dot" style="background:var(--blue-mid);"></div>
-      <input class="marco-date" type="date" title="Data do marco"/>
-      <input class="marco-title" type="text" placeholder="Título do marco (ex: Entrega do MVP, Publicação v1.0)"/>
-      <select class="marco-type">
-        <option value="marco">Marco</option><option value="entrega">Entrega</option>
-        <option value="reuniao">Reunião</option><option value="decisao">Decisão</option>
-        <option value="publicacao">Publicação</option>
+  <!-- ══ HEADER ══ -->
+  <div class="header-card">
+    <input class="project-title" id="inp-title" type="text" placeholder="Título do projeto" />
+    <input class="project-sub"   id="inp-sub"   type="text" placeholder="SIGLA-ANO · Unidade responsável" />
+    <div class="header-meta">
+      <select class="badge-status" id="inp-status">
+        <option>Em execução</option>
+        <option>Iniciação</option>
+        <option>Concluído</option>
+        <option>Pausado</option>
+        <option>Cancelado</option>
       </select>
-    </div>
-    <div class="marco-row">
-      <div class="marco-dot" style="background:var(--blue-mid);"></div>
-      <input class="marco-date" type="date" title="Data do marco"/>
-      <input class="marco-title" type="text" placeholder="Título do marco"/>
-      <select class="marco-type">
-        <option value="marco">Marco</option><option value="entrega">Entrega</option>
-        <option value="reuniao">Reunião</option><option value="decisao">Decisão</option>
-        <option value="publicacao">Publicação</option>
-      </select>
-    </div>
-  </div>
-  <button class="add-row-btn" onclick="addMarco()">+ adicionar marco</button>
-
-  <hr>
-  <div class="section-title">GitHub · PRs &amp; Issues</div>
-
-  <!-- [CORREÇÃO C4] Aviso de HTTP inseguro -->
-  <div class="gh-https-warn" id="gh-https-warn">
-    ⚠️ Página servida via HTTP. O token GitHub pode ser interceptado na rede. Use HTTPS ou acesse localmente.
-  </div>
-
-  <div class="gh-config">
-    <div class="gh-config-grid">
-      <div class="gh-field">
-        <label>Usuário GitHub</label>
-        <input type="text" id="gh-org" placeholder="meu-usuario" oninput="salvarGhConfig()" />
-      </div>
-      <div class="gh-field">
-        <label>Nº do Project</label>
-        <input type="number" id="gh-proj-num" placeholder="1" min="1" oninput="salvarGhConfig()" />
-      </div>
-      <div class="gh-field">
-        <label>Filtro — coluna "Projetos"</label>
-        <input type="text" id="gh-filter" placeholder="Nome do projeto no board" oninput="salvarGhConfig()" />
+      <div class="hfield">
+        <label class="hfield-label">Responsáveis</label>
+        <input id="inp-resp" type="text" placeholder="Nome · Nome" />
       </div>
     </div>
+  </div>
 
-    <div class="gh-filter-row">
-      <div class="gh-field">
-        <label>Período — de</label>
-        <input type="date" id="gh-date-from" oninput="salvarGhConfig(); aplicarFiltros()" />
-      </div>
-      <div class="gh-field">
-        <label>Período — até</label>
-        <input type="date" id="gh-date-to" oninput="salvarGhConfig(); aplicarFiltros()" />
-      </div>
-      <div class="gh-field">
-        <label>Tipo</label>
-        <select id="gh-type-filter" onchange="salvarGhConfig(); aplicarFiltros()">
-          <option value="all">PRs e Issues</option>
-          <option value="pr">Só PRs</option>
-          <option value="issue">Só Issues</option>
-        </select>
-      </div>
-      <div class="gh-field">
-        <label>&nbsp;</label>
-        <button class="btn btn-gh" style="width:100%;padding:6px 12px;" onclick="buscarGithub()">↻ Buscar</button>
+  <!-- ══ DESCRIÇÃO ══ -->
+  <details class="adm adm-abstract" open>
+    <summary>
+      <span class="adm-icon">📋</span>
+      Descrição
+      <span class="adm-chevron">▼</span>
+    </summary>
+    <div class="adm-body">
+      <textarea id="inp-desc" class="field-input" placeholder="Descreva em 2–4 frases o que é o projeto, qual problema resolve e para quem."></textarea>
+    </div>
+  </details>
+
+  <!-- ══ DIRETRIZES ══ -->
+  <details class="adm adm-note" open>
+    <summary>
+      <span class="adm-icon">📌</span>
+      Diretrizes
+      <span class="adm-chevron">▼</span>
+    </summary>
+    <div class="adm-body">
+      <textarea id="inp-dir" class="field-input" placeholder="Liste as diretrizes institucionais, normativas ou estratégicas que orientam o projeto."></textarea>
+    </div>
+  </details>
+
+  <!-- ══ OBJETIVO ══ -->
+  <details class="adm adm-tip" open>
+    <summary>
+      <span class="adm-icon">🎯</span>
+      Objetivo
+      <span class="adm-chevron">▼</span>
+    </summary>
+    <div class="adm-body">
+      <textarea id="inp-obj" class="field-input" placeholder="Declare o objetivo geral em uma frase clara e mensurável."></textarea>
+    </div>
+  </details>
+
+  <!-- ══ GESTÃO À VISTA ══ -->
+  <details class="adm adm-info" open>
+    <summary>
+      <span class="adm-icon">📊</span>
+      Gestão à Vista
+      <span class="adm-chevron">▼</span>
+    </summary>
+    <div class="adm-body">
+      <label class="field-label">Painel do projeto — GitHub Projects da organização</label>
+      <div class="link-pill" style="margin-top:6px;">
+        <span class="link-pill-icon">🔗</span>
+        <input type="url" id="gav-link"
+               placeholder="https://github.com/orgs/org/projects/N"
+               oninput="syncLink('gav-link','gav-open')" />
+        <a class="link-open" id="gav-open" href="#" target="_blank" rel="noopener noreferrer" title="Abrir painel">
+          ↗
+        </a>
       </div>
     </div>
+  </details>
 
-    <!-- [CORREÇÃO C1] PAT não é mais salvo no localStorage — apenas em memória -->
-    <div class="gh-field pat-wrap" style="margin-bottom:.25rem;">
-      <label>Personal Access Token (PAT) — mantido apenas em memória (não persiste)</label>
-      <input type="password" id="gh-pat" placeholder="ghp_..." />
-      <button class="pat-toggle" onclick="togglePat()" title="Mostrar/ocultar">👁</button>
+  <!-- ══ CRONOGRAMA — apenas link ══ -->
+  <details class="adm adm-example" open>
+    <summary>
+      <span class="adm-icon">📅</span>
+      Cronograma
+      <span class="adm-chevron">▼</span>
+    </summary>
+    <div class="adm-body">
+      <label class="field-label">Roadmap no Gestão à Vista</label>
+      <div class="link-pill" style="margin-top:6px;">
+        <span class="link-pill-icon">🗺️</span>
+        <input type="url" id="roadmap-link"
+               placeholder="https://github.com/orgs/org/projects/N/views/..."
+               oninput="syncLink('roadmap-link','roadmap-open')" />
+        <a class="link-open" id="roadmap-open" href="#" target="_blank" rel="noopener noreferrer" title="Abrir roadmap">
+          ↗
+        </a>
+      </div>
     </div>
-    <div class="pat-note">🔒 O token não é salvo em disco. Você precisará redigitá-lo ao recarregar a página.</div>
+  </details>
 
-    <div class="gh-status" style="margin-top:.75rem;" id="gh-status">Configure os campos acima e clique em Buscar.</div>
+  <!-- ══ INDICADORES ══ -->
+  <details class="adm adm-success" open>
+    <summary>
+      <span class="adm-icon">📈</span>
+      Indicadores
+      <span class="adm-chevron">▼</span>
+    </summary>
+    <div class="adm-body">
+      <table class="etable">
+        <thead>
+          <tr>
+            <th>Indicador</th>
+            <th>Linha base</th>
+            <th>Meta</th>
+            <th>Frequência</th>
+          </tr>
+        </thead>
+        <tbody id="body-indicadores">
+          <tr>
+            <td><input type="text" placeholder="Nome do indicador" /></td>
+            <td><input type="text" placeholder="—" /></td>
+            <td><input type="text" placeholder="—" /></td>
+            <td>
+              <select>
+                <option>—</option>
+                <option>Semanal</option>
+                <option>Mensal</option>
+                <option>Trimestral</option>
+                <option>Anual</option>
+              </select>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <button class="add-btn" onclick="addIndicador()">+ adicionar indicador</button>
+    </div>
+  </details>
+
+  <!-- ══ RISCOS ══ -->
+  <details class="adm adm-warning" open>
+    <summary>
+      <span class="adm-icon">⚠️</span>
+      Riscos
+      <span class="adm-chevron">▼</span>
+    </summary>
+    <div class="adm-body">
+      <table class="etable">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Risco</th>
+            <th>Probabilidade</th>
+            <th>Impacto</th>
+            <th>Mitigação</th>
+          </tr>
+        </thead>
+        <tbody id="body-riscos">
+          <tr>
+            <td>1</td>
+            <td><input type="text" placeholder="Descreva o risco" /></td>
+            <td>
+              <select>
+                <option>—</option>
+                <option>Baixa</option>
+                <option>Média</option>
+                <option>Alta</option>
+              </select>
+            </td>
+            <td>
+              <select>
+                <option>—</option>
+                <option>Baixo</option>
+                <option>Médio</option>
+                <option>Alto</option>
+              </select>
+            </td>
+            <td><input type="text" placeholder="Ação de mitigação" /></td>
+          </tr>
+        </tbody>
+      </table>
+      <button class="add-btn" onclick="addRisco()">+ adicionar risco</button>
+    </div>
+  </details>
+
+  <!-- ══ ATAS DE REUNIÃO ══ -->
+  <details class="adm adm-note" open>
+    <summary>
+      <span class="adm-icon">📝</span>
+      Atas de Reunião
+      <span class="adm-chevron">▼</span>
+    </summary>
+    <div class="adm-body">
+      <label class="field-label">Gestão à Vista — painel de atas e reuniões</label>
+      <div class="link-pill" style="margin-top:6px;">
+        <span class="link-pill-icon">🗂️</span>
+        <input type="url" id="atas-link"
+               placeholder="https://github.com/orgs/org/projects/N/views/..."
+               oninput="syncLink('atas-link','atas-open')" />
+        <a class="link-open" id="atas-open" href="#" target="_blank" rel="noopener noreferrer" title="Abrir painel de atas">
+          ↗
+        </a>
+      </div>
+    </div>
+  </details>
+
+  <!-- ══ LINHA DO TEMPO (Marcos) ══ -->
+  <details class="adm adm-info" open>
+    <summary>
+      <span class="adm-icon">🚩</span>
+      Linha do Tempo
+      <span class="adm-chevron">▼</span>
+    </summary>
+    <div class="adm-body">
+      <div id="marcos-block">
+        <div class="marco-row">
+          <div class="marco-dot"></div>
+          <input class="marco-date" type="date" title="Data do marco" />
+          <input class="marco-title" type="text" placeholder="Título do marco (ex: Entrega do MVP, Publicação v1.0)" />
+          <select class="marco-type">
+            <option value="marco">Marco</option>
+            <option value="entrega">Entrega</option>
+            <option value="reuniao">Reunião</option>
+            <option value="decisao">Decisão</option>
+            <option value="publicacao">Publicação</option>
+          </select>
+        </div>
+        <div class="marco-row">
+          <div class="marco-dot"></div>
+          <input class="marco-date" type="date" title="Data do marco" />
+          <input class="marco-title" type="text" placeholder="Título do marco" />
+          <select class="marco-type">
+            <option value="marco">Marco</option>
+            <option value="entrega">Entrega</option>
+            <option value="reuniao">Reunião</option>
+            <option value="decisao">Decisão</option>
+            <option value="publicacao">Publicação</option>
+          </select>
+        </div>
+      </div>
+      <button class="add-btn" onclick="addMarco()">+ adicionar marco</button>
+    </div>
+  </details>
+
+  <!-- ══ GANHOS ESPERADOS ══ -->
+  <details class="adm adm-success" open>
+    <summary>
+      <span class="adm-icon">✨</span>
+      Ganhos Esperados
+      <span class="adm-chevron">▼</span>
+    </summary>
+    <div class="adm-body">
+      <textarea id="inp-ganhos" class="field-input" style="min-height:80px;"
+        placeholder="Descreva os ganhos quantitativos e qualitativos esperados com a entrega do projeto."></textarea>
+    </div>
+  </details>
+
+  <!-- ══ OBSERVAÇÕES ══ -->
+  <details class="adm adm-quote" open>
+    <summary>
+      <span class="adm-icon">💬</span>
+      Observações
+      <span class="adm-chevron">▼</span>
+    </summary>
+    <div class="adm-body">
+      <textarea id="inp-obs" class="field-input" style="min-height:70px;"
+        placeholder="Campo livre para exceções ou contextos atípicos."></textarea>
+    </div>
+  </details>
+
+  <!-- ══ ACTIONS ══ -->
+  <div class="actions-bar">
+    <button class="btn btn-primary" onclick="exportarHTML()">💾 Salvar como HTML</button>
+    <button class="btn" onclick="window.print()">🖨 Imprimir / PDF</button>
+    <button class="btn btn-purple" onclick="gerarMarkdown()">📄 Gerar Markdown</button>
+    <button class="btn btn-ghost" style="margin-left:auto;" onclick="limparFicha()">🗑 Limpar ficha</button>
   </div>
 
-  <div class="gh-tabs" id="gh-tabs" style="display:none;">
-    <button class="gh-tab active" data-tab="open"   onclick="mudarTab(this)">Abertos</button>
-    <button class="gh-tab"        data-tab="closed" onclick="mudarTab(this)">Fechados / Merged</button>
-    <button class="gh-tab"        data-tab="all"    onclick="mudarTab(this)">Todos</button>
-    <span class="gh-count" id="gh-count-label"></span>
-  </div>
-
-  <div class="gh-items-wrap" id="gh-items-wrap">
-    <div class="gh-items" id="gh-items"></div>
-  </div>
-  <div class="gh-empty" id="gh-empty">Nenhum item encontrado para os filtros selecionados.</div>
-
-  <hr>
-  <div style="margin-bottom:1.25rem;">
-    <div class="field-label">Ganhos Esperados</div>
-    <textarea class="field-value" style="min-height:72px;" placeholder="Descreva os ganhos quantitativos e qualitativos esperados com a entrega do projeto."></textarea>
-  </div>
-
-  <div style="margin-bottom:1rem;"><div class="field-label">Observações</div>
-    <textarea class="field-value" style="min-height:72px;" placeholder="Campo livre para exceções ou contextos atípicos."></textarea></div>
-
-  <div class="actions">
-    <button class="btn btn-primary" onclick="exportarHTML()">Salvar como HTML</button>
-    <button class="btn" onclick="imprimirFicha()">Imprimir / PDF</button>
-    <button class="btn btn-md" onclick="gerarMarkdown()">Gerar Markdown</button>
-    <button class="btn" onclick="limparFicha()">Limpar ficha</button>
-  </div>
-</div>
+</div><!-- /page-wrap -->
 
 <script>
-// ════════════════════════════════════════════════════════
-//  [CORREÇÃO C4] Detectar HTTP inseguro
-// ════════════════════════════════════════════════════════
-let isHttpsSecure = true;
+'use strict';
 
-(function checkHttps() {
-  if (location.protocol === 'http:' && !['localhost','127.0.0.1'].includes(location.hostname)) {
-    isHttpsSecure = false;
-    document.getElementById('gh-https-warn').classList.add('visible');
-
-    // Desabilita o botão de busca do GitHub
-    const buscarBtn = document.querySelector('.gh-filter-row .btn-gh');
-    if (buscarBtn) {
-      buscarBtn.disabled = true;
-      buscarBtn.style.opacity = '0.5';
-      buscarBtn.title = 'HTTPS necessário para segurança do token';
-    }
-  }
-})();
-
-// Depois, na função buscarGithub(), adicione no início:
-async function buscarGithub() {
-  if (!isHttpsSecure) {
-    ghStatus('❌ Conexão insegura! Use HTTPS para enviar tokens.', 'error');
-    return;
-  }
+// ════════════════════════════════════════════
+//  LINK SYNC
+// ════════════════════════════════════════════
+function syncLink(inputId, anchorId) {
+  const val = document.getElementById(inputId).value.trim();
+  const a   = document.getElementById(anchorId);
+  a.href    = val || '#';
 }
 
-// ════════════════════════════════════════════════════════
-//  [CORREÇÃO C3] Sanitização de HTML para prevenir XSS
-// ════════════════════════════════════════════════════════
-function escHtml(str) {
-  return (str || '')
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
-}
-
-// ════════════════════════════════════════════════════════
-//  UTILIDADES GERAIS
-// ════════════════════════════════════════════════════════
-const RAG_COLORS = {
-  '':      'var(--hint)',
-  'green': 'var(--green)',
-  'amber': 'var(--amber)',
-  'red':   'var(--red)'
-};
-const RAG_CYCLE = ['','green','amber','red'];
-
-function syncDot(sel) {
-  sel.closest('.rag-row').querySelector('.rag-dot').style.background =
-    RAG_COLORS[sel.value] || RAG_COLORS[''];
-}
-
-function cycleRag(dot) {
-  const sel = dot.closest('.rag-row').querySelector('.rag-select');
-  const i   = RAG_CYCLE.indexOf(sel.value);
-  sel.value = RAG_CYCLE[(i + 1) % RAG_CYCLE.length];
-  dot.style.background = RAG_COLORS[sel.value];
-}
-
-// ════════════════════════════════════════════════════════
-//  CRONOGRAMA — barra de progresso por status
-// ════════════════════════════════════════════════════════
-const CRONO_STATUS_PROGRESS = {
-  '':             0,
-  'nao_iniciado': 0,
-  'em_andamento': 50,
-  'concluido':    100,
-  'pausado':      30,
-  'atrasado':     70
-};
-
-function atualizarBarraCrono(sel) {
-  const row  = sel.closest('tr');
-  const fill = row.querySelector('.crono-bar-fill');
-  const pct  = CRONO_STATUS_PROGRESS[sel.value] || 0;
-  fill.style.width = pct + '%';
-  fill.className = 'crono-bar-fill';
-  if (sel.value === 'concluido') fill.classList.add('concluido');
-  else if (sel.value === 'atrasado') fill.classList.add('atrasado');
-  else if (sel.value === 'pausado')  fill.classList.add('pausado');
-}
-
-// ════════════════════════════════════════════════════════
-//  ADICIONAR LINHAS
-// ════════════════════════════════════════════════════════
-function addProduto() {
-  const tb = document.getElementById('body-produtos');
-  const n  = tb.rows.length + 1;
-  const tr = document.createElement('tr');
-  tr.innerHTML = `<td>${n}</td>
-    <td><input type="text" placeholder="Descreva o produto"/></td>
-    <td><input class="prazo-input" type="text" placeholder="ex: jun/2025 ou A definir"/></td>
-    <td><select><option>—</option><option>Não iniciado</option><option>Em andamento</option><option>Concluído</option></select></td>`;
-  tb.appendChild(tr);
-}
-
-function addAcao() {
-  const tb = document.getElementById('body-acoes');
-  const n  = tb.rows.length + 1;
-  const tr = document.createElement('tr');
-  tr.innerHTML = `<td>${n}</td>
-    <td><input type="text" placeholder="Descreva a ação"/></td>
-    <td><input type="text" placeholder="Nome"/></td>
-    <td><input class="prazo-input" type="text" placeholder="ex: ago/2025 ou A definir"/></td>`;
-  tb.appendChild(tr);
-}
-
-function addCronograma() {
-  const tb = document.getElementById('body-cronograma');
-  const n  = tb.rows.length + 1;
-  const tr = document.createElement('tr');
-  tr.innerHTML = `
-    <td>${n}</td>
-    <td><input type="text" placeholder="Nome da fase"/></td>
-    <td><input type="text" placeholder="Nome"/></td>
-    <td><input type="date" class="prazo-input" style="width:100%;font-size:0.75rem;"/></td>
-    <td><input type="date" class="prazo-input" style="width:100%;font-size:0.75rem;"/></td>
-    <td>
-      <select onchange="atualizarBarraCrono(this)">
-        <option value="">—</option>
-        <option value="nao_iniciado">Não iniciado</option>
-        <option value="em_andamento">Em andamento</option>
-        <option value="concluido">Concluído</option>
-        <option value="pausado">Pausado</option>
-        <option value="atrasado">Atrasado</option>
-      </select>
-    </td>
-    <td><div class="crono-bar-wrap"><div class="crono-bar-fill" style="width:0%"></div></div></td>`;
-  tb.appendChild(tr);
-}
-
+// ════════════════════════════════════════════
+//  ADD ROWS
+// ════════════════════════════════════════════
 function addIndicador() {
   const tb = document.getElementById('body-indicadores');
   const tr = document.createElement('tr');
-  tr.innerHTML = `<td><input type="text" placeholder="Nome do indicador"/></td>
+  tr.innerHTML = `
+    <td><input type="text" placeholder="Nome do indicador"/></td>
     <td><input type="text" placeholder="—"/></td>
     <td><input type="text" placeholder="—"/></td>
-    <td><select><option>—</option><option>Semanal</option><option>Mensal</option><option>Trimestral</option><option>Anual</option></select></td>`;
+    <td><select>
+      <option>—</option><option>Semanal</option>
+      <option>Mensal</option><option>Trimestral</option><option>Anual</option>
+    </select></td>`;
   tb.appendChild(tr);
 }
 
@@ -737,7 +663,8 @@ function addRisco() {
   const tb = document.getElementById('body-riscos');
   const n  = tb.rows.length + 1;
   const tr = document.createElement('tr');
-  tr.innerHTML = `<td>${n}</td>
+  tr.innerHTML = `
+    <td>${n}</td>
     <td><input type="text" placeholder="Descreva o risco"/></td>
     <td><select><option>—</option><option>Baixa</option><option>Média</option><option>Alta</option></select></td>
     <td><select><option>—</option><option>Baixo</option><option>Médio</option><option>Alto</option></select></td>
@@ -750,7 +677,7 @@ function addMarco() {
   const d = document.createElement('div');
   d.className = 'marco-row';
   d.innerHTML = `
-    <div class="marco-dot" style="background:var(--blue-mid);"></div>
+    <div class="marco-dot"></div>
     <input class="marco-date" type="date" title="Data do marco"/>
     <input class="marco-title" type="text" placeholder="Título do marco"/>
     <select class="marco-type">
@@ -763,676 +690,235 @@ function addMarco() {
   b.appendChild(d);
 }
 
-// ════════════════════════════════════════════════════════
-//  ATAS DE REUNIÃO
-// ════════════════════════════════════════════════════════
-function addAta() {
-  const b = document.getElementById('atas-block');
-  const d = document.createElement('div');
-  d.style.cssText = 'display:flex;gap:8px;padding:7px 0;border-bottom:1px solid var(--border);align-items:center;';
-  d.innerHTML = `
-    <input style="font-family:var(--mono);font-size:0.7rem;color:var(--muted);border:none;outline:none;background:transparent;width:110px;flex-shrink:0;" type="date" title="Data da reunião"/>
-    <input style="font-size:0.83rem;border:none;outline:none;background:transparent;font-family:var(--sans);flex:1;color:var(--text);" type="text" placeholder="Título / pauta da reunião"/>
-    <input style="font-family:var(--mono);font-size:0.68rem;color:var(--blue-mid);border:none;outline:none;background:transparent;width:200px;flex-shrink:0;" type="url" placeholder="https://link-da-ata..."/>
-    <a style="font-size:0.9rem;opacity:.5;flex-shrink:0;text-decoration:none;cursor:pointer;" href="#" onclick="abrirAta(this);return false;" title="Abrir ata">↗</a>`;
-  b.appendChild(d);
-}
+// ════════════════════════════════════════════
+//  HELPERS
+// ════════════════════════════════════════════
+const MESES_PT = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho',
+                  'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 
-function abrirAta(el) {
-  const link = el.closest('div').querySelector('input[type=url]').value.trim();
-  if (link) window.open(link, '_blank');
-}
-
-// ════════════════════════════════════════════════════════
-//  [CORREÇÃO C1] GitHub CONFIG — PAT NUNCA vai ao localStorage
-// ════════════════════════════════════════════════════════
-const GH_KEY = 'ficha_gh_config';
-
-function salvarGhConfig() {
-  // [CORREÇÃO C1] Salva tudo EXCETO o token
-  const cfg = {
-    org:        document.getElementById('gh-org').value,
-    projNum:    document.getElementById('gh-proj-num').value,
-    filter:     document.getElementById('gh-filter').value,
-    dateFrom:   document.getElementById('gh-date-from').value,
-    dateTo:     document.getElementById('gh-date-to').value,
-    typeFilter: document.getElementById('gh-type-filter').value
-    // pat: NÃO incluído — fica apenas em memória
-  };
-  localStorage.setItem(GH_KEY, JSON.stringify(cfg));
-}
-
-function carregarGhConfig() {
-  try {
-    const cfg = JSON.parse(localStorage.getItem(GH_KEY) || '{}');
-    if (cfg.org)        document.getElementById('gh-org').value         = cfg.org;
-    if (cfg.projNum)    document.getElementById('gh-proj-num').value    = cfg.projNum;
-    if (cfg.filter)     document.getElementById('gh-filter').value      = cfg.filter;
-    if (cfg.dateFrom)   document.getElementById('gh-date-from').value   = cfg.dateFrom;
-    if (cfg.dateTo)     document.getElementById('gh-date-to').value     = cfg.dateTo;
-    if (cfg.typeFilter) document.getElementById('gh-type-filter').value = cfg.typeFilter;
-    // [CORREÇÃO C1] pat nunca é carregado do localStorage
-  } catch(e) {}
-}
-
-function togglePat() {
-  const inp = document.getElementById('gh-pat');
-  inp.type = inp.type === 'password' ? 'text' : 'password';
-}
-
-// ════════════════════════════════════════════════════════
-//  ESTADO GLOBAL — itens brutos vindos da API
-// ════════════════════════════════════════════════════════
-let ghItemsRaw = [];
-let ghTabAtual = 'open';
-
-function ghStatus(msg, cls='') {
-  const el = document.getElementById('gh-status');
-  el.textContent = msg;
-  el.className = 'gh-status ' + cls;
-}
-
-// ════════════════════════════════════════════════════════
-//  GITHUB GRAPHQL
-// ════════════════════════════════════════════════════════
-async function buscarGithub() {
-  const org     = document.getElementById('gh-org').value.trim();
-  const projNum = parseInt(document.getElementById('gh-proj-num').value.trim(), 10);
-  const filter  = document.getElementById('gh-filter').value.trim().toLowerCase();
-  const pat     = document.getElementById('gh-pat').value.trim();  // [CORREÇÃO C1] lido do campo, nunca do localStorage
-
-  if (!org || !projNum || !pat) {
-    ghStatus('Preencha Usuário, Nº do Project e PAT.', 'error');
-    return;
-  }
-
-  ghStatus('Buscando dados do GitHub…', 'loading');
-
-  const query = `
-    query($login: String!, $num: Int!) {
-      user(login: $login) {
-        projectV2(number: $num) {
-          title
-          items(first: 100) {
-            pageInfo { hasNextPage }
-            nodes {
-              id
-              fieldValues(first: 20) {
-                nodes {
-                  ... on ProjectV2ItemFieldSingleSelectValue {
-                    name
-                    field { ... on ProjectV2SingleSelectField { name } }
-                  }
-                  ... on ProjectV2ItemFieldTextValue {
-                    text
-                    field { ... on ProjectV2Field { name } }
-                  }
-                }
-              }
-              content {
-                ... on PullRequest {
-                  __typename
-                  number title url state createdAt closedAt mergedAt
-                  author { login }
-                  milestone { title dueOn }
-                }
-                ... on Issue {
-                  __typename
-                  number title url state createdAt closedAt
-                  author { login }
-                  milestone { title dueOn }
-                }
-              }
-            }
-          }
-        }
-      }
-    }`;
-
-  try {
-    const resp = await fetch('https://api.github.com/graphql', {
-      method: 'POST',
-      headers: {
-        'Authorization': `bearer ${pat}`,
-        'Content-Type':  'application/json'
-      },
-      body: JSON.stringify({ query, variables: { login: org, num: projNum } })
-    });
-
-    if (!resp.ok) {
-      ghStatus(`Erro HTTP ${resp.status} — verifique o PAT e o usuário.`, 'error');
-      return;
-    }
-
-    const json = await resp.json();
-
-    if (json.errors) {
-      ghStatus('Erro GraphQL: ' + json.errors[0].message, 'error');
-      return;
-    }
-
-    const proj = json?.data?.user?.projectV2;
-    if (!proj) {
-      ghStatus('Project não encontrado. Verifique o usuário e o número.', 'error');
-      return;
-    }
-
-    ghItemsRaw = proj.items.nodes.filter(item => {
-      if (!item.content) return false;
-      if (!filter)       return true;
-      return item.fieldValues.nodes.some(fv => {
-        const fieldName = (fv?.field?.name || '').toLowerCase();
-        const val       = (fv?.name || fv?.text || '').toLowerCase();
-        return fieldName === 'projetos' && val.includes(filter);
-      });
-    });
-
-    // [CORREÇÃO C5] Aviso de paginação truncada
-    let paginacaoAviso = '';
-    if (proj.items.pageInfo?.hasNextPage) {
-      paginacaoAviso = ' ⚠️ Projeto tem mais de 100 itens — apenas os primeiros foram carregados.';
-    }
-
-    ghStatus(
-      `${ghItemsRaw.length} item(ns) no project "${proj.title}"${filter ? ` · filtro: "${filter}"` : ''}. ` +
-      `Use as abas e filtros de período para refinar.${paginacaoAviso}`,
-      'ok'
-    );
-
-    document.getElementById('gh-tabs').style.display = 'flex';
-    ghTabAtual = 'open';
-    document.querySelectorAll('.gh-tab').forEach(t =>
-      t.classList.toggle('active', t.dataset.tab === 'open'));
-
-    aplicarFiltros();
-
-  } catch(e) {
-    ghStatus('Falha na requisição: ' + e.message, 'error');
-  }
-}
-
-// ════════════════════════════════════════════════════════
-//  FILTROS
-// ════════════════════════════════════════════════════════
-function mudarTab(btn) {
-  ghTabAtual = btn.dataset.tab;
-  document.querySelectorAll('.gh-tab').forEach(t => t.classList.remove('active'));
-  btn.classList.add('active');
-  aplicarFiltros();
-}
-
-function aplicarFiltros() {
-  if (!ghItemsRaw.length) return;
-
-  const dateFrom   = document.getElementById('gh-date-from').value;
-  const dateTo     = document.getElementById('gh-date-to').value;
-  const typeFilter = document.getElementById('gh-type-filter').value;
-
-  const dFrom = dateFrom ? new Date(dateFrom) : null;
-  const dTo   = dateTo   ? new Date(dateTo + 'T23:59:59Z') : null;
-
-  let items = ghItemsRaw.filter(item => {
-    const c = item.content;
-    if (typeFilter === 'pr'    && c.__typename !== 'PullRequest') return false;
-    if (typeFilter === 'issue' && c.__typename !== 'Issue')       return false;
-    if (ghTabAtual === 'open'   && c.state !== 'OPEN')   return false;
-    if (ghTabAtual === 'closed' && c.state === 'OPEN')   return false;
-    const created = new Date(c.createdAt);
-    if (dFrom && created < dFrom) return false;
-    if (dTo   && created > dTo)   return false;
-    return true;
-  });
-
-  const open   = ghItemsRaw.filter(i => i.content?.state === 'OPEN').length;
-  const closed = ghItemsRaw.filter(i => i.content?.state !== 'OPEN').length;
-  document.getElementById('gh-count-label').textContent =
-    `${open} aberto(s) · ${closed} fechado(s)`;
-
-  renderGhItems(items);
-}
-
-// ════════════════════════════════════════════════════════
-//  [CORREÇÃO C3] RENDER — dados da API escapados contra XSS
-// ════════════════════════════════════════════════════════
-function fmtDate(iso) {
+function fmtBr(iso) {
   if (!iso) return '—';
-  return new Date(iso).toLocaleDateString('pt-BR', { day:'2-digit', month:'short', year:'numeric' });
+  const d = new Date(iso + 'T12:00:00');
+  return isNaN(d) ? iso : d.toLocaleDateString('pt-BR');
 }
 
-function renderGhItems(items) {
-  const wrap  = document.getElementById('gh-items-wrap');
-  const cont  = document.getElementById('gh-items');
-  const empty = document.getElementById('gh-empty');
-
-  if (!items.length) {
-    wrap.classList.add('empty');
-    empty.classList.add('visible');
-    cont.innerHTML = '';
-    return;
-  }
-
-  wrap.classList.remove('empty');
-  empty.classList.remove('visible');
-
-  // [CORREÇÃO C3] Todos os dados da API passam por escHtml() antes de ir ao innerHTML
-  cont.innerHTML = items.map(item => {
-    const c   = item.content;
-    const typ = c.__typename === 'PullRequest' ? 'PR' : 'Issue';
-    let   cls = 'closed';
-    if (c.state === 'OPEN') {
-      cls = typ === 'PR' ? 'pr' : 'issue';
-    } else if (c.mergedAt) {
-      cls = 'merged';
-    }
-
-    const stateLabel  = escHtml(c.mergedAt ? 'MERGED' : c.state);
-    const titleSafe   = escHtml(c.title);
-    const urlSafe     = escHtml(c.url);
-    const authorSafe  = escHtml(c.author?.login || '?');
-    const mileSafe    = c.milestone ? escHtml(c.milestone.title) : null;
-    const end         = c.mergedAt || c.closedAt || c.milestone?.dueOn;
-
-    return `<div class="gh-item">
-      <span class="gh-badge ${cls}">${typ} #${c.number}</span>
-      <div class="gh-item-body">
-        <div class="gh-item-title"><a href="${urlSafe}" target="_blank" rel="noopener noreferrer" title="${titleSafe}">${titleSafe}</a></div>
-        <div class="gh-item-meta">
-          ${stateLabel} · @${authorSafe}
-          ${mileSafe ? `· 🏁 ${mileSafe}` : ''}
-        </div>
-      </div>
-      <div class="gh-item-dates">
-        <div>📅 ${fmtDate(c.createdAt)}</div>
-        ${end ? `<div>${c.mergedAt ? '🔀' : '🎯'} ${fmtDate(end)}</div>` : ''}
-      </div>
-    </div>`;
-  }).join('');
+function cleanMermaid(t) {
+  return (t || '').replace(/[:#()\/,;]/g,'-').replace(/\s+/g,' ').trim().substring(0,60);
 }
 
-// ════════════════════════════════════════════════════════
-//  HELPERS MARKDOWN
-// ════════════════════════════════════════════════════════
-const MESES_PT = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
-
-function sanitizeMermaid(txt) {
-  return (txt || '').replace(/:/g, ' -').replace(/\n/g,' ').trim();
-}
-
-// ════════════════════════════════════════════════════════
-//  GERAR MARKDOWN
-// ════════════════════════════════════════════════════════
+// ════════════════════════════════════════════
+//  MARKDOWN GENERATION
+// ════════════════════════════════════════════
 function gerarMarkdown() {
   try {
-    const getVal = (sel) => document.querySelector(sel)?.value?.trim() || '';
+    const titulo    = document.getElementById('inp-title').value.trim() || 'Projeto sem título';
+    const sub       = document.getElementById('inp-sub').value.trim();
+    const status    = document.getElementById('inp-status').value;
+    const resp      = document.getElementById('inp-resp').value.trim();
+    const desc      = document.getElementById('inp-desc').value.trim();
+    const dir       = document.getElementById('inp-dir').value.trim();
+    const obj       = document.getElementById('inp-obj').value.trim();
+    const ganhos    = document.getElementById('inp-ganhos').value.trim();
+    const obs       = document.getElementById('inp-obs').value.trim();
+    const gavLink   = document.getElementById('gav-link').value.trim();
+    const rdmLink   = document.getElementById('roadmap-link').value.trim();
+    const atasLink  = document.getElementById('atas-link').value.trim();
 
-    const formatDateBr = (iso) => {
-      if (!iso) return '—';
-      const d = new Date(iso);
-      return isNaN(d) ? iso : d.toLocaleDateString('pt-BR');
-    };
-
-    const sanitize = (txt) =>
-      (txt || '').replace(/:/g, ' -').replace(/\n/g, ' ').trim();
-
-    const diffDays = (a, b) => {
-      const d1 = new Date(a);
-      const d2 = new Date(b);
-      if (isNaN(d1) || isNaN(d2)) return 1;
-      const diff = Math.ceil((d2 - d1) / (1000 * 60 * 60 * 24));
-      return diff > 0 ? diff : 1;
-    };
-
-    // ── CAMPOS PRINCIPAIS ──
-    const titulo        = getVal('.project-title') || 'Projeto sem título';
-    const subtitulo     = getVal('.project-sub');
-    const statusProjeto = document.querySelector('.badge-status')?.value || '';
-    const responsaveis  = document.querySelectorAll('.grid2 .field-value')[0]?.value || '';
-    const repositorio   = document.querySelectorAll('.grid2 .field-value')[1]?.value || '';
-    const descricao       = document.querySelectorAll('textarea')[0]?.value || '';
-    const diretrizes      = document.querySelectorAll('textarea')[1]?.value || '';
-    const objetivo        = document.querySelectorAll('textarea')[2]?.value || '';
-    const ganhosEsperados = document.querySelectorAll('textarea')[3]?.value || '';
-    const observacoes     = document.querySelectorAll('textarea')[4]?.value || '';
-
-    // ── CLASSIFICAÇÃO ──
-    const classif      = document.querySelectorAll('.grid4 select');
-    const natureza     = classif[0]?.value || '';
-    const impacto      = classif[1]?.value || '';
-    const complexidade = classif[2]?.value || '';
-    const visibilidade = classif[3]?.value || '';
-
-    // ── PRAZOS ──
-    const prazoInicio = document.querySelectorAll('.prazo-input')[0]?.value || '';
-    const prazoFim    = document.querySelectorAll('.prazo-input')[1]?.value || '';
-
-    // ── PRODUTOS ──
-    const produtos = [];
-    document.querySelectorAll('#body-produtos tr').forEach(row => {
-      const inputs = row.querySelectorAll('input, select');
-      if (inputs[0]?.value) {
-        produtos.push({ nome: inputs[0].value, previsao: inputs[1]?.value || '', status: inputs[2]?.value || '' });
-      }
-    });
-
-    // ── AÇÕES ──
-    const acoes = [];
-    document.querySelectorAll('#body-acoes tr').forEach(row => {
-      const inputs = row.querySelectorAll('input');
-      if (inputs[0]?.value) {
-        acoes.push({ nome: inputs[0].value, resp: inputs[1]?.value || '', prazo: inputs[2]?.value || '' });
-      }
-    });
-
-    // ── CRONOGRAMA ──
-    const fases = [];
-    document.querySelectorAll('#body-cronograma tr').forEach(row => {
-      const inputs = row.querySelectorAll('input');
-      const sel    = row.querySelector('select');
-      const nome   = inputs[0]?.value?.trim();
-      const resp   = inputs[1]?.value || '';
-      const inicio = inputs[2]?.value || '';
-      const fim    = inputs[3]?.value || '';
-      const status = sel?.value || '';
-      if (nome && inicio && fim) {
-        fases.push({ nome, resp, inicio, fim, status });
-      }
-    });
-
-    // ── INDICADORES ──
+    // Indicadores
     const indicadores = [];
     document.querySelectorAll('#body-indicadores tr').forEach(row => {
-      const inputs = row.querySelectorAll('input, select');
-      if (inputs[0]?.value) {
-        indicadores.push({ nome: inputs[0].value, base: inputs[1]?.value || '', meta: inputs[2]?.value || '', freq: inputs[3]?.value || '' });
-      }
+      const c = row.querySelectorAll('input, select');
+      if (!c[0]?.value) return;
+      indicadores.push({ nome: c[0].value, base: c[1]?.value||'—', meta: c[2]?.value||'—', freq: c[3]?.value||'—' });
     });
 
-    // ── RISCOS ──
+    // Riscos
     const riscos = [];
     document.querySelectorAll('#body-riscos tr').forEach(row => {
-      const inputs = row.querySelectorAll('input, select');
-      if (inputs[0]?.value) {
-        riscos.push({ nome: inputs[0].value, prob: inputs[1]?.value || '', impacto: inputs[2]?.value || '', mitigacao: inputs[3]?.value || '' });
-      }
+      const c = row.querySelectorAll('input, select');
+      if (!c[0]?.value) return;
+      riscos.push({ nome: c[0].value, prob: c[1]?.value||'—', imp: c[2]?.value||'—', mit: c[3]?.value||'—' });
     });
 
-    // ── RAG ──
-    const rags = [];
-    document.querySelectorAll('.rag-row').forEach(row => {
-      const label = row.querySelector('.rag-label')?.innerText?.trim();
-      const sel   = row.querySelector('.rag-select');
-      const obs   = row.querySelector('.rag-obs')?.value || '';
-      if (!label) return;
-      let status = '—';
-      if (sel?.value === 'green') status = '🟢 Verde';
-      else if (sel?.value === 'amber') status = '🟠 Âmbar';
-      else if (sel?.value === 'red') status = '🔴 Vermelho';
-      rags.push({ label, status, obs });
-    });
-
-    // ── MARCOS ──
+    // Marcos (Linha do Tempo)
     const marcos = [];
     document.querySelectorAll('#marcos-block .marco-row').forEach(row => {
       const date  = row.querySelector('.marco-date')?.value;
       const title = row.querySelector('.marco-title')?.value?.trim();
-      if (date && title) marcos.push({ date, title });
+      const type  = row.querySelector('.marco-type')?.value || 'marco';
+      if (date && title) marcos.push({ date, title, type });
     });
 
-    // ════════════════════════════════════════════════════
-    //  TIMELINE MERMAID
-    // ════════════════════════════════════════════════════
-    function gerarTimeline(lista, tituloSecao) {
-      if (!lista.length) return '';
-      const mapa = {};
-      lista.forEach(item => {
-        const d = new Date(item.date || item.inicio);
+    // ──────────────────────────────────────────────
+    //  Mermaid timeline agrupado por "Mês Ano"
+    // ──────────────────────────────────────────────
+    function timelineAdmonition() {
+      if (!marcos.length) return '';
+
+      const mapa = {}; 
+      marcos.forEach(m => {
+        const d = new Date(m.date + 'T12:00:00');
         if (isNaN(d)) return;
-        const ano = d.getFullYear();
-        const mes = d.getMonth();
-        if (!mapa[ano]) mapa[ano] = {};
-        if (!mapa[ano][mes]) mapa[ano][mes] = [];
-        mapa[ano][mes].push(sanitize(item.title || item.nome));
+        const key = `${MESES_PT[d.getMonth()]} ${d.getFullYear()}`;
+        if (!mapa[key]) mapa[key] = [];
+        mapa[key].push({ date: m.date, title: m.title });
       });
-      let md = '```mermaid\ntimeline\n';
-      md += `    title ${sanitize(titulo)} - ${tituloSecao}\n`;
-      Object.keys(mapa).sort().forEach(ano => {
-        md += `    section ${ano}\n`;
-        Object.keys(mapa[ano]).sort((a,b)=>a-b).forEach(mes => {
-          const lista2 = mapa[ano][mes];
-          md += `        ${MESES_PT[mes]} : ${lista2[0]}\n`;
-          for (let i = 1; i < lista2.length; i++) {
-            md += `              : ${lista2[i]}\n`;
+
+      const sortedKeys = Object.keys(mapa).sort((a, b) => {
+        const parseKey = k => {
+          const [mes, ano] = k.split(' ');
+          return new Date(`${ano}-${MESES_PT.indexOf(mes)+1}-01`);
+        };
+        return parseKey(a) - parseKey(b);
+      });
+
+      let inner = '    ```mermaid\n';
+      inner += '    timeline\n';
+      inner += `        title Linha do Tempo — ${titulo}\n`;
+
+      sortedKeys.forEach(key => {
+        inner += `        section ${key}\n`;
+        mapa[key].forEach((ev, i) => {
+          const label = cleanMermaid(ev.title);
+          if (i === 0) {
+            inner += `            ${fmtBr(ev.date)} : ${label}\n`;
+          } else {
+            inner += `                       : ${label}\n`;
           }
         });
       });
-      md += '```\n\n';
-      return md;
+
+      inner += '    ```\n';
+
+      let block = `??? info "Linha do Tempo — ${titulo}"\n\n`;
+      block += inner;
+      block += '\n';
+      return block;
     }
 
-    // ════════════════════════════════════════════════════
-    //  [CORREÇÃO G1+G2+G3] GANTT MERMAID — versão corrigida
-    // ════════════════════════════════════════════════════
-    function gerarGantt() {
-      if (!fases.length) return '';
-
-      const clean = (t) =>
-        (t || '')
-          .replace(/[:#()\/,;]/g, '-')
-          .replace(/\s+/g, ' ')
-          .trim()
-          .substring(0, 60);
-
-      const diffDays = (a, b) => {
-        const d1 = new Date(a);
-        const d2 = new Date(b);
-        if (isNaN(d1) || isNaN(d2)) return 1;
-        const diff = Math.ceil((d2 - d1) / (1000 * 60 * 60 * 24));
-        return diff > 0 ? diff : 1;
-      };
-
-      const statusMap = {
-        concluido:    'done',
-        em_andamento: 'active',
-        atrasado:     'crit'
-      };
-
-      let md = '```mermaid\ngantt\n';
-      md += `    title ${clean(titulo)} - Cronograma\n`;
-      md += `    dateFormat YYYY-MM-DD\n`;
-      md += `    axisFormat %b/%Y\n\n`;   // ← mês abreviado + ano
-
-      // Uma única section, cada fase vira um item individual
-      md += `    section Atividades\n`;
-
-      fases.forEach(f => {
-        const label = clean(f.nome);
-        const dur   = Math.max(diffDays(f.inicio, f.fim), 1);
-        const flag  = statusMap[f.status];
-
-        if (flag) {
-          md += `    ${label} : ${flag}, ${f.inicio}, ${dur}d\n`;
-        } else {
-          md += `    ${label} : ${f.inicio}, ${dur}d\n`;
-        }
-      });
-
-      md += '```\n\n';
-      return md;
+    // ──────────────────────────────────────────────
+    //  Helpers para admonitions no MD
+    // ──────────────────────────────────────────────
+    function adm(type, title, content, collapsible = false) {
+      const marker = collapsible ? '???' : '!!!';
+      let block = `${marker} ${type} "${title}"\n\n`;
+      block += content.split('\n').map(l => l ? '    ' + l : '').join('\n');
+      block += '\n\n';
+      return block;
     }
 
-    // ════════════════════════════════════════════════════
-    //  MONTAGEM DO MARKDOWN FINAL
-    // ════════════════════════════════════════════════════
+    // ──────────────────────────────────────────────
+    //  Montagem do MD
+    // ──────────────────────────────────────────────
     let md = `# ${titulo}\n\n`;
-    if (subtitulo) md += `**${subtitulo}**\n\n`;
+    if (sub) md += `> **${sub}**\n\n`;
     md += `---\n\n`;
 
-    md += `## Informações Gerais\n\n`;
-    md += `| Campo | Valor |\n|------|------|\n`;
-    md += `| Status | ${statusProjeto} |\n`;
-    md += `| Responsáveis | ${responsaveis} |\n`;
-    md += `| Repositório | ${repositorio} |\n\n`;
+    // Informações gerais — Cards de Status e Responsáveis
+    let cards = `<div class="grid cards" markdown>\n\n`;
+    cards += `-   📊 **Status**\n\n    ---\n\n    \`${status}\`\n\n`;
+    cards += `-   👥 **Responsáveis**\n\n    ---\n\n    ${resp || '—'}\n\n`;
+    cards += `</div>\n\n`;
+    md += cards;
 
-    md += `## Descrição\n\n${descricao}\n\n`;
+    // Descrição
+    if (desc) md += adm('abstract', 'Descrição', desc);
 
-    md += `## Classificação\n\n`;
-    md += `| Natureza | Impacto | Complexidade | Visibilidade |\n`;
-    md += `|----------|---------|--------------|---------------|\n`;
-    md += `| ${natureza} | ${impacto} | ${complexidade} | ${visibilidade} |\n\n`;
+    // Diretrizes
+    if (dir) md += adm('info', 'Diretrizes', dir);
 
-    md += `## Prazos\n\n`;
-    md += `- Início: ${formatDateBr(prazoInicio)}\n`;
-    md += `- Fim: ${formatDateBr(prazoFim)}\n\n`;
+    // Objetivo
+    if (obj) md += adm('tip', 'Objetivo', obj);
 
-    if (diretrizes)      md += `## Diretrizes\n\n${diretrizes}\n\n`;
-    if (objetivo)        md += `## Objetivo\n\n${objetivo}\n\n`;
-    if (ganhosEsperados) md += `## Ganhos Esperados\n\n${ganhosEsperados}\n\n`;
-
-    if (produtos.length) {
-      md += `## Produtos\n\n`;
-      md += `| Produto | Previsão | Status |\n|--------|----------|--------|\n`;
-      produtos.forEach(p => md += `| ${p.nome} | ${p.previsao} | ${p.status} |\n`);
-      md += `\n`;
+    // Gestão à Vista
+    if (gavLink) {
+      md += adm('info', 'Projeto no GitHub',
+        `Acesse o Painel Gestão à Vista para acompanhar as tarefas e o quadro Kanban do projeto:\n\n[ 📌 Acessar Painel ](${gavLink}){ .md-button }`, true);
     }
 
-    if (acoes.length) {
-      md += `## Ações\n\n`;
-      md += `| Ação | Responsável | Prazo |\n|------|-------------|-------|\n`;
-      acoes.forEach(a => md += `| ${a.nome} | ${a.resp} | ${a.prazo} |\n`);
-      md += `\n`;
+    // Cronograma
+    if (rdmLink) {
+      md += adm('abstract', 'Cronograma',
+        `Acompanhe as entregas e prazos detalhados:\n\n[ 📅 Ver roadmap completo ](${rdmLink}){ .md-button }`, true);
     }
 
-    // [CORREÇÃO G1/G2/G3] Gantt corrigido
-    if (fases.length) {
-      md += `## Cronograma\n\n`;
-      md += gerarGantt();
-    }
-
+    // Indicadores
     if (indicadores.length) {
-      md += `## Indicadores\n\n`;
-      md += `| Indicador | Base | Meta | Frequência |\n|---|---|---|---|\n`;
+      let tbl = `| Indicador | Linha base | Meta | Frequência |\n`;
+      tbl    += `| --- | --- | --- | --- |\n`;
       indicadores.forEach(i => {
-        md += `| ${i.nome || '—'} | ${i.base || '—'} | ${i.meta || '—'} | ${i.freq || '—'} |\n`;
+        tbl += `| ${i.nome} | ${i.base} | ${i.meta} | ${i.freq} |\n`;
       });
-      md += `\n`;
+      md += adm('success', 'Indicadores', tbl);
     }
 
-    if (rags.length) {
-      md += `## Status RAG\n\n`;
-      rags.forEach(r => {
-        md += `- **${r.label}:** ${r.status}\n`;
-        if (r.obs) md += `  - ${r.obs}\n`;
-      });
-      md += `\n`;
-    }
-
+    // Riscos
     if (riscos.length) {
-      md += `## Riscos\n\n`;
-      md += `| Risco | Probabilidade | Impacto | Mitigação |\n|------|---------------|---------|------------|\n`;
+      let tbl = `| Risco | Probabilidade | Impacto | Mitigação |\n`;
+      tbl    += `| --- | --- | --- | --- |\n`;
       riscos.forEach(r => {
-        md += `| ${r.nome} | ${r.prob} | ${r.impacto} | ${r.mitigacao} |\n`;
+        tbl += `| ${r.nome} | ${r.prob} | ${r.imp} | ${r.mit} |\n`;
       });
-      md += `\n`;
+      md += adm('warning', 'Riscos', tbl);
     }
 
+    // Atas de Reunião — Atualizado para formato de botão com descrição
+    if (atasLink) {
+      md += adm('note', 'Atas de Reunião',
+        `Consulte o histórico de registros e decisões tomadas nas reuniões do projeto:\n\n[ 📝 Ver atas no Gestão à Vista ](${atasLink}){ .md-button }`, true);
+    }
+
+    // Linha do Tempo
     if (marcos.length) {
       md += `## Linha do Tempo\n\n`;
-      md += gerarTimeline(marcos, 'Marcos');
+      md += timelineAdmonition();
     }
 
-    if (typeof ghItemsRaw !== 'undefined' && ghItemsRaw.length) {
-      md += `## GitHub\n\n`;
-      const prs    = ghItemsRaw.filter(i => i.content?.__typename === 'PullRequest');
-      const issues = ghItemsRaw.filter(i => i.content?.__typename === 'Issue');
-      if (prs.length) {
-        md += `### Pull Requests\n\n`;
-        md += `| # | Título | Estado | Aberto em | Fechado / Merged em |\n`;
-        md += `|---|--------|--------|-----------|---------------------|\n`;
-        prs.forEach(pr => {
-          const c       = pr.content;
-          const estado  = c.mergedAt ? 'Merged' : (c.state === 'OPEN' ? 'Aberto' : 'Fechado');
-          const aberto  = formatDateBr(c.createdAt);
-          const fechado = formatDateBr(c.mergedAt || c.closedAt || '');
-          md += `| [#${c.number}](${c.url}) | ${c.title} | ${estado} | ${aberto} | ${fechado} |\n`;
-        });
-        md += `\n`;
-      }
-      if (issues.length) {
-        md += `### Issues\n\n`;
-        md += `| # | Título | Estado | Aberto em | Fechado em |\n`;
-        md += `|---|--------|--------|-----------|------------|\n`;
-        issues.forEach(i => {
-          const c       = i.content;
-          const estado  = c.state === 'OPEN' ? 'Aberta' : 'Fechada';
-          const aberto  = formatDateBr(c.createdAt);
-          const fechado = formatDateBr(c.closedAt || '');
-          md += `| [#${c.number}](${c.url}) | ${c.title} | ${estado} | ${aberto} | ${fechado} |\n`;
-        });
-        md += `\n`;
-      }
-    }
+    // Ganhos
+    if (ganhos) md += adm('success', 'Ganhos Esperados', ganhos);
 
-    if (observacoes) md += `## Observações\n\n${observacoes}\n\n`;
-    md += `---\nGerado em ${new Date().toLocaleDateString('pt-BR')}`;
+    // Observações
+    if (obs) md += adm('quote', 'Observações', obs);
 
-    const blob = new Blob([md], { type: 'text/markdown' });
-    const url  = URL.createObjectURL(blob);
+    md += `---\n\n_Gerado em ${new Date().toLocaleDateString('pt-BR')}_\n`;
+
+    // Download
     const a    = document.createElement('a');
-    a.href     = url;
-    a.download = titulo.replace(/\s+/g,'_').toLowerCase() + '.md';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    a.href     = URL.createObjectURL(new Blob([md], { type:'text/markdown' }));
+    a.download = titulo.replace(/\s+/g,'_').toLowerCase().replace(/[^a-z0-9_]/g,'') + '.md';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    URL.revokeObjectURL(a.href);
 
-  } catch (err) {
-    console.error(err);
-    alert('Erro ao gerar markdown: ' + err.message);
+  } catch(e) {
+    alert('Erro ao gerar Markdown: ' + e.message);
+    console.error(e);
   }
 }
 
-// ════════════════════════════════════════════════════════
-//  [CORREÇÃO C2] EXPORTAR HTML — PAT removido antes de serializar
-// ════════════════════════════════════════════════════════
+// ════════════════════════════════════════════
+//  EXPORT HTML
+// ════════════════════════════════════════════
 function exportarHTML() {
-  const patInput    = document.getElementById('gh-pat');
-  const valorPat    = patInput.value;      // guarda valor atual
-  patInput.value    = '';                  // limpa do DOM temporariamente
-
   const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
-
-  patInput.value = valorPat;              // restaura na interface
-
-  const a    = document.createElement('a');
-  a.href     = URL.createObjectURL(new Blob([html], { type:'text/html' }));
-  const t    = document.querySelector('.project-title').value || 'ficha_projeto';
-  a.download = t.toLowerCase().replace(/\s+/g,'_') + '.html';
-  a.click();
+  const titulo = document.getElementById('inp-title').value || 'ficha_projeto';
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([html], { type:'text/html' }));
+  a.download = titulo.toLowerCase().replace(/\s+/g,'_').replace(/[^a-z0-9_]/g,'') + '.html';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
 }
 
-function imprimirFicha() { window.print(); }
-
+// ════════════════════════════════════════════
+//  CLEAR
+// ════════════════════════════════════════════
 function limparFicha() {
   if (!confirm('Limpar todos os campos da ficha?')) return;
   document.querySelectorAll('input[type=text],input[type=url],input[type=date],textarea')
-    .forEach(e => { e.value = ''; });
+    .forEach(e => e.value = '');
   document.querySelectorAll('select').forEach(e => e.selectedIndex = 0);
-  document.querySelectorAll('.rag-dot').forEach(d => d.style.background = 'var(--hint)');
-  document.querySelectorAll('.crono-bar-fill').forEach(b => {
-    b.style.width = '0%'; b.className = 'crono-bar-fill';
+  ['gav-open','roadmap-open','atas-open'].forEach(id => {
+    document.getElementById(id).href = '#';
   });
-  ghItemsRaw = [];
-  document.getElementById('gh-items').innerHTML = '';
-  document.getElementById('gh-items-wrap').classList.add('empty');
-  document.getElementById('gh-empty').classList.remove('visible');
-  document.getElementById('gh-tabs').style.display = 'none';
-  ghStatus('Configure os campos acima e clique em Buscar.', '');
 }
-
-// ════════════════════════════════════════════════════════
-//  INIT
-// ════════════════════════════════════════════════════════
-carregarGhConfig();
 </script>
 </body>
 </html>

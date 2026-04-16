@@ -20,8 +20,7 @@ nav:
   - Início: index.md
   - Projetos:
       - Ficha de Projeto: projetos/ficha_projeto.md
-      - Missão Artemis II: projetos/artemis_ii.md
-      - Dados Abertos MG: projetos/dados_abertos_mg.md
+      - Projeto Hail Mary: projetos/projeto_hail_mary.md
       
 extra_css:
   - assets/ficha_override.css
@@ -37,6 +36,8 @@ extra:
 markdown_extensions:
   - attr_list
   - md_in_html
+  - admonition 
+  - pymdownx.details 
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid
