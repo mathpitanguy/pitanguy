@@ -376,7 +376,7 @@ textarea.field-input { resize: vertical; min-height: 72px; line-height: 1.75; }
   <!-- ══ DESCRIÇÃO ══ -->
   <details class="adm adm-abstract" open>
     <summary>
-      <span class="adm-icon">📋</span>
+      <span class="adm-icon"></span>
       Descrição
       <span class="adm-chevron">▼</span>
     </summary>
@@ -388,7 +388,7 @@ textarea.field-input { resize: vertical; min-height: 72px; line-height: 1.75; }
   <!-- ══ DIRETRIZES ══ -->
   <details class="adm adm-note" open>
     <summary>
-      <span class="adm-icon">📌</span>
+      <span class="adm-icon"></span>
       Diretrizes
       <span class="adm-chevron">▼</span>
     </summary>
@@ -400,7 +400,7 @@ textarea.field-input { resize: vertical; min-height: 72px; line-height: 1.75; }
   <!-- ══ OBJETIVO ══ -->
   <details class="adm adm-tip" open>
     <summary>
-      <span class="adm-icon">🎯</span>
+      <span class="adm-icon"></span>
       Objetivo
       <span class="adm-chevron">▼</span>
     </summary>
@@ -412,14 +412,14 @@ textarea.field-input { resize: vertical; min-height: 72px; line-height: 1.75; }
   <!-- ══ GESTÃO À VISTA ══ -->
   <details class="adm adm-info" open>
     <summary>
-      <span class="adm-icon">📊</span>
+      <span class="adm-icon"></span>
       Gestão à Vista
       <span class="adm-chevron">▼</span>
     </summary>
     <div class="adm-body">
       <label class="field-label">Painel do projeto — GitHub Projects da organização</label>
       <div class="link-pill" style="margin-top:6px;">
-        <span class="link-pill-icon">🔗</span>
+        <span class="link-pill-icon"></span>
         <input type="url" id="gav-link"
                placeholder="https://github.com/orgs/org/projects/N"
                oninput="syncLink('gav-link','gav-open')" />
@@ -433,14 +433,14 @@ textarea.field-input { resize: vertical; min-height: 72px; line-height: 1.75; }
   <!-- ══ CRONOGRAMA — apenas link ══ -->
   <details class="adm adm-example" open>
     <summary>
-      <span class="adm-icon">📅</span>
+      <span class="adm-icon"></span>
       Cronograma
       <span class="adm-chevron">▼</span>
     </summary>
     <div class="adm-body">
       <label class="field-label">Roadmap no Gestão à Vista</label>
       <div class="link-pill" style="margin-top:6px;">
-        <span class="link-pill-icon">🗺️</span>
+        <span class="link-pill-icon"></span>
         <input type="url" id="roadmap-link"
                placeholder="https://github.com/orgs/org/projects/N/views/..."
                oninput="syncLink('roadmap-link','roadmap-open')" />
@@ -454,7 +454,7 @@ textarea.field-input { resize: vertical; min-height: 72px; line-height: 1.75; }
   <!-- ══ INDICADORES ══ -->
   <details class="adm adm-success" open>
     <summary>
-      <span class="adm-icon">📈</span>
+      <span class="adm-icon"></span>
       Indicadores
       <span class="adm-chevron">▼</span>
     </summary>
@@ -492,7 +492,7 @@ textarea.field-input { resize: vertical; min-height: 72px; line-height: 1.75; }
   <!-- ══ RISCOS ══ -->
   <details class="adm adm-warning" open>
     <summary>
-      <span class="adm-icon">⚠️</span>
+      <span class="adm-icon"></span>
       Riscos
       <span class="adm-chevron">▼</span>
     </summary>
@@ -538,14 +538,14 @@ textarea.field-input { resize: vertical; min-height: 72px; line-height: 1.75; }
   <!-- ══ ATAS DE REUNIÃO ══ -->
   <details class="adm adm-note" open>
     <summary>
-      <span class="adm-icon">📝</span>
+      <span class="adm-icon"></span>
       Atas de Reunião
       <span class="adm-chevron">▼</span>
     </summary>
     <div class="adm-body">
       <label class="field-label">Gestão à Vista — painel de atas e reuniões</label>
       <div class="link-pill" style="margin-top:6px;">
-        <span class="link-pill-icon">🗂️</span>
+        <span class="link-pill-icon"></span>
         <input type="url" id="atas-link"
                placeholder="https://github.com/orgs/org/projects/N/views/..."
                oninput="syncLink('atas-link','atas-open')" />
@@ -559,7 +559,7 @@ textarea.field-input { resize: vertical; min-height: 72px; line-height: 1.75; }
   <!-- ══ LINHA DO TEMPO (Marcos) ══ -->
   <details class="adm adm-info" open>
     <summary>
-      <span class="adm-icon">🚩</span>
+      <span class="adm-icon"></span>
       Linha do Tempo
       <span class="adm-chevron">▼</span>
     </summary>
@@ -597,7 +597,7 @@ textarea.field-input { resize: vertical; min-height: 72px; line-height: 1.75; }
   <!-- ══ GANHOS ESPERADOS ══ -->
   <details class="adm adm-success" open>
     <summary>
-      <span class="adm-icon">✨</span>
+      <span class="adm-icon"></span>
       Ganhos Esperados
       <span class="adm-chevron">▼</span>
     </summary>
@@ -610,7 +610,7 @@ textarea.field-input { resize: vertical; min-height: 72px; line-height: 1.75; }
   <!-- ══ OBSERVAÇÕES ══ -->
   <details class="adm adm-quote" open>
     <summary>
-      <span class="adm-icon">💬</span>
+      <span class="adm-icon"></span>
       Observações
       <span class="adm-chevron">▼</span>
     </summary>
@@ -833,13 +833,13 @@ function gerarMarkdown() {
     // Gestão à Vista
     if (gavLink) {
       md += adm('info', 'Projeto no GitHub',
-        `Acesse o Painel Gestão à Vista para acompanhar as tarefas e o quadro Kanban do projeto:\n\n[ 📌 Acessar Painel ](${gavLink}){ .md-button }`, true);
+        `Acesse o Painel Gestão à Vista para acompanhar as tarefas do projeto:\n\n[ Acessar Painel ](${gavLink}){ .md-button }`, true);
     }
 
     // Cronograma
     if (rdmLink) {
       md += adm('abstract', 'Cronograma',
-        `Acompanhe as entregas e prazos detalhados:\n\n[ 📅 Ver roadmap completo ](${rdmLink}){ .md-button }`, true);
+        `Acompanhe o Roadmap:\n\n[ Ver roadmap completo ](${rdmLink}){ .md-button }`, true);
     }
 
     // Indicadores
@@ -865,7 +865,7 @@ function gerarMarkdown() {
     // Atas de Reunião — Atualizado para formato de botão com descrição
     if (atasLink) {
       md += adm('note', 'Atas de Reunião',
-        `Consulte o histórico de registros e decisões tomadas nas reuniões do projeto:\n\n[ 📝 Ver atas no Gestão à Vista ](${atasLink}){ .md-button }`, true);
+        `Consulte o histórico de registros do projeto:\n\n[ Ver atas no Gestão à Vista ](${atasLink}){ .md-button }`, true);
     }
 
     // Linha do Tempo

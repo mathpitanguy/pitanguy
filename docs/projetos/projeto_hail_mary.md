@@ -32,35 +32,35 @@
 
 ??? info "Projeto no GitHub"
 
-    Acesse o Painel Gestão à Vista para acompanhar as tarefas e o quadro Kanban do projeto:
+    Acesse o Painel Gestão à Vista para acompanhar as tarefas do projeto:
 
-    [ 📌 Acessar Painel ](https://squidfunk.github.io/mkdocs-material/){ .md-button }
+    [ Acessar Painel ](https://squidfunk.github.io/mkdocs-material/){ .md-button }
 
 ??? abstract "Cronograma"
 
-    Acompanhe as entregas e prazos detalhados:
+    Acompanhe o Roadmap:
 
-    [ 📅 Ver roadmap completo ](https://squidfunk.github.io/mkdocs-material/){ .md-button }
+    [ Ver roadmap completo ](https://squidfunk.github.io/mkdocs-material/){ .md-button }
 
 !!! success "Indicadores"
 
     | Indicador | Linha base | Meta | Frequência |
     | --- | --- | --- | --- |
-    | teste a  | a | a | Mensal |
+    | Indicador 1  | Indicador 1  | Indicador 1  | Trimestral |
 
 
 !!! warning "Riscos"
 
     | Risco | Probabilidade | Impacto | Mitigação |
     | --- | --- | --- | --- |
-    | risco b | Média | Baixo | mitigação b |
+    | Risco 1  | Baixa | Alto | Risco 1  |
 
 
 ??? note "Atas de Reunião"
 
-    Consulte o histórico de registros e decisões tomadas nas reuniões do projeto:
+    Consulte o histórico de registros do projeto:
 
-    [ 📝 Ver atas no Gestão à Vista ](https://squidfunk.github.io/mkdocs-material/){ .md-button }
+    [ Ver atas no Gestão à Vista ](Indicador 1){ .md-button }
 
 ## Linha do Tempo
 
@@ -70,9 +70,11 @@
     timeline
         title Linha do Tempo — Projeto Hail Mary
         section Abril 2026
-            15/04/2026 : teste a
+            17/04/2026 : Marco 1
         section Maio 2026
-            13/05/2026 : teste b
+            18/05/2026 : Marco 2
+        section Junho 2026
+            18/06/2026 : Marco 3
     ```
 
 !!! success "Ganhos Esperados"
@@ -85,4 +87,4 @@
 
 ---
 
-_Gerado em 16/04/2026_
+_Gerado em 17/04/2026_
