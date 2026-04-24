@@ -21,7 +21,7 @@ nav:
   - Projetos:
       - Ficha de Projeto: projetos/ficha_projeto.md
       - Projeto Hail Mary: projetos/projeto_hail_mary.md
-      
+      - Teste: projetos/projeto_sem_ttulo.md
 extra_css:
   - assets/ficha_override.css
 

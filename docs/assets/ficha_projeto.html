@@ -4,49 +4,51 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ficha de Projeto</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@300;400;500&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --md-primary:      #3f51b5;
-  --md-primary-dk:   #303f9f;
-  --md-primary-lt:   #e8eaf6;
-  --md-accent:       #536dfe;
-  --md-bg:           #f5f5f5;
-  --md-surface:      #ffffff;
-  --md-surface2:     #fafafa;
-  --md-text:         #1a1a2e;
-  --md-text2:        #37474f;
-  --md-muted:        #6e7d8e;
-  --md-hint:         #b0bec5;
-  --md-border:       #e0e0e0;
-  --md-border2:      #cfd8dc;
-  --md-shadow:       0 2px 8px rgba(0,0,0,.08), 0 8px 24px rgba(0,0,0,.05);
-  --md-shadow-sm:    0 1px 3px rgba(0,0,0,.08);
-  --md-r:            10px;
-  --md-r-sm:         6px;
-  --mono: 'JetBrains Mono', monospace;
-  --sans: 'DM Sans', sans-serif;
+  --ink:         #0f1923;
+  --ink2:        #2c3e50;
+  --muted:       #6b7c93;
+  --hint:        #a8b8cb;
+  --border:      #dde4ee;
+  --border2:     #c8d4e2;
+  --surface:     #ffffff;
+  --bg:          #f2f5f9;
+  --bg2:         #e8edf4;
+  --accent:      #1a56db;
+  --accent-lt:   #e8eeff;
+  --accent-dk:   #0f3ba8;
+  --amber:       #d97706;
+  --amber-lt:    #fef3c7;
+  --emerald:     #059669;
+  --emerald-lt:  #d1fae5;
+  --rose:        #e11d48;
+  --rose-lt:     #ffe4e6;
+  --violet:      #7c3aed;
+  --violet-lt:   #ede9fe;
+  --sky:         #0284c7;
+  --sky-lt:      #e0f2fe;
 
-  --ad-note:        #448aff; --ad-note-bg:     #e3f2fd;
-  --ad-abstract:    #00b0ff; --ad-abstract-bg: #e1f5fe;
-  --ad-info:        #00b8d4; --ad-info-bg:     #e0f7fa;
-  --ad-tip:         #00bfa5; --ad-tip-bg:      #e0f2f1;
-  --ad-success:     #00c853; --ad-success-bg:  #e8f5e9;
-  --ad-warning:     #ff9100; --ad-warning-bg:  #fff3e0;
-  --ad-danger:      #ff5252; --ad-danger-bg:   #fce4ec;
-  --ad-example:     #7c4dff; --ad-example-bg:  #ede7f6;
-  --ad-quote:       #78909c; --ad-quote-bg:    #f8f9fa;
+  --shadow:    0 1px 3px rgba(15,25,35,.06), 0 8px 24px rgba(15,25,35,.06);
+  --shadow-sm: 0 1px 2px rgba(15,25,35,.05);
+  --r:         10px;
+  --r-sm:      6px;
+
+  --mono: 'DM Mono', monospace;
+  --sans: 'Syne', sans-serif;
+  --serif: 'Lora', serif;
 }
 
 body {
-  font-family: var(--sans);
-  background: var(--md-bg);
-  color: var(--md-text);
-  padding: 1.5rem 1rem 5rem;
+  font-family: var(--serif);
+  background: var(--bg);
+  color: var(--ink);
+  padding: 2rem 1rem 6rem;
   font-size: 14px;
-  line-height: 1.6;
+  line-height: 1.7;
   min-height: 100vh;
 }
 
@@ -54,109 +56,172 @@ body::before {
   content: '';
   position: fixed; inset: 0; z-index: -1;
   background-image:
-    linear-gradient(rgba(63,81,181,.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(63,81,181,.03) 1px, transparent 1px);
-  background-size: 28px 28px;
+    linear-gradient(rgba(26,86,219,.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(26,86,219,.025) 1px, transparent 1px);
+  background-size: 32px 32px;
 }
 
 .page-wrap {
-  max-width: 920px;
+  max-width: 860px;
   margin: 0 auto;
+}
+
+/* ══ STATUS BANNER ══ */
+.status-banner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 12px 20px;
+  margin-bottom: 1rem;
+  box-shadow: var(--shadow-sm);
+}
+.status-label {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: var(--muted);
+  flex-shrink: 0;
+}
+.status-pill {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  font-weight: 500;
+  padding: 4px 14px;
+  border-radius: 20px;
+  letter-spacing: .04em;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  border: 1.5px solid currentColor;
+}
+.status-pill.em-execucao  { background: var(--emerald-lt); color: var(--emerald); }
+.status-pill.iniciacao    { background: var(--sky-lt);     color: var(--sky); }
+.status-pill.concluido    { background: var(--accent-lt);  color: var(--accent); }
+.status-pill.pausado      { background: var(--amber-lt);   color: var(--amber); }
+.status-pill.cancelado    { background: var(--rose-lt);    color: var(--rose); }
+select.status-pill { padding-right: 8px; }
+select.status-pill option { background: white; color: var(--ink); }
+
+.status-divider {
+  width: 1px; height: 24px;
+  background: var(--border);
+  flex-shrink: 0;
+}
+.status-date-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+.status-date-label {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--hint);
+  white-space: nowrap;
+}
+.status-date-input {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--muted);
+  background: transparent;
+  border: none;
+  outline: none;
 }
 
 /* ══ HEADER CARD ══ */
 .header-card {
-  background: linear-gradient(135deg, var(--md-primary-dk) 0%, var(--md-primary) 60%, #5c6bc0 100%);
-  border-radius: var(--md-r);
-  padding: 2rem 2rem 1.75rem;
-  margin-bottom: 1.25rem;
-  box-shadow: 0 4px 20px rgba(63,81,181,.3), 0 1px 4px rgba(0,0,0,.1);
+  background: linear-gradient(135deg, #0f2d5e 0%, #1a3f82 55%, #1e4fa0 100%);
+  border-radius: var(--r);
+  padding: 2.25rem 2.5rem 2rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 6px 24px rgba(15,45,94,.35), 0 1px 4px rgba(0,0,0,.12);
   position: relative;
   overflow: hidden;
 }
 .header-card::before {
   content: '';
-  position: absolute; top: -60px; right: -60px;
-  width: 220px; height: 220px;
-  background: rgba(255,255,255,.06);
+  position: absolute; top: -80px; right: -60px;
+  width: 260px; height: 260px;
+  background: radial-gradient(circle, rgba(255,255,255,.07) 0%, transparent 70%);
   border-radius: 50%;
 }
 .header-card::after {
   content: '';
-  position: absolute; bottom: -30px; left: -30px;
-  width: 130px; height: 130px;
-  background: rgba(255,255,255,.04);
+  position: absolute; bottom: -20px; left: 40%;
+  width: 400px; height: 80px;
+  background: rgba(255,255,255,.03);
   border-radius: 50%;
 }
 
-.project-title {
-  font-size: 1.55rem; font-weight: 700; letter-spacing: -.01em;
-  background: transparent; border: none; outline: none;
-  color: #fff; width: 100%; font-family: var(--sans);
-  margin-bottom: 5px; position: relative; z-index: 1;
-}
-.project-title::placeholder { color: rgba(255,255,255,.4); font-weight: 300; }
-
-.project-sub {
-  font-family: var(--mono); font-size: 0.7rem; letter-spacing: .04em;
-  background: transparent; border: none; outline: none;
-  color: rgba(255,255,255,.65); width: 100%; position: relative; z-index: 1;
-}
-.project-sub::placeholder { color: rgba(255,255,255,.35); }
-
-.header-meta {
-  display: grid;
-  grid-template-columns: auto 1fr 1fr;
-  gap: 1rem; margin-top: 1.5rem; align-items: start;
+.project-label {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.45);
+  margin-bottom: 10px;
+  display: block;
   position: relative; z-index: 1;
 }
 
-.badge-status {
-  font-family: var(--mono); font-size: 0.62rem; font-weight: 600;
-  padding: 6px 18px; border-radius: 20px; letter-spacing: .05em;
-  background: rgba(255,255,255,.18); color: #fff;
-  border: 1.5px solid rgba(255,255,255,.35);
-  cursor: pointer; appearance: none; text-align: center;
-  -webkit-appearance: none;
+.project-title {
+  font-family: var(--sans);
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: -.02em;
+  line-height: 1.2;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #fff;
+  width: 100%;
+  margin-bottom: 8px;
+  position: relative;
+  z-index: 1;
 }
-.badge-status option { background: var(--md-primary-dk); }
+.project-title::placeholder { color: rgba(255,255,255,.3); font-weight: 400; }
 
-.hfield { }
-.hfield-label {
-  font-family: var(--mono); font-size: 0.58rem; font-weight: 600;
-  color: rgba(255,255,255,.55); text-transform: uppercase; letter-spacing: .1em;
-  margin-bottom: 4px; display: block;
+.project-sub {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: .06em;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: rgba(255,255,255,.55);
+  width: 100%;
+  position: relative;
+  z-index: 1;
 }
-.hfield input {
-  background: transparent; border: none;
-  border-bottom: 1px solid rgba(255,255,255,.25);
-  outline: none; color: #fff;
-  font-family: var(--sans); font-size: 0.86rem; font-weight: 400;
-  width: 100%; padding-bottom: 3px;
-  transition: border-color .2s;
-}
-.hfield input:focus { border-color: rgba(255,255,255,.7); }
-.hfield input::placeholder { color: rgba(255,255,255,.35); }
+.project-sub::placeholder { color: rgba(255,255,255,.3); }
 
 /* ══ ADMONITIONS ══ */
 details.adm {
-  border-radius: var(--md-r);
-  margin-bottom: 1rem;
-  box-shadow: var(--md-shadow-sm);
+  border-radius: var(--r);
+  margin-bottom: .9rem;
+  box-shadow: var(--shadow-sm);
   overflow: hidden;
-  background: var(--md-surface);
-  border: 1px solid var(--md-border);
+  background: var(--surface);
+  border: 1px solid var(--border);
   transition: box-shadow .2s;
 }
-details.adm[open] { box-shadow: var(--md-shadow); }
+details.adm[open] { box-shadow: var(--shadow); }
 
 details.adm > summary {
   display: flex;
   align-items: center;
   gap: 9px;
-  padding: 11px 16px;
+  padding: 12px 18px;
   font-family: var(--sans);
-  font-size: 0.8rem; font-weight: 700;
+  font-size: 0.78rem;
+  font-weight: 700;
   letter-spacing: .015em;
   cursor: pointer;
   user-select: none;
@@ -166,173 +231,229 @@ details.adm > summary {
 }
 details.adm > summary::-webkit-details-marker { display: none; }
 
-.adm-icon { font-size: 1rem; flex-shrink: 0; line-height: 1; }
+.adm-icon { font-size: .95rem; flex-shrink: 0; line-height: 1; }
 
 .adm-chevron {
   margin-left: auto;
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   transition: transform .22s cubic-bezier(.4,0,.2,1);
-  opacity: .85;
+  opacity: .75;
 }
-details.adm[open] > summary .adm-chevron {
-  transform: rotate(180deg);
-}
+details.adm[open] > summary .adm-chevron { transform: rotate(180deg); }
 
 .adm-body {
-  padding: 1.25rem 1.5rem 1.25rem;
-  background: var(--md-surface);
+  padding: 1.25rem 1.5rem;
+  background: var(--surface);
   border-top: 1px solid rgba(0,0,0,.06);
 }
 
-.adm-note    > summary { background: var(--ad-note); }
-.adm-abstract> summary { background: var(--ad-abstract); }
-.adm-info    > summary { background: var(--ad-info); }
-.adm-tip     > summary { background: var(--ad-tip); }
-.adm-success > summary { background: var(--ad-success); }
-.adm-warning > summary { background: var(--ad-warning); }
-.adm-danger  > summary { background: var(--ad-danger); }
-.adm-example > summary { background: var(--ad-example); }
-.adm-quote   > summary { background: var(--ad-quote); }
+/* Colors */
+.adm-abstract > summary { background: #0284c7; }
+.adm-tip      > summary { background: #059669; }
+.adm-info     > summary { background: #0f766e; }
+.adm-example  > summary { background: #6d28d9; }
+.adm-success  > summary { background: #15803d; }
+.adm-quote    > summary { background: #475569; }
 
-.adm-note    .adm-body { border-left: 4px solid var(--ad-note); }
-.adm-abstract .adm-body { border-left: 4px solid var(--ad-abstract); }
-.adm-info    .adm-body { border-left: 4px solid var(--ad-info); }
-.adm-tip     .adm-body { border-left: 4px solid var(--ad-tip); }
-.adm-success .adm-body { border-left: 4px solid var(--ad-success); }
-.adm-warning .adm-body { border-left: 4px solid var(--ad-warning); }
-.adm-danger  .adm-body { border-left: 4px solid var(--ad-danger); }
-.adm-example .adm-body { border-left: 4px solid var(--ad-example); }
-.adm-quote   .adm-body { border-left: 4px solid var(--ad-quote); }
+.adm-abstract .adm-body { border-left: 4px solid #0284c7; }
+.adm-tip      .adm-body { border-left: 4px solid #059669; }
+.adm-info     .adm-body { border-left: 4px solid #0f766e; }
+.adm-example  .adm-body { border-left: 4px solid #6d28d9; }
+.adm-success  .adm-body { border-left: 4px solid #15803d; }
+.adm-quote    .adm-body { border-left: 4px solid #475569; }
 
 /* ══ FIELDS ══ */
 .field-label {
-  font-family: var(--mono); font-size: 0.6rem; font-weight: 600;
-  color: var(--md-muted); text-transform: uppercase; letter-spacing: .1em;
-  margin-bottom: 5px; display: block;
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  font-weight: 500;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  margin-bottom: 6px;
+  display: block;
 }
 .field-input {
-  width: 100%; border: none; border-bottom: 1px solid var(--md-border);
-  outline: none; background: transparent; font-family: var(--sans);
-  font-size: 0.85rem; color: var(--md-text); padding: 4px 0;
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  outline: none;
+  background: transparent;
+  font-family: var(--serif);
+  font-size: 0.9rem;
+  color: var(--ink);
+  padding: 4px 0;
   transition: border-color .2s;
 }
-.field-input:focus { border-color: var(--md-primary); }
-.field-input::placeholder { color: var(--md-hint); }
-textarea.field-input { resize: vertical; min-height: 72px; line-height: 1.75; }
+.field-input:focus { border-color: var(--accent); }
+.field-input::placeholder { color: var(--hint); font-style: italic; }
+textarea.field-input {
+  resize: vertical;
+  min-height: 80px;
+  line-height: 1.8;
+  padding-top: 4px;
+}
 .field-group { margin-bottom: 1rem; }
 
 /* ══ LINK PILL ══ */
 .link-pill {
-  display: flex; align-items: center; gap: 10px;
-  background: var(--md-primary-lt);
-  border: 1px solid rgba(63,81,181,.2);
-  border-radius: 8px; padding: 9px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--accent-lt);
+  border: 1px solid rgba(26,86,219,.18);
+  border-radius: var(--r-sm);
+  padding: 9px 14px;
   transition: border-color .2s, box-shadow .2s;
 }
 .link-pill:focus-within {
-  border-color: var(--md-primary);
-  box-shadow: 0 0 0 3px rgba(63,81,181,.12);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(26,86,219,.1);
 }
-.link-pill-icon { font-size: 1rem; flex-shrink: 0; }
+.link-pill-icon { font-size: .95rem; flex-shrink: 0; }
 .link-pill input {
-  flex: 1; border: none; outline: none; background: transparent;
-  font-family: var(--mono); font-size: 0.75rem; color: var(--md-primary);
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--accent);
   min-width: 0;
 }
-.link-pill input::placeholder { color: rgba(63,81,181,.38); }
+.link-pill input::placeholder { color: rgba(26,86,219,.35); }
 .link-open {
-  color: var(--md-primary); opacity: .55; text-decoration: none;
-  font-size: 1rem; flex-shrink: 0; transition: opacity .15s;
-  display: flex; align-items: center;
+  color: var(--accent);
+  opacity: .55;
+  text-decoration: none;
+  font-size: .95rem;
+  flex-shrink: 0;
+  transition: opacity .15s;
+  display: flex;
+  align-items: center;
 }
 .link-open:hover { opacity: 1; }
 
-/* ══ TABLES ══ */
-.etable { width: 100%; border-collapse: collapse; font-size: 0.83rem; }
-.etable th {
-  font-family: var(--mono); font-size: 0.58rem; font-weight: 600;
-  color: var(--md-muted); text-transform: uppercase; letter-spacing: .08em;
-  text-align: left; padding: 9px 10px;
-  border-bottom: 2px solid var(--md-border);
-  background: var(--md-surface2);
+/* ══ LINK GROUP ══ */
+.link-group { display: flex; flex-direction: column; gap: 10px; }
+.link-row { display: flex; align-items: center; gap: 10px; }
+.link-row-label {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--muted);
+  width: 52px;
+  flex-shrink: 0;
 }
-.etable td {
-  padding: 8px 10px; border-bottom: 1px solid var(--md-border);
-  vertical-align: middle;
-}
-.etable tr:last-child td { border-bottom: none; }
-.etable tr:hover td { background: #f9f9ff; }
-.etable td input, .etable td select {
-  width: 100%; border: none; outline: none; background: transparent;
-  font-family: var(--sans); font-size: 0.83rem; color: var(--md-text); cursor: auto;
-}
-.etable td select { cursor: pointer; }
-.etable td input::placeholder { color: var(--md-hint); }
 
 /* ══ MARCOS ══ */
 .marco-row {
-  display: flex; gap: 10px; padding: 10px 0;
-  border-bottom: 1px solid var(--md-border); align-items: center;
+  display: flex;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  align-items: center;
 }
 .marco-row:last-child { border-bottom: none; }
 .marco-dot {
-  width: 11px; height: 11px; border-radius: 50%;
-  background: var(--md-primary); flex-shrink: 0;
-  box-shadow: 0 0 0 3px rgba(63,81,181,.18);
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+  box-shadow: 0 0 0 3px rgba(26,86,219,.15);
 }
 .marco-date {
-  font-family: var(--mono); font-size: 0.71rem; color: var(--md-muted);
-  border: none; outline: none; background: transparent; width: 120px; flex-shrink: 0;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  color: var(--muted);
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 120px;
+  flex-shrink: 0;
 }
 .marco-title {
-  font-size: 0.85rem; border: none; outline: none; background: transparent;
-  font-family: var(--sans); flex: 1; color: var(--md-text);
+  font-family: var(--serif);
+  font-size: 0.88rem;
+  border: none;
+  outline: none;
+  background: transparent;
+  flex: 1;
+  color: var(--ink);
 }
-.marco-title::placeholder { color: var(--md-hint); }
+.marco-title::placeholder { color: var(--hint); font-style: italic; }
 .marco-type {
-  font-family: var(--mono); font-size: 0.66rem; border: none; outline: none;
-  background: transparent; color: var(--md-muted); cursor: pointer; width: 110px; flex-shrink: 0;
+  font-family: var(--mono);
+  font-size: 0.63rem;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  width: 110px;
+  flex-shrink: 0;
 }
 
-/* ══ ADD ROW ══ */
+/* ══ ADD BTN ══ */
 .add-btn {
-  font-family: var(--mono); font-size: 0.63rem; font-weight: 500;
-  color: var(--md-muted); background: transparent;
-  border: 1px dashed var(--md-border2);
-  border-radius: var(--md-r-sm); padding: 6px 14px;
-  cursor: pointer; width: 100%; text-align: left; margin-top: 8px;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  font-weight: 500;
+  color: var(--muted);
+  background: transparent;
+  border: 1px dashed var(--border2);
+  border-radius: var(--r-sm);
+  padding: 7px 14px;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  margin-top: 10px;
   transition: border-color .18s, color .18s, background .18s;
 }
 .add-btn:hover {
-  border-color: var(--md-primary); color: var(--md-primary);
-  background: var(--md-primary-lt);
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-lt);
 }
 
 /* ══ ACTIONS BAR ══ */
 .actions-bar {
-  display: flex; gap: 10px; flex-wrap: wrap;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
   margin-top: 1.25rem;
-  background: var(--md-surface);
-  border: 1px solid var(--md-border);
-  border-radius: var(--md-r);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
   padding: 1rem 1.5rem;
-  box-shadow: var(--md-shadow-sm);
+  box-shadow: var(--shadow-sm);
   align-items: center;
 }
 .btn {
-  font-family: var(--mono); font-size: 0.65rem; font-weight: 500;
-  padding: 8px 18px; border-radius: var(--md-r-sm);
-  border: 1px solid var(--md-border); background: transparent;
-  color: var(--md-muted); cursor: pointer; letter-spacing: .02em;
-  transition: all .16s; display: flex; align-items: center; gap: 6px;
+  font-family: var(--mono);
+  font-size: 0.63rem;
+  font-weight: 500;
+  padding: 8px 18px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  letter-spacing: .02em;
+  transition: all .16s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
-.btn:hover { background: var(--md-bg); color: var(--md-text); border-color: var(--md-border2); }
-.btn-primary { background: var(--md-primary); color: #fff; border-color: var(--md-primary); }
-.btn-primary:hover { background: var(--md-primary-dk); color: #fff; border-color: var(--md-primary-dk); }
-.btn-purple { background: #ede7f6; color: #5e35b1; border-color: #b39ddb; }
-.btn-purple:hover { background: #5e35b1; color: #fff; border-color: #5e35b1; }
-.btn-ghost { color: var(--ad-danger); }
-.btn-ghost:hover { background: var(--ad-danger-bg); border-color: var(--ad-danger); color: var(--ad-danger); }
+.btn:hover { background: var(--bg); color: var(--ink); border-color: var(--border2); }
+.btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+.btn-primary:hover { background: var(--accent-dk); color: #fff; border-color: var(--accent-dk); }
+.btn-violet { background: var(--violet-lt); color: var(--violet); border-color: #c4b5fd; }
+.btn-violet:hover { background: var(--violet); color: #fff; border-color: var(--violet); }
+.btn-ghost { color: var(--rose); }
+.btn-ghost:hover { background: var(--rose-lt); border-color: var(--rose); color: var(--rose); }
 
 /* ══ PRINT ══ */
 @media print {
@@ -345,9 +466,10 @@ textarea.field-input { resize: vertical; min-height: 72px; line-height: 1.75; }
 }
 
 @media (max-width: 600px) {
-  .header-meta { grid-template-columns: 1fr; }
+  .header-card { padding: 1.5rem 1.25rem; }
   .adm-body { padding: 1rem; }
   .marco-type { display: none; }
+  .status-banner { flex-wrap: wrap; }
 }
 </style>
 </head>
@@ -356,52 +478,39 @@ textarea.field-input { resize: vertical; min-height: 72px; line-height: 1.75; }
 
   <!-- ══ HEADER ══ -->
   <div class="header-card">
+    <span class="project-label">Ficha de Projeto</span>
     <input class="project-title" id="inp-title" type="text" placeholder="Título do projeto" />
     <input class="project-sub"   id="inp-sub"   type="text" placeholder="SIGLA-ANO · Unidade responsável" />
-    <div class="header-meta">
-      <select class="badge-status" id="inp-status">
-        <option>Em execução</option>
-        <option>Iniciação</option>
-        <option>Concluído</option>
-        <option>Pausado</option>
-        <option>Cancelado</option>
-      </select>
-      <div class="hfield">
-        <label class="hfield-label">Responsáveis</label>
-        <input id="inp-resp" type="text" placeholder="Nome · Nome" />
-      </div>
-    </div>
   </div>
 
-  <!-- ══ DESCRIÇÃO ══ -->
+  <!-- ══ STATUS BANNER ══ -->
+  <div class="status-banner">
+    <span class="status-label">Status</span>
+    <select class="status-pill em-execucao" id="inp-status" onchange="updateStatusPill(this)">
+      <option value="em-execucao">Em execução</option>
+      <option value="iniciacao">Iniciação</option>
+      <option value="concluido">Concluído</option>
+      <option value="pausado">Pausado</option>
+      <option value="cancelado">Cancelado</option>
+    </select>
+
+  </div>
+
+  <!-- ══ DESCRIÇÃO (aberta) ══ -->
   <details class="adm adm-abstract" open>
     <summary>
-      <span class="adm-icon"></span>
       Descrição
       <span class="adm-chevron">▼</span>
     </summary>
     <div class="adm-body">
-      <textarea id="inp-desc" class="field-input" placeholder="Descreva em 2–4 frases o que é o projeto, qual problema resolve e para quem."></textarea>
+      <textarea id="inp-desc" class="field-input" placeholder="Descreva o que é o projeto, qual problema resolve e para quem."></textarea>
     </div>
   </details>
 
-  <!-- ══ DIRETRIZES ══ -->
-  <details class="adm adm-note" open>
-    <summary>
-      <span class="adm-icon"></span>
-      Diretrizes
-      <span class="adm-chevron">▼</span>
-    </summary>
-    <div class="adm-body">
-      <textarea id="inp-dir" class="field-input" placeholder="Liste as diretrizes institucionais, normativas ou estratégicas que orientam o projeto."></textarea>
-    </div>
-  </details>
-
-  <!-- ══ OBJETIVO ══ -->
+  <!-- ══ OBJETIVO (aberto) ══ -->
   <details class="adm adm-tip" open>
     <summary>
-      <span class="adm-icon"></span>
-      Objetivo
+      Objetivos
       <span class="adm-chevron">▼</span>
     </summary>
     <div class="adm-body">
@@ -409,157 +518,9 @@ textarea.field-input { resize: vertical; min-height: 72px; line-height: 1.75; }
     </div>
   </details>
 
-  <!-- ══ GESTÃO À VISTA ══ -->
+  <!-- ══ LINHA DO TEMPO (aberta) ══ -->
   <details class="adm adm-info" open>
     <summary>
-      <span class="adm-icon"></span>
-      Gestão à Vista
-      <span class="adm-chevron">▼</span>
-    </summary>
-    <div class="adm-body">
-      <label class="field-label">Painel do projeto — GitHub Projects da organização</label>
-      <div class="link-pill" style="margin-top:6px;">
-        <span class="link-pill-icon"></span>
-        <input type="url" id="gav-link"
-               placeholder="https://github.com/orgs/org/projects/N"
-               oninput="syncLink('gav-link','gav-open')" />
-        <a class="link-open" id="gav-open" href="#" target="_blank" rel="noopener noreferrer" title="Abrir painel">
-          ↗
-        </a>
-      </div>
-    </div>
-  </details>
-
-  <!-- ══ CRONOGRAMA — apenas link ══ -->
-  <details class="adm adm-example" open>
-    <summary>
-      <span class="adm-icon"></span>
-      Cronograma
-      <span class="adm-chevron">▼</span>
-    </summary>
-    <div class="adm-body">
-      <label class="field-label">Roadmap no Gestão à Vista</label>
-      <div class="link-pill" style="margin-top:6px;">
-        <span class="link-pill-icon"></span>
-        <input type="url" id="roadmap-link"
-               placeholder="https://github.com/orgs/org/projects/N/views/..."
-               oninput="syncLink('roadmap-link','roadmap-open')" />
-        <a class="link-open" id="roadmap-open" href="#" target="_blank" rel="noopener noreferrer" title="Abrir roadmap">
-          ↗
-        </a>
-      </div>
-    </div>
-  </details>
-
-  <!-- ══ INDICADORES ══ -->
-  <details class="adm adm-success" open>
-    <summary>
-      <span class="adm-icon"></span>
-      Indicadores
-      <span class="adm-chevron">▼</span>
-    </summary>
-    <div class="adm-body">
-      <table class="etable">
-        <thead>
-          <tr>
-            <th>Indicador</th>
-            <th>Linha base</th>
-            <th>Meta</th>
-            <th>Frequência</th>
-          </tr>
-        </thead>
-        <tbody id="body-indicadores">
-          <tr>
-            <td><input type="text" placeholder="Nome do indicador" /></td>
-            <td><input type="text" placeholder="—" /></td>
-            <td><input type="text" placeholder="—" /></td>
-            <td>
-              <select>
-                <option>—</option>
-                <option>Semanal</option>
-                <option>Mensal</option>
-                <option>Trimestral</option>
-                <option>Anual</option>
-              </select>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <button class="add-btn" onclick="addIndicador()">+ adicionar indicador</button>
-    </div>
-  </details>
-
-  <!-- ══ RISCOS ══ -->
-  <details class="adm adm-warning" open>
-    <summary>
-      <span class="adm-icon"></span>
-      Riscos
-      <span class="adm-chevron">▼</span>
-    </summary>
-    <div class="adm-body">
-      <table class="etable">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Risco</th>
-            <th>Probabilidade</th>
-            <th>Impacto</th>
-            <th>Mitigação</th>
-          </tr>
-        </thead>
-        <tbody id="body-riscos">
-          <tr>
-            <td>1</td>
-            <td><input type="text" placeholder="Descreva o risco" /></td>
-            <td>
-              <select>
-                <option>—</option>
-                <option>Baixa</option>
-                <option>Média</option>
-                <option>Alta</option>
-              </select>
-            </td>
-            <td>
-              <select>
-                <option>—</option>
-                <option>Baixo</option>
-                <option>Médio</option>
-                <option>Alto</option>
-              </select>
-            </td>
-            <td><input type="text" placeholder="Ação de mitigação" /></td>
-          </tr>
-        </tbody>
-      </table>
-      <button class="add-btn" onclick="addRisco()">+ adicionar risco</button>
-    </div>
-  </details>
-
-  <!-- ══ ATAS DE REUNIÃO ══ -->
-  <details class="adm adm-note" open>
-    <summary>
-      <span class="adm-icon"></span>
-      Atas de Reunião
-      <span class="adm-chevron">▼</span>
-    </summary>
-    <div class="adm-body">
-      <label class="field-label">Gestão à Vista — painel de atas e reuniões</label>
-      <div class="link-pill" style="margin-top:6px;">
-        <span class="link-pill-icon"></span>
-        <input type="url" id="atas-link"
-               placeholder="https://github.com/orgs/org/projects/N/views/..."
-               oninput="syncLink('atas-link','atas-open')" />
-        <a class="link-open" id="atas-open" href="#" target="_blank" rel="noopener noreferrer" title="Abrir painel de atas">
-          ↗
-        </a>
-      </div>
-    </div>
-  </details>
-
-  <!-- ══ LINHA DO TEMPO (Marcos) ══ -->
-  <details class="adm adm-info" open>
-    <summary>
-      <span class="adm-icon"></span>
       Linha do Tempo
       <span class="adm-chevron">▼</span>
     </summary>
@@ -594,10 +555,25 @@ textarea.field-input { resize: vertical; min-height: 72px; line-height: 1.75; }
     </div>
   </details>
 
-  <!-- ══ GANHOS ESPERADOS ══ -->
+  <!-- ══ GESTÃO À VISTA (aberto) ══ -->
+  <details class="adm adm-example" open>
+    <summary>
+      Projeto no Github — Gestão à Vista
+      <span class="adm-chevron">▼</span>
+    </summary>
+    <div class="adm-body">
+      <div class="link-pill">
+        <input type="url" id="gav-link"
+               placeholder="https://github.com/orgs/org/projects/N"
+               oninput="syncLink('gav-link','gav-open')" />
+        <a class="link-open" id="gav-open" href="#" target="_blank" rel="noopener noreferrer" title="Abrir painel">↗</a>
+      </div>
+    </div>
+  </details>
+
+  <!-- ══ GANHOS ESPERADOS (aberto) ══ -->
   <details class="adm adm-success" open>
     <summary>
-      <span class="adm-icon"></span>
       Ganhos Esperados
       <span class="adm-chevron">▼</span>
     </summary>
@@ -607,10 +583,9 @@ textarea.field-input { resize: vertical; min-height: 72px; line-height: 1.75; }
     </div>
   </details>
 
-  <!-- ══ OBSERVAÇÕES ══ -->
+  <!-- ══ OBSERVAÇÕES (aberto) ══ -->
   <details class="adm adm-quote" open>
     <summary>
-      <span class="adm-icon"></span>
       Observações
       <span class="adm-chevron">▼</span>
     </summary>
@@ -622,56 +597,31 @@ textarea.field-input { resize: vertical; min-height: 72px; line-height: 1.75; }
 
   <!-- ══ ACTIONS ══ -->
   <div class="actions-bar">
-    <button class="btn btn-primary" onclick="exportarHTML()">💾 Salvar como HTML</button>
-    <button class="btn" onclick="window.print()">🖨 Imprimir / PDF</button>
-    <button class="btn btn-purple" onclick="gerarMarkdown()">📄 Gerar Markdown</button>
-    <button class="btn btn-ghost" style="margin-left:auto;" onclick="limparFicha()">🗑 Limpar ficha</button>
+    <button class="btn btn-primary" onclick="exportarHTML()">Salvar como HTML</button>
+    <button class="btn" onclick="window.print()">Imprimir / PDF</button>
+    <button class="btn btn-violet" onclick="gerarMarkdown()">Gerar Markdown</button>
+    <button class="btn btn-ghost" style="margin-left:auto;" onclick="limparFicha()">Limpar ficha</button>
   </div>
 
-</div><!-- /page-wrap -->
+</div>
 
 <script>
 'use strict';
 
-// ════════════════════════════════════════════
-//  LINK SYNC
-// ════════════════════════════════════════════
+// ══ STATUS PILL ══
+function updateStatusPill(sel) {
+  const classes = ['em-execucao','iniciacao','concluido','pausado','cancelado'];
+  classes.forEach(c => sel.classList.remove(c));
+  sel.classList.add(sel.value);
+}
+
+// ══ LINK SYNC ══
 function syncLink(inputId, anchorId) {
   const val = document.getElementById(inputId).value.trim();
-  const a   = document.getElementById(anchorId);
-  a.href    = val || '#';
+  document.getElementById(anchorId).href = val || '#';
 }
 
-// ════════════════════════════════════════════
-//  ADD ROWS
-// ════════════════════════════════════════════
-function addIndicador() {
-  const tb = document.getElementById('body-indicadores');
-  const tr = document.createElement('tr');
-  tr.innerHTML = `
-    <td><input type="text" placeholder="Nome do indicador"/></td>
-    <td><input type="text" placeholder="—"/></td>
-    <td><input type="text" placeholder="—"/></td>
-    <td><select>
-      <option>—</option><option>Semanal</option>
-      <option>Mensal</option><option>Trimestral</option><option>Anual</option>
-    </select></td>`;
-  tb.appendChild(tr);
-}
-
-function addRisco() {
-  const tb = document.getElementById('body-riscos');
-  const n  = tb.rows.length + 1;
-  const tr = document.createElement('tr');
-  tr.innerHTML = `
-    <td>${n}</td>
-    <td><input type="text" placeholder="Descreva o risco"/></td>
-    <td><select><option>—</option><option>Baixa</option><option>Média</option><option>Alta</option></select></td>
-    <td><select><option>—</option><option>Baixo</option><option>Médio</option><option>Alto</option></select></td>
-    <td><input type="text" placeholder="Ação de mitigação"/></td>`;
-  tb.appendChild(tr);
-}
-
+// ══ ADD MARCO ══
 function addMarco() {
   const b = document.getElementById('marcos-block');
   const d = document.createElement('div');
@@ -690,9 +640,7 @@ function addMarco() {
   b.appendChild(d);
 }
 
-// ════════════════════════════════════════════
-//  HELPERS
-// ════════════════════════════════════════════
+// ══ HELPERS ══
 const MESES_PT = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho',
                   'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 
@@ -701,46 +649,22 @@ function fmtBr(iso) {
   const d = new Date(iso + 'T12:00:00');
   return isNaN(d) ? iso : d.toLocaleDateString('pt-BR');
 }
-
 function cleanMermaid(t) {
-  return (t || '').replace(/[:#()\/,;]/g,'-').replace(/\s+/g,' ').trim().substring(0,60);
+  return (t||'').replace(/[:#()\/,;]/g,'-').replace(/\s+/g,' ').trim().substring(0,60);
 }
 
-// ════════════════════════════════════════════
-//  MARKDOWN GENERATION
-// ════════════════════════════════════════════
+// ══ MARKDOWN ══
 function gerarMarkdown() {
   try {
-    const titulo    = document.getElementById('inp-title').value.trim() || 'Projeto sem título';
-    const sub       = document.getElementById('inp-sub').value.trim();
-    const status    = document.getElementById('inp-status').value;
-    const resp      = document.getElementById('inp-resp').value.trim();
-    const desc      = document.getElementById('inp-desc').value.trim();
-    const dir       = document.getElementById('inp-dir').value.trim();
-    const obj       = document.getElementById('inp-obj').value.trim();
-    const ganhos    = document.getElementById('inp-ganhos').value.trim();
-    const obs       = document.getElementById('inp-obs').value.trim();
-    const gavLink   = document.getElementById('gav-link').value.trim();
-    const rdmLink   = document.getElementById('roadmap-link').value.trim();
-    const atasLink  = document.getElementById('atas-link').value.trim();
+    const titulo      = document.getElementById('inp-title').value.trim() || 'Projeto sem título';
+    const sub         = document.getElementById('inp-sub').value.trim();
+    const status      = document.getElementById('inp-status').options[document.getElementById('inp-status').selectedIndex].text;
+    const desc        = document.getElementById('inp-desc').value.trim();
+    const obj         = document.getElementById('inp-obj').value.trim();
+    const ganhos      = document.getElementById('inp-ganhos').value.trim();
+    const obs         = document.getElementById('inp-obs').value.trim();
+    const gavLink     = document.getElementById('gav-link').value.trim();
 
-    // Indicadores
-    const indicadores = [];
-    document.querySelectorAll('#body-indicadores tr').forEach(row => {
-      const c = row.querySelectorAll('input, select');
-      if (!c[0]?.value) return;
-      indicadores.push({ nome: c[0].value, base: c[1]?.value||'—', meta: c[2]?.value||'—', freq: c[3]?.value||'—' });
-    });
-
-    // Riscos
-    const riscos = [];
-    document.querySelectorAll('#body-riscos tr').forEach(row => {
-      const c = row.querySelectorAll('input, select');
-      if (!c[0]?.value) return;
-      riscos.push({ nome: c[0].value, prob: c[1]?.value||'—', imp: c[2]?.value||'—', mit: c[3]?.value||'—' });
-    });
-
-    // Marcos (Linha do Tempo)
     const marcos = [];
     document.querySelectorAll('#marcos-block .marco-row').forEach(row => {
       const date  = row.querySelector('.marco-date')?.value;
@@ -749,13 +673,9 @@ function gerarMarkdown() {
       if (date && title) marcos.push({ date, title, type });
     });
 
-    // ──────────────────────────────────────────────
-    //  Mermaid timeline agrupado por "Mês Ano"
-    // ──────────────────────────────────────────────
-    function timelineAdmonition() {
+    function timelineBlock() {
       if (!marcos.length) return '';
-
-      const mapa = {}; 
+      const mapa = {};
       marcos.forEach(m => {
         const d = new Date(m.date + 'T12:00:00');
         if (isNaN(d)) return;
@@ -763,42 +683,25 @@ function gerarMarkdown() {
         if (!mapa[key]) mapa[key] = [];
         mapa[key].push({ date: m.date, title: m.title });
       });
-
-      const sortedKeys = Object.keys(mapa).sort((a, b) => {
-        const parseKey = k => {
-          const [mes, ano] = k.split(' ');
-          return new Date(`${ano}-${MESES_PT.indexOf(mes)+1}-01`);
-        };
-        return parseKey(a) - parseKey(b);
+      const sortedKeys = Object.keys(mapa).sort((a,b) => {
+        const p = k => { const [mes,ano] = k.split(' '); return new Date(`${ano}-${MESES_PT.indexOf(mes)+1}-01`); };
+        return p(a) - p(b);
       });
-
-      let inner = '    ```mermaid\n';
-      inner += '    timeline\n';
+      let inner = '    ```mermaid\n    timeline\n';
       inner += `        title Linha do Tempo — ${titulo}\n`;
-
       sortedKeys.forEach(key => {
         inner += `        section ${key}\n`;
         mapa[key].forEach((ev, i) => {
           const label = cleanMermaid(ev.title);
-          if (i === 0) {
-            inner += `            ${fmtBr(ev.date)} : ${label}\n`;
-          } else {
-            inner += `                       : ${label}\n`;
-          }
+          if (i === 0) inner += `            ${fmtBr(ev.date)} : ${label}\n`;
+          else         inner += `                       : ${label}\n`;
         });
       });
-
       inner += '    ```\n';
-
-      let block = `??? info "Linha do Tempo — ${titulo}"\n\n`;
-      block += inner;
-      block += '\n';
-      return block;
+      // timeline aberta (!!!)
+      return `!!! info "Linha do Tempo — ${titulo}"\n\n${inner}\n`;
     }
 
-    // ──────────────────────────────────────────────
-    //  Helpers para admonitions no MD
-    // ──────────────────────────────────────────────
     function adm(type, title, content, collapsible = false) {
       const marker = collapsible ? '???' : '!!!';
       let block = `${marker} ${type} "${title}"\n\n`;
@@ -807,115 +710,61 @@ function gerarMarkdown() {
       return block;
     }
 
-    // ──────────────────────────────────────────────
-    //  Montagem do MD
-    // ──────────────────────────────────────────────
+    // slug para nome do arquivo
+    const slug = titulo.normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+      .toLowerCase().replace(/\s+/g,'_').replace(/[^a-z0-9_]/g,'');
+
     let md = `# ${titulo}\n\n`;
     if (sub) md += `> **${sub}**\n\n`;
     md += `---\n\n`;
 
-    // Informações gerais — Cards de Status e Responsáveis
-    let cards = `<div class="grid cards" markdown>\n\n`;
-    cards += `-   📊 **Status**\n\n    ---\n\n    \`${status}\`\n\n`;
-    cards += `-   👥 **Responsáveis**\n\n    ---\n\n    ${resp || '—'}\n\n`;
-    cards += `</div>\n\n`;
-    md += cards;
+    md += `<div class="project-status-card" markdown>\n\n`;
+    md += `**Status:** \`${status}\`\n\n`;
+    md += `</div>\n\n`;
 
-    // Descrição
-    if (desc) md += adm('abstract', 'Descrição', desc);
+    if (desc) md += adm('abstract', 'Descrição', desc, false);
+    if (obj)  md += adm('tip', 'Objetivos', obj, true);
 
-    // Diretrizes
-    if (dir) md += adm('info', 'Diretrizes', dir);
+    if (marcos.length) md += timelineBlock();
 
-    // Objetivo
-    if (obj) md += adm('tip', 'Objetivo', obj);
-
-    // Gestão à Vista
     if (gavLink) {
-      md += adm('info', 'Projeto no GitHub',
-        `Acesse o Painel Gestão à Vista para acompanhar as tarefas do projeto:\n\n[ Acessar Painel ](${gavLink}){ .md-button }`, true);
+      md += adm('info', 'Projeto no Github — Gestão à Vista',
+        `Acesse o painel do projeto no GitHub:\n\n[ Acessar Painel ](${gavLink}){ .md-button }`, true);
     }
 
-    // Cronograma
-    if (rdmLink) {
-      md += adm('abstract', 'Cronograma',
-        `Acompanhe o Roadmap:\n\n[ Ver roadmap completo ](${rdmLink}){ .md-button }`, true);
-    }
+    if (ganhos) md += adm('success', 'Ganhos Esperados', ganhos, true);
+    if (obs)    md += adm('quote', 'Observações', obs, true);
 
-    // Indicadores
-    if (indicadores.length) {
-      let tbl = `| Indicador | Linha base | Meta | Frequência |\n`;
-      tbl    += `| --- | --- | --- | --- |\n`;
-      indicadores.forEach(i => {
-        tbl += `| ${i.nome} | ${i.base} | ${i.meta} | ${i.freq} |\n`;
-      });
-      md += adm('success', 'Indicadores', tbl);
-    }
 
-    // Riscos
-    if (riscos.length) {
-      let tbl = `| Risco | Probabilidade | Impacto | Mitigação |\n`;
-      tbl    += `| --- | --- | --- | --- |\n`;
-      riscos.forEach(r => {
-        tbl += `| ${r.nome} | ${r.prob} | ${r.imp} | ${r.mit} |\n`;
-      });
-      md += adm('warning', 'Riscos', tbl);
-    }
-
-    // Atas de Reunião — Atualizado para formato de botão com descrição
-    if (atasLink) {
-      md += adm('note', 'Atas de Reunião',
-        `Consulte o histórico de registros do projeto:\n\n[ Ver atas no Gestão à Vista ](${atasLink}){ .md-button }`, true);
-    }
-
-    // Linha do Tempo
-    if (marcos.length) {
-      md += `## Linha do Tempo\n\n`;
-      md += timelineAdmonition();
-    }
-
-    // Ganhos
-    if (ganhos) md += adm('success', 'Ganhos Esperados', ganhos);
-
-    // Observações
-    if (obs) md += adm('quote', 'Observações', obs);
-
-    md += `---\n\n_Gerado em ${new Date().toLocaleDateString('pt-BR')}_\n`;
-
-    // Download
-    const a    = document.createElement('a');
-    a.href     = URL.createObjectURL(new Blob([md], { type:'text/markdown' }));
-    a.download = titulo.replace(/\s+/g,'_').toLowerCase().replace(/[^a-z0-9_]/g,'') + '.md';
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([md], { type:'text/markdown' }));
+    a.download = (slug || 'ficha_projeto') + '.md';
     document.body.appendChild(a); a.click(); document.body.removeChild(a);
     URL.revokeObjectURL(a.href);
-
   } catch(e) {
     alert('Erro ao gerar Markdown: ' + e.message);
     console.error(e);
   }
 }
 
-// ════════════════════════════════════════════
-//  EXPORT HTML
-// ════════════════════════════════════════════
+// ══ EXPORT HTML ══
 function exportarHTML() {
   const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
-  const titulo = document.getElementById('inp-title').value || 'ficha_projeto';
+  const titulo = document.getElementById('inp-title').value.trim() || 'ficha_projeto';
   const a = document.createElement('a');
   a.href = URL.createObjectURL(new Blob([html], { type:'text/html' }));
-  a.download = titulo.toLowerCase().replace(/\s+/g,'_').replace(/[^a-z0-9_]/g,'') + '.html';
+  a.download = titulo.toLowerCase().replace(/\s+/g,'_').replace(/[^a-záéíóúãõâêôàüç0-9_]/gi, '').normalize('NFD').replace(/[\u0300-\u036f]/g,'') + '.html';
   document.body.appendChild(a); a.click(); document.body.removeChild(a);
 }
 
-// ════════════════════════════════════════════
-//  CLEAR
-// ════════════════════════════════════════════
+// ══ CLEAR ══
 function limparFicha() {
   if (!confirm('Limpar todos os campos da ficha?')) return;
-  document.querySelectorAll('input[type=text],input[type=url],input[type=date],textarea')
+  document.querySelectorAll('input[type=text],input[type=url],textarea')
     .forEach(e => e.value = '');
   document.querySelectorAll('select').forEach(e => e.selectedIndex = 0);
-  ['gav-open','roadmap-open','atas-open'].forEach(id => {
+  updateStatusPill(document.getElementById('inp-status'));
+  ['gav-open'].forEach(id => {
     document.getElementById(id).href = '#';
   });
 }
