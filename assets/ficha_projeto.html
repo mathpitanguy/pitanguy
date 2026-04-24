@@ -46,8 +46,7 @@ body {
   font-family: var(--serif);
   background: var(--bg);
   color: var(--ink);
-  padding: 2rem 1rem 6rem;
-  font-size: 14px;
+  padding: 2rem 1rem 5rem;
   line-height: 1.7;
   min-height: 100vh;
 }
@@ -111,28 +110,6 @@ select.status-pill option { background: white; color: var(--ink); }
   width: 1px; height: 24px;
   background: var(--border);
   flex-shrink: 0;
-}
-.status-date-wrap {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex: 1;
-}
-.status-date-label {
-  font-family: var(--mono);
-  font-size: 0.6rem;
-  text-transform: uppercase;
-  letter-spacing: .1em;
-  color: var(--hint);
-  white-space: nowrap;
-}
-.status-date-input {
-  font-family: var(--mono);
-  font-size: 0.72rem;
-  color: var(--muted);
-  background: transparent;
-  border: none;
-  outline: none;
 }
 
 /* ══ HEADER CARD ══ */
@@ -357,6 +334,7 @@ textarea.field-input {
   align-items: center;
 }
 .marco-row:last-child { border-bottom: none; }
+
 .marco-dot {
   width: 10px; height: 10px;
   border-radius: 50%;
@@ -364,16 +342,38 @@ textarea.field-input {
   flex-shrink: 0;
   box-shadow: 0 0 0 3px rgba(26,86,219,.15);
 }
-.marco-date {
+.marco-dot.proximo {
+  background: var(--amber);
+  box-shadow: 0 0 0 3px rgba(217,119,6,.15);
+}
+
+/* Period select replaces date input */
+.marco-period {
   font-family: var(--mono);
   font-size: 0.68rem;
   color: var(--muted);
-  border: none;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
   outline: none;
-  background: transparent;
-  width: 120px;
+  padding: 4px 8px;
+  cursor: pointer;
+  width: 160px;
   flex-shrink: 0;
+  transition: border-color .18s, color .18s;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%236b7c93' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  padding-right: 26px;
 }
+.marco-period:focus { border-color: var(--accent); color: var(--ink); }
+.marco-period option[value="Próximos Passos"] {
+  font-weight: 600;
+  color: var(--amber);
+}
+
 .marco-title {
   font-family: var(--serif);
   font-size: 0.88rem;
@@ -382,8 +382,13 @@ textarea.field-input {
   background: transparent;
   flex: 1;
   color: var(--ink);
+  border-bottom: 1px solid transparent;
+  transition: border-color .18s;
+  padding: 2px 0;
 }
+.marco-title:focus { border-bottom-color: var(--border2); }
 .marco-title::placeholder { color: var(--hint); font-style: italic; }
+
 .marco-type {
   font-family: var(--mono);
   font-size: 0.63rem;
@@ -423,13 +428,18 @@ textarea.field-input {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
-  margin-top: 1.25rem;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--r);
-  padding: 1rem 1.5rem;
-  box-shadow: var(--shadow-sm);
+  background: rgba(242, 245, 249, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid var(--border);
+  padding: 0.75rem 1.5rem;
   align-items: center;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  box-shadow: 0 -4px 24px rgba(15,25,35,.08);
 }
 .btn {
   font-family: var(--mono);
@@ -455,6 +465,24 @@ textarea.field-input {
 .btn-ghost { color: var(--rose); }
 .btn-ghost:hover { background: var(--rose-lt); border-color: var(--rose); color: var(--rose); }
 
+.actions-inner {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+  max-width: 860px;
+  margin: 0 auto;
+  width: 100%;
+}
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+  max-width: 860px;
+  margin: 0 auto;
+  width: 100%;
+}
+
 /* ══ PRINT ══ */
 @media print {
   body { background: white; padding: 0; }
@@ -470,6 +498,7 @@ textarea.field-input {
   .adm-body { padding: 1rem; }
   .marco-type { display: none; }
   .status-banner { flex-wrap: wrap; }
+  .marco-period { width: 130px; }
 }
 </style>
 </head>
@@ -493,7 +522,6 @@ textarea.field-input {
       <option value="pausado">Pausado</option>
       <option value="cancelado">Cancelado</option>
     </select>
-
   </div>
 
   <!-- ══ DESCRIÇÃO (aberta) ══ -->
@@ -528,7 +556,7 @@ textarea.field-input {
       <div id="marcos-block">
         <div class="marco-row">
           <div class="marco-dot"></div>
-          <input class="marco-date" type="date" title="Data do marco" />
+          <select class="marco-period" title="Período do marco" onchange="updateDot(this)"><!-- options injected by JS --></select>
           <input class="marco-title" type="text" placeholder="Título do marco (ex: Entrega do MVP, Publicação v1.0)" />
           <select class="marco-type">
             <option value="marco">Marco</option>
@@ -540,7 +568,7 @@ textarea.field-input {
         </div>
         <div class="marco-row">
           <div class="marco-dot"></div>
-          <input class="marco-date" type="date" title="Data do marco" />
+          <select class="marco-period" title="Período do marco" onchange="updateDot(this)"><!-- options injected by JS --></select>
           <input class="marco-title" type="text" placeholder="Título do marco" />
           <select class="marco-type">
             <option value="marco">Marco</option>
@@ -597,10 +625,12 @@ textarea.field-input {
 
   <!-- ══ ACTIONS ══ -->
   <div class="actions-bar">
-    <button class="btn btn-primary" onclick="exportarHTML()">Salvar como HTML</button>
-    <button class="btn" onclick="window.print()">Imprimir / PDF</button>
-    <button class="btn btn-violet" onclick="gerarMarkdown()">Gerar Markdown</button>
-    <button class="btn btn-ghost" style="margin-left:auto;" onclick="limparFicha()">Limpar ficha</button>
+    <div class="actions-inner">
+      <button class="btn btn-primary" onclick="exportarHTML()">Salvar como HTML</button>
+      <button class="btn" onclick="window.print()">Imprimir / PDF</button>
+      <button class="btn btn-violet" onclick="gerarMarkdown()">Gerar Markdown</button>
+      <button class="btn btn-ghost" style="margin-left:auto;" onclick="limparFicha()">Limpar ficha</button>
+    </div>
   </div>
 
 </div>
@@ -608,27 +638,74 @@ textarea.field-input {
 <script>
 'use strict';
 
-// ══ STATUS PILL ══
+/* ══ PERIOD OPTIONS ══ */
+const MESES_PT = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho',
+                  'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+
+const PERIODO_PROXIMO = 'Próximos Passos';
+
+function buildPeriodOptions(selectedValue) {
+  const opts = [];
+  // Generate months: 12 months back to 36 months forward from today
+  const now = new Date();
+  const start = new Date(now.getFullYear(), now.getMonth() - 12, 1);
+  const end   = new Date(now.getFullYear(), now.getMonth() + 37, 1);
+
+  for (let d = new Date(start); d < end; d.setMonth(d.getMonth() + 1)) {
+    const label = `${MESES_PT[d.getMonth()]} ${d.getFullYear()}`;
+    const sel   = label === selectedValue ? ' selected' : '';
+    opts.push(`<option value="${label}"${sel}>${label}</option>`);
+  }
+  // Separator + Próximos Passos
+  opts.push('<option disabled>──────────────</option>');
+  const proxSel = selectedValue === PERIODO_PROXIMO ? ' selected' : '';
+  opts.push(`<option value="${PERIODO_PROXIMO}"${proxSel}>⟶ ${PERIODO_PROXIMO}</option>`);
+
+  return opts.join('');
+}
+
+function initAllPeriodSelects() {
+  document.querySelectorAll('.marco-period').forEach(sel => {
+    const current = sel.value;
+    sel.innerHTML = buildPeriodOptions(current);
+    updateDot(sel);
+  });
+}
+
+function updateDot(sel) {
+  const dot = sel.closest('.marco-row').querySelector('.marco-dot');
+  if (!dot) return;
+  if (sel.value === PERIODO_PROXIMO) {
+    dot.classList.add('proximo');
+  } else {
+    dot.classList.remove('proximo');
+  }
+}
+
+// Init on load
+document.addEventListener('DOMContentLoaded', initAllPeriodSelects);
+
+/* ══ STATUS PILL ══ */
 function updateStatusPill(sel) {
   const classes = ['em-execucao','iniciacao','concluido','pausado','cancelado'];
   classes.forEach(c => sel.classList.remove(c));
   sel.classList.add(sel.value);
 }
 
-// ══ LINK SYNC ══
+/* ══ LINK SYNC ══ */
 function syncLink(inputId, anchorId) {
   const val = document.getElementById(inputId).value.trim();
   document.getElementById(anchorId).href = val || '#';
 }
 
-// ══ ADD MARCO ══
+/* ══ ADD MARCO ══ */
 function addMarco() {
   const b = document.getElementById('marcos-block');
   const d = document.createElement('div');
   d.className = 'marco-row';
   d.innerHTML = `
     <div class="marco-dot"></div>
-    <input class="marco-date" type="date" title="Data do marco"/>
+    <select class="marco-period" title="Período do marco" onchange="updateDot(this)"></select>
     <input class="marco-title" type="text" placeholder="Título do marco"/>
     <select class="marco-type">
       <option value="marco">Marco</option>
@@ -638,69 +715,94 @@ function addMarco() {
       <option value="publicacao">Publicação</option>
     </select>`;
   b.appendChild(d);
+  // Populate the new select
+  const newSel = d.querySelector('.marco-period');
+  newSel.innerHTML = buildPeriodOptions('');
 }
 
-// ══ HELPERS ══
-const MESES_PT = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho',
-                  'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
-
-function fmtBr(iso) {
-  if (!iso) return '—';
-  const d = new Date(iso + 'T12:00:00');
-  return isNaN(d) ? iso : d.toLocaleDateString('pt-BR');
-}
+/* ══ HELPERS ══ */
 function cleanMermaid(t) {
-  return (t||'').replace(/[:#()\/,;]/g,'-').replace(/\s+/g,' ').trim().substring(0,60);
+  return (t || '').replace(/[:#()\\/,;]/g, '-').replace(/\s+/g, ' ').trim().substring(0, 80);
 }
 
-// ══ MARKDOWN ══
+/* ══ TIMELINE BLOCK (monthly syntax) ══
+   Groups marcos by period. Within each period, the first item uses
+   "Period : Item" and subsequent items use "         : Item" (continuation).
+   "Próximos Passos" always goes last regardless of UI order.
+*/
+function timelineBlock(titulo) {
+  const rows = document.querySelectorAll('#marcos-block .marco-row');
+  const regular = [];
+  const proximos = [];
+
+  rows.forEach(row => {
+    const period = row.querySelector('.marco-period')?.value?.trim();
+    const title  = row.querySelector('.marco-title')?.value?.trim();
+    if (!period || !title) return;
+    if (period === PERIODO_PROXIMO) {
+      proximos.push(title);
+    } else {
+      regular.push({ period, title });
+    }
+  });
+
+  if (!regular.length && !proximos.length) return '';
+
+  // Group regular by period, preserving insertion order
+  const groupOrder = [];
+  const groupMap   = {};
+  regular.forEach(({ period, title }) => {
+    if (!groupMap[period]) {
+      groupMap[period] = [];
+      groupOrder.push(period);
+    }
+    groupMap[period].push(title);
+  });
+
+  // Sort by calendar order (Mês Ano)
+  groupOrder.sort((a, b) => {
+    const parse = s => {
+      const [mes, ano] = s.split(' ');
+      return new Date(`${ano}-${MESES_PT.indexOf(mes) + 1}-01`);
+    };
+    return parse(a) - parse(b);
+  });
+
+  // Build mermaid block with 4-space indent (MkDocs inside admonition)
+  let inner = '    ```mermaid\n    timeline\n';
+  inner += `        title Linha do Tempo — ${cleanMermaid(titulo)}\n`;
+
+  groupOrder.forEach(period => {
+    const items = groupMap[period];
+    inner += `        ${period} : ${cleanMermaid(items[0])}\n`;
+    for (let i = 1; i < items.length; i++) {
+      inner += `                   : ${cleanMermaid(items[i])}\n`;
+    }
+  });
+
+  if (proximos.length) {
+    inner += `        ${PERIODO_PROXIMO} : ${cleanMermaid(proximos[0])}\n`;
+    for (let i = 1; i < proximos.length; i++) {
+      inner += `                   : ${cleanMermaid(proximos[i])}\n`;
+    }
+  }
+
+  inner += '    ```\n';
+
+  return `!!! info "Linha do Tempo — ${titulo}"\n\n${inner}\n`;
+}
+
+/* ══ MARKDOWN ══ */
 function gerarMarkdown() {
   try {
-    const titulo      = document.getElementById('inp-title').value.trim() || 'Projeto sem título';
-    const sub         = document.getElementById('inp-sub').value.trim();
-    const status      = document.getElementById('inp-status').options[document.getElementById('inp-status').selectedIndex].text;
-    const desc        = document.getElementById('inp-desc').value.trim();
-    const obj         = document.getElementById('inp-obj').value.trim();
-    const ganhos      = document.getElementById('inp-ganhos').value.trim();
-    const obs         = document.getElementById('inp-obs').value.trim();
-    const gavLink     = document.getElementById('gav-link').value.trim();
-
-    const marcos = [];
-    document.querySelectorAll('#marcos-block .marco-row').forEach(row => {
-      const date  = row.querySelector('.marco-date')?.value;
-      const title = row.querySelector('.marco-title')?.value?.trim();
-      const type  = row.querySelector('.marco-type')?.value || 'marco';
-      if (date && title) marcos.push({ date, title, type });
-    });
-
-    function timelineBlock() {
-      if (!marcos.length) return '';
-      const mapa = {};
-      marcos.forEach(m => {
-        const d = new Date(m.date + 'T12:00:00');
-        if (isNaN(d)) return;
-        const key = `${MESES_PT[d.getMonth()]} ${d.getFullYear()}`;
-        if (!mapa[key]) mapa[key] = [];
-        mapa[key].push({ date: m.date, title: m.title });
-      });
-      const sortedKeys = Object.keys(mapa).sort((a,b) => {
-        const p = k => { const [mes,ano] = k.split(' '); return new Date(`${ano}-${MESES_PT.indexOf(mes)+1}-01`); };
-        return p(a) - p(b);
-      });
-      let inner = '    ```mermaid\n    timeline\n';
-      inner += `        title Linha do Tempo — ${titulo}\n`;
-      sortedKeys.forEach(key => {
-        inner += `        section ${key}\n`;
-        mapa[key].forEach((ev, i) => {
-          const label = cleanMermaid(ev.title);
-          if (i === 0) inner += `            ${fmtBr(ev.date)} : ${label}\n`;
-          else         inner += `                       : ${label}\n`;
-        });
-      });
-      inner += '    ```\n';
-      // timeline aberta (!!!)
-      return `!!! info "Linha do Tempo — ${titulo}"\n\n${inner}\n`;
-    }
+    const titulo  = document.getElementById('inp-title').value.trim() || 'Projeto sem título';
+    const sub     = document.getElementById('inp-sub').value.trim();
+    const status  = document.getElementById('inp-status').options[document.getElementById('inp-status').selectedIndex].text;
+    const desc    = document.getElementById('inp-desc').value.trim();
+    const obj     = document.getElementById('inp-obj').value.trim();
+    const ganhos  = document.getElementById('inp-ganhos').value.trim();
+    const obs     = document.getElementById('inp-obs').value.trim();
+    const gavLink = document.getElementById('gav-link').value.trim();
 
     function adm(type, title, content, collapsible = false) {
       const marker = collapsible ? '???' : '!!!';
@@ -710,22 +812,21 @@ function gerarMarkdown() {
       return block;
     }
 
-    // slug para nome do arquivo
-    const slug = titulo.normalize('NFD').replace(/[\u0300-\u036f]/g,'')
-      .toLowerCase().replace(/\s+/g,'_').replace(/[^a-z0-9_]/g,'');
+    const slug = titulo.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '');
 
     let md = `# ${titulo}\n\n`;
     if (sub) md += `> **${sub}**\n\n`;
     md += `---\n\n`;
-
     md += `<div class="project-status-card" markdown>\n\n`;
     md += `**Status:** \`${status}\`\n\n`;
     md += `</div>\n\n`;
 
-    if (desc) md += adm('abstract', 'Descrição', desc, false);
-    if (obj)  md += adm('tip', 'Objetivos', obj, true);
+    if (desc)    md += adm('abstract', 'Descrição', desc, false);
+    if (obj)     md += adm('tip', 'Objetivos', obj, true);
 
-    if (marcos.length) md += timelineBlock();
+    // Timeline with monthly mermaid syntax
+    md += timelineBlock(titulo);
 
     if (gavLink) {
       md += adm('info', 'Projeto no Github — Gestão à Vista',
@@ -735,37 +836,41 @@ function gerarMarkdown() {
     if (ganhos) md += adm('success', 'Ganhos Esperados', ganhos, true);
     if (obs)    md += adm('quote', 'Observações', obs, true);
 
-
     const a = document.createElement('a');
-    a.href = URL.createObjectURL(new Blob([md], { type:'text/markdown' }));
+    a.href = URL.createObjectURL(new Blob([md], { type: 'text/markdown' }));
     a.download = (slug || 'ficha_projeto') + '.md';
     document.body.appendChild(a); a.click(); document.body.removeChild(a);
     URL.revokeObjectURL(a.href);
-  } catch(e) {
+  } catch (e) {
     alert('Erro ao gerar Markdown: ' + e.message);
     console.error(e);
   }
 }
 
-// ══ EXPORT HTML ══
+/* ══ EXPORT HTML ══ */
 function exportarHTML() {
   const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
   const titulo = document.getElementById('inp-title').value.trim() || 'ficha_projeto';
   const a = document.createElement('a');
-  a.href = URL.createObjectURL(new Blob([html], { type:'text/html' }));
-  a.download = titulo.toLowerCase().replace(/\s+/g,'_').replace(/[^a-záéíóúãõâêôàüç0-9_]/gi, '').normalize('NFD').replace(/[\u0300-\u036f]/g,'') + '.html';
+  a.href = URL.createObjectURL(new Blob([html], { type: 'text/html' }));
+  a.download = titulo.toLowerCase().replace(/\s+/g, '_')
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9_]/g, '') + '.html';
   document.body.appendChild(a); a.click(); document.body.removeChild(a);
 }
 
-// ══ CLEAR ══
+/* ══ CLEAR ══ */
 function limparFicha() {
   if (!confirm('Limpar todos os campos da ficha?')) return;
   document.querySelectorAll('input[type=text],input[type=url],textarea')
     .forEach(e => e.value = '');
-  document.querySelectorAll('select').forEach(e => e.selectedIndex = 0);
+  document.querySelectorAll('select:not(.marco-period)').forEach(e => e.selectedIndex = 0);
   updateStatusPill(document.getElementById('inp-status'));
-  ['gav-open'].forEach(id => {
-    document.getElementById(id).href = '#';
+  document.getElementById('gav-open').href = '#';
+  // Reset marco-period selects to first real option
+  document.querySelectorAll('.marco-period').forEach(sel => {
+    sel.selectedIndex = 0;
+    updateDot(sel);
   });
 }
 </script>
